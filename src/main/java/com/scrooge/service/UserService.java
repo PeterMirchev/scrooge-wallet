@@ -39,9 +39,11 @@ public class UserService {
         }
 
         if (!user.getPassword().equals(requestLogin.getPassword())) {
+            auditLogService.log("LOGIN_FAIL", "Failed login attempt for user: %s".formatted(user.getEmail()), user);
             throw new ResourceNotFoundException("Incorrect username or password.");
         }
 
+        auditLogService.log("LOGIN", "Successfully logged in.", user);
         return user;
     }
 
