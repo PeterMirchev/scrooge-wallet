@@ -2,6 +2,7 @@ package com.scrooge.service;
 
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
+import com.scrooge.web.dto.RequestLogin;
 import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.web.dto.UserCreateRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.scrooge.exception.ExceptionMessages.INVALID_USER_EMAIL;
 import static com.scrooge.exception.ExceptionMessages.INVALID_USER_ID;
 
 @Service
@@ -28,7 +30,27 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User create(UserCreateRequest request) {
+    public User login(RequestLogin requestLogin) {
+
+        User user = getUserByEmail(requestLogin.getEmail());
+
+        if (user == null) {
+            throw new ResourceNotFoundException("Incorrect username or password.");
+        }
+
+        if (!user.getPassword().equals(requestLogin.getPassword())) {
+            throw new ResourceNotFoundException("Incorrect username or password.");
+        }
+
+        return user;
+    }
+
+    public User getUserByEmail(String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(INVALID_USER_EMAIL.formatted(email)));
+    }
+    public User register(UserCreateRequest request) {
 
         User user = UserMapper.mapToUser(request);
 
