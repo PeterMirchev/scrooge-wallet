@@ -2,14 +2,17 @@ package com.scrooge.web.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
-@Data
+
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PocketCreateRequest {
 
     @NotNull
@@ -21,4 +24,9 @@ public class PocketCreateRequest {
     private BigDecimal targetAmount;
     @NotNull
     private Currency currency;
+
+    public String getName() {
+        return name;
+    }
+
 }

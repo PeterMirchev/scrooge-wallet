@@ -38,7 +38,7 @@ public class UserService {
             throw new ResourceNotFoundException("Incorrect username or password.");
         }
 
-        if (!user.getPassword().equals(requestLogin.getPassword())) {
+        if (!passwordEncoder.matches(requestLogin.getPassword(), user.getPassword())) {
             auditLogService.log("LOGIN_FAIL", "Failed login attempt for user: %s".formatted(user.getEmail()), user);
             throw new ResourceNotFoundException("Incorrect username or password.");
         }
@@ -56,7 +56,7 @@ public class UserService {
 
         User user = UserMapper.mapToUser(request);
 
-        passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         User persistedUser = userRepository.save(user);
 

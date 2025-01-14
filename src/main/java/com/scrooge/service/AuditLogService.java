@@ -16,8 +16,7 @@ public class AuditLogService {
 
     public AuditLog log(String actionType, String message, User user) {
 
-        AuditLog auditLog = AuditLogMapper.mapToAuditLog(message, actionType);
-        auditLog.setUser(user);
+        AuditLog auditLog = AuditLogMapper.mapToAuditLog(user, message, actionType);
 
         return auditLogRepository.save(auditLog);
     }
