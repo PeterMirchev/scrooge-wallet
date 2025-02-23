@@ -5,7 +5,6 @@ import com.scrooge.service.UserService;
 import com.scrooge.web.dto.RequestLogin;
 import com.scrooge.web.dto.UserCreateRequest;
 import jakarta.validation.Valid;
-import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,6 @@ public class IndexController {
 
         return modelAndView;
     }
-
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
