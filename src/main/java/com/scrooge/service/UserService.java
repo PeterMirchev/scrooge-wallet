@@ -44,10 +44,10 @@ public class UserService implements UserDetailsService {
         User user = UserMapper.mapToUser(request);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User persistedUser = userRepository.save(user);
 
         String logMessage = String.format("User with email %s created.", request.getEmail());
-        auditLogService.log("USER_CREATED", logMessage, user);
-
+        auditLogService.log("USER_CREATED", logMessage, persistedUser);
     }
 
     public User getUserById(UUID userId) {

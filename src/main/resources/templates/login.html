@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="/css/login-form.css">
+  <link rel="stylesheet" href="/css/header.css"> <!-- Correct path for header styles -->
+  <link rel="stylesheet" href="/css/login-form.css"> <!-- Correct path for login page styles -->
 </head>
-<body>
+<body style="background-image: url('/static/images/index.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
 <div class="login-container">
   <h2>Login</h2>
   <form th:action="@{/login}" th:method="post" th:object="${requestLogin}">
@@ -19,5 +21,6 @@
     <button type="submit">Login</button>
   </form>
 </div>
+
 </body>
 </html>
