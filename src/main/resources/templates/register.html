@@ -4,21 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
+  <link rel="stylesheet" href="/css/register-form.css">
 </head>
 <body>
-<h2>Register</h2>
-<form th:action="@{/register}" th:method="post" th:object="${userCreateRequest}">
-  <label for="email">Email:</label>
-  <input th:field="*{email}" type="email" id="email" name="email" required>
-  <p th:errors="*{email}"></p>
-  <label for="password">Password:</label>
-  <input th:field="*{password}" type="password" id="password" name="password" required>
-  <p th:errors="*{password}"></p>
-  <label for="confirmPassword">Password:</label>
-  <input th:field="*{confirmPassword}" type="password" id="confirmPassword" name="confirmPassword" required>
-  <p th:errors="*{confirmPassword}"></p>
-  <p th:errors="*{matchingPasswords}"></p>
-  <button type="submit">Register</button>
-</form>
+<div class="register-container">
+  <h2>Register</h2>
+  <form th:action="@{/register}" th:method="post" th:object="${userCreateRequest}">
+    <label for="email">Email:</label>
+    <input th:field="*{email}" type="email" id="email" name="email" required>
+    <p th:errors="*{email}"></p>
+    <label for="password">Password:</label>
+    <input th:field="*{password}" type="password" id="password" name="password" required>
+    <p th:errors="*{password}"></p>
+    <label for="confirmPassword">Confirm Password:</label>
+    <input th:field="*{confirmPassword}" type="password" id="confirmPassword" name="confirmPassword" required>
+    <p th:errors="*{confirmPassword}"></p>
+    <p th:errors="*{matchingPasswords}"></p>
+    <button type="submit">Register</button>
+  </form>
+</div>
 </body>
 </html>
