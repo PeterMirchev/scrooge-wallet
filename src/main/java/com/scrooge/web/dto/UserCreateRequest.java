@@ -1,25 +1,28 @@
 package com.scrooge.web.dto;
 
-import com.scrooge.model.enums.Country;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserCreateRequest {
 
-    @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
     @Email
     private String email;
-    @NotNull
-    private String phoneNumber;
-    @NotNull
-    private Country country;
-    @NotNull
+    @NotBlank
+    @Size(min = 6)
     private String password;
+    @NotBlank
+    private String confirmPassword;
+
+    @AssertTrue(message = "passwords must match")
+    public boolean isMatchingPasswords() {
+
+        return password != null && password.equals(confirmPassword);
+    }
 }

@@ -21,17 +21,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(nullable = false)
     private String firstName;
-    @Column(nullable = false)
     private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(nullable = false)
     private String phoneNumber;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Country country;
 

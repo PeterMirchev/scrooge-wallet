@@ -12,11 +12,7 @@ public class UserMapper {
     public static User mapToUser(UserCreateRequest request) {
 
         return User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
                 .email(request.getEmail())
-                .country(request.getCountry())
-                .phoneNumber(request.getPhoneNumber())
                 .password(request.getPassword())
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())

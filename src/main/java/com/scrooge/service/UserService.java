@@ -2,11 +2,14 @@ package com.scrooge.service;
 
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
-import com.scrooge.web.dto.RequestLogin;
+import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,7 @@ import static com.scrooge.exception.ExceptionMessages.INVALID_USER_EMAIL;
 import static com.scrooge.exception.ExceptionMessages.INVALID_USER_ID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final AuditLogService auditLogService;
@@ -30,40 +33,21 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User login(RequestLogin requestLogin) {
-
-        User user = getUserByEmail(requestLogin.getEmail());
-
-        if (user == null) {
-            throw new ResourceNotFoundException("Incorrect username or password.");
-        }
-
-        if (!passwordEncoder.matches(requestLogin.getPassword(), user.getPassword())) {
-            auditLogService.log("LOGIN_FAIL", "Failed login attempt for user: %s".formatted(user.getEmail()), user);
-            throw new ResourceNotFoundException("Incorrect username or password.");
-        }
-
-        auditLogService.log("LOGIN", "Successfully logged in.", user);
-        return user;
-    }
-
     public User getUserByEmail(String email) {
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(INVALID_USER_EMAIL.formatted(email)));
     }
-    public User register(UserCreateRequest request) {
+
+    public void register(UserCreateRequest request) {
 
         User user = UserMapper.mapToUser(request);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        User persistedUser = userRepository.save(user);
-
         String logMessage = String.format("User with email %s created.", request.getEmail());
         auditLogService.log("USER_CREATED", logMessage, user);
 
-        return persistedUser;
     }
 
     public User getUserById(UUID userId) {
@@ -101,5 +85,13 @@ public class UserService {
                         userRepository::delete, () -> {
                             throw new ResourceNotFoundException(INVALID_USER_ID.formatted(userId));
                         });
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = getUserByEmail(email);
+
+        return new CurrentPrinciple(user.getId(), email, user.getPassword(), user.getRole());
     }
 }

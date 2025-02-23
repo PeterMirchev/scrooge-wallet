@@ -1,4 +1,4 @@
-package com.scrooge.web.controller;
+package com.scrooge.web;
 
 import com.scrooge.model.User;
 import com.scrooge.service.UserService;
