@@ -4,7 +4,11 @@ import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
 import com.scrooge.web.mapper.AuditLogMapper;
 import com.scrooge.repository.AuditLogRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AuditLogService {
@@ -20,4 +24,9 @@ public class AuditLogService {
 
         return auditLogRepository.save(auditLog);
     }
+
+    public List<AuditLog> getAuditLogsForUser(UUID userId, int limit) {
+        return auditLogRepository.findTopNByUserIdOrderByCreatedOnDesc(userId, PageRequest.of(0, limit));
+    }
+
 }

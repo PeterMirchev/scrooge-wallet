@@ -42,6 +42,35 @@
     <p><strong>Created On:</strong> <span th:text="${user.createdOn}"></span></p>
     <p><strong>Updated On:</strong> <span th:text="${user.updatedOn}"></span></p>
   </div>
+
+  <!-- Transactions (Audit Logs Table) -->
+  <div class="transactions">
+    <!-- Display a message if there are no audit logs -->
+    <div th:if="${#lists.isEmpty(auditLogs)}">
+      <p>No audit logs available.</p>
+    </div>
+
+    <!-- Render the table if audit logs exist -->
+    <table class="audit-log-table" th:unless="${#lists.isEmpty(auditLogs)}">
+      <thead>
+      <tr>
+        <th>Message</th>
+        <th>Action</th>
+        <th>User</th>
+        <th>Created On</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="log : ${auditLogs}">
+        <td th:text="${log.message}"></td>
+        <td th:text="${log.action}"></td>
+        <td th:text="${log.user.firstName + ' ' + log.user.lastName}"></td> <!-- Concatenate first and last name -->
+        <td th:text="${#dates.format(log.createdOn, 'yyyy-MM-dd HH:mm:ss')}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
 </main>
 
 </body>

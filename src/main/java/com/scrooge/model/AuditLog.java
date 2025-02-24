@@ -20,7 +20,7 @@ public class AuditLog {
     private String message;
     private String action;
     private LocalDateTime createdOn;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }
