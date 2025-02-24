@@ -17,7 +17,7 @@ form {
 
 input, button {
     background-color: white;  /* Light blue background for input fields */
-    color: white; /* Purple text for input fields */
+    color: black; /* Purple text for input fields */
     border: none; /* Purple border for input fields */
     padding: 10px;
     margin: 10px 0;

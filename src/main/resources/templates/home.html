@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Home</title>
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<!-- Navigation Panel (Left Side) -->
+<aside class="navigation-panel">
+  <ul>
+    <li><a href="#" class="button">Dashboard</a></li>
+    <li><a href="#" class="button">Wallets</a></li>
+    <li><a href="#" class="button">Pockets</a></li>
+    <li><a href="#" class="button">Audit Logs</a></li>
+    <li><a href="#" class="button">Transactions</a></li>
+    <li><a href="#" class="button">Transfer</a></li>
+    <li><a href="#" class="button">Account Settings</a></li>
+    <!-- Logout Button -->
+    <li class="logout-button"><a href="#" class="button logout">Logout</a></li>
+  </ul>
+</aside>
+
+<!-- User Information (Right Side) -->
+<main class="user-info">
+  <div class="user-details">
+    <h2>User Information</h2>
+
+    <!-- Avatar Above First Name -->
+    <div class="avatar-container">
+      <img src="/images/user.png" alt="User Avatar" class="avatar">
+    </div>
+
+    <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+    <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>Phone Number:</strong> <span th:text="${user.phoneNumber}"></span></p>
+    <p><strong>Country:</strong> <span th:text="${user.country}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+    <p><strong>Created On:</strong> <span th:text="${user.createdOn}"></span></p>
+    <p><strong>Updated On:</strong> <span th:text="${user.updatedOn}"></span></p>
+  </div>
+</main>
+
+</body>
+</html>

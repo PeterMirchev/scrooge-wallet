@@ -1,5 +1,6 @@
 package com.scrooge.web;
 
+import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
 import com.scrooge.web.dto.RequestLogin;
@@ -58,5 +59,17 @@ public class IndexController {
         System.out.println();
         return "index";
     }
+
+    @GetMapping("/home")
+    public ModelAndView getHomePage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("home");
+        modelAndView.addObject("user", user);  // Passing user data to the view
+
+        return modelAndView;
+    }
+
 
 }
