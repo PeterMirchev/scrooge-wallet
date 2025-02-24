@@ -1,56 +1,59 @@
-/* Ensure the background image is set just like on the index page */
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background-image: url('/static/images/index.jpeg'); /* Same background image */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white; /* Ensure the text color is white */
+    background: linear-gradient(135deg, #9559c7, #7a5cc9, #b93fa1); /* Gradient background for the full page */
+    color: white; /* Ensuring text color is white */
+    font-family: Arial, sans-serif;
 }
 
-/* Styling for the login container (the form box) */
-.login-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #07abde; /* Border color */
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: rgba(7, 171, 222, 0.7); /* Transparent background */
+h2 {
+    color: purple; /* Purple text for heading inside the login container */
 }
 
-/* Input fields styling */
-.login-container input {
-    width: 100%;
+form {
+    color: purple; /* Purple text for form labels */
+}
+
+input, button {
+    background-color: white;  /* Light blue background for input fields */
+    color: white; /* Purple text for input fields */
+    border: none; /* Purple border for input fields */
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #07abde; /* Border color */
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 5px;
 }
 
-.login-container input:focus {
-    border-color: #9559c7;
+input:focus, button:focus {
     outline: none;
+    border: 2px solid #7a5cc9; /* Blue border on focus */
 }
 
-/* Login button styling */
+
+.login-container {
+    width: 300px;
+    margin: 50px auto; /* Adds space at the top of the page (50px or adjust to your preference) */
+    padding: 20px;
+    background: rgba(173, 216, 230, 0.9); /* Light blue background for the login container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow around the form */
+    text-align: center;
+}
 .login-container button {
-    background-color: #9559c7;
+    background-color: #9559c7;  /* Green button for register */
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
+    margin-top: 15px;
+    border-radius: 5px;
 }
 
 .login-container button:hover {
-    background-color: #9559c7;
-    transform: scale(1.1); /* Zoom-out effect, reduce zooming */
-    transition: transform 0.3s ease; /* Smooth transition */
+    background-color: #5d08a2; /* Darker green when hovered */
+}
+.login-container h2 {
+    margin-bottom: 20px;
 }
