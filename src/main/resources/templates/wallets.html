@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallets</title>
+  <!-- Link to the home.css file in the static directory -->
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<!-- Navigation Panel (Left Side) -->
+<aside class="navigation-panel">
+  <ul>
+    <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+    <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+    <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+    <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+    <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+    <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
+    <li><a th:href="@{/account-settings}" class="button">Account Settings</a></li>
+    <!-- Logout Button -->
+    <li class="logout-button">
+      <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+        <button type="submit" class="button logout">Logout</button>
+      </form>
+    </li>
+  </ul>
+</aside>
+
+<!-- Wallets Content (Right Side) -->
+<main id="wallets-content" class="user-info">
+  <h2>Your Wallets</h2>
+
+  <!-- Create New Wallet Link -->
+  <a th:href="@{/wallets/create}" class="button">Create New Wallet</a>
+
+  <!-- Wallets Table -->
+  <div class="transactions">
+    <table class="audit-log-table">
+      <thead>
+      <tr>
+        <th>Wallet Name</th>
+        <th>Balance</th>
+        <th>Currency</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Loop through wallets and display them -->
+      <tr th:each="wallet : ${wallets}">
+        <td th:text="${wallet.name}"></td>
+        <td th:text="${wallet.balance}"></td>
+        <td th:text="${wallet.currency}"></td>
+        <td><a th:href="@{/wallets/{id}(id=${wallet.id})}" class="button">View</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.scrooge.web.dto.WalletCreateRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Currency;
 
 public class WalletMapper {
 
@@ -12,7 +13,7 @@ public class WalletMapper {
 
         return Wallet.builder()
                 .name(request.getName())
-                .currency(request.getCurrency())
+                .currency(Currency.getInstance(request.getCurrency()))
                 .balance(BigDecimal.ZERO)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())

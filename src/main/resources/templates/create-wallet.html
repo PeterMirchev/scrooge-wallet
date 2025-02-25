@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Wallet</title>
+  <!-- Link to the home.css file -->
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<!-- Navigation Panel (Left Side) -->
+<aside class="navigation-panel">
+  <ul>
+    <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+    <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+    <li><a href="#" class="button">Pockets</a></li>
+    <li><a href="#" class="button">Audit Logs</a></li>
+    <li><a href="#" class="button">Transactions</a></li>
+    <li><a href="#" class="button">Transfer</a></li>
+    <li><a href="#" class="button">Account Settings</a></li>
+    <!-- Logout Button -->
+    <li class="logout-button">
+      <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+        <button type="submit" class="button logout">Logout</button>
+      </form>
+    </li>
+  </ul>
+</aside>
+
+<!-- Create Wallet Content (Right Side) -->
+<main class="user-info">
+  <h2>Create New Wallet</h2>
+
+  <!-- Create Wallet Form -->
+  <form th:action="@{/wallets/create}" method="post" th:object="${walletCreateRequest}" class="wallet-form">
+    <!-- Wallet Name Field -->
+    <div class="form-group">
+      <label for="name">Wallet Name:</label>
+      <input type="text" id="name" name="name" th:value="${walletCreateRequest.name}" required class="form-control">
+      <div th:if="${#fields.hasErrors('name')}" class="error">
+        <p th:errors="*{name}"></p>
+      </div>
+    </div>
+
+    <!-- Currency Selection Field -->
+    <div class="form-group">
+      <label for="currency">Currency:</label>
+      <select id="currency" name="currency" required class="form-control">
+        <option value="USD" th:selected="${walletCreateRequest.currency == 'USD'}">USD</option>
+        <option value="EUR" th:selected="${walletCreateRequest.currency == 'EUR'}">EUR</option>
+        <!-- More currencies can be added here -->
+      </select>
+      <div th:if="${#fields.hasErrors('currency')}" class="error">
+        <p th:errors="*{currency}">Please select a currency</p>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="button">Create Wallet</button>
+
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error">
+      <p th:text="${errorMessage}"></p>
+    </div>
+  </form>
+</main>
+
+</body>
+</html>

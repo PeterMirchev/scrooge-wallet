@@ -144,7 +144,7 @@ public class WalletService {
                 .anyMatch(w -> w.getName().equals(walletName));
 
         if (walletExists) {
-            throw new ResourceAlreadyExistException("Wallet name - %s already exists".formatted(walletName));
+            throw new ResourceAlreadyExistException("Wallet name [%s] already exists".formatted(walletName));
         }
     }
 }
