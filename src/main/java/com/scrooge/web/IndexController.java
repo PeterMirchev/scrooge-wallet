@@ -56,7 +56,10 @@ public class IndexController {
     @GetMapping()
     public String getIndexPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
-        System.out.println();
+        if (currentPrinciple != null) {
+            return "redirect:/home";
+        }
+
         return "index";
     }
 
@@ -66,7 +69,7 @@ public class IndexController {
         User user = userService.getUserById(currentPrinciple.getId());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-        modelAndView.addObject("user", user);  // Passing user data to the view
+        modelAndView.addObject("user", user);
 
         return modelAndView;
     }

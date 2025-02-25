@@ -19,7 +19,13 @@
     <li><a href="#" class="button">Transfer</a></li>
     <li><a href="#" class="button">Account Settings</a></li>
     <!-- Logout Button -->
-    <li class="logout-button"><a href="#" class="button logout">Logout</a></li>
+    <!-- Logout Button -->
+    <li class="logout-button">
+      <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+        <button type="submit" class="button logout">Logout</button>
+      </form>
+    </li>
+
   </ul>
 </aside>
 
@@ -61,7 +67,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="log : ${auditLogs}">
+      <tr th:each="log : ${user.auditLog}">
         <td th:text="${log.message}"></td>
         <td th:text="${log.action}"></td>
         <td th:text="${log.user.firstName + ' ' + log.user.lastName}"></td> <!-- Concatenate first and last name -->
