@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs</title>
+    <link rel="stylesheet" href="/css/transfer.css">
+</head>
+<body>
+
+<!-- Navigation Panel (Left Side) -->
+<aside class="navigation-panel">
+    <ul>
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/account-settings}" class="button">Account Settings</a></li>
+        <!-- Logout Button -->
+        <!-- Logout Button -->
+        <li class="logout-button">
+            <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </li>
+
+    </ul>
+</aside>
+
+</body>
+</html>

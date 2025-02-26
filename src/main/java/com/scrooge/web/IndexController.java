@@ -74,5 +74,57 @@ public class IndexController {
         return modelAndView;
     }
 
+    @GetMapping("/pockets")
+    public ModelAndView getPocketsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("pockets");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/audit-logs")
+    public ModelAndView getAuditLogPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("audit-logs");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/transactions")
+    public ModelAndView getTransactionsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("transactions");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+ @GetMapping("/transfer")
+    public ModelAndView getTransferPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("transfer");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+ @GetMapping("/account-settings")
+    public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("account-settings");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
 
 }
