@@ -33,7 +33,7 @@
   <h2>Create New Wallet</h2>
 
   <!-- Create Wallet Form -->
-  <form th:action="@{/wallets/create}" method="post" th:object="${walletCreateRequest}" class="wallet-form">
+  <form th:action="@{/wallets}" method="post" th:object="${walletCreateRequest}" class="wallet-form">
     <!-- Wallet Name Field -->
     <div class="form-group">
       <label for="name">Wallet Name:</label>

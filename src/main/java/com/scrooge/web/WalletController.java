@@ -39,7 +39,7 @@ public class WalletController {
         return "wallets";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/new")
     public ModelAndView getCreateWalletPage() {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -49,7 +49,7 @@ public class WalletController {
         return modelAndView;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ModelAndView createWallet(@Valid @ModelAttribute WalletCreateRequest walletCreateRequest,
                                      BindingResult bindingResult,
                                      @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {

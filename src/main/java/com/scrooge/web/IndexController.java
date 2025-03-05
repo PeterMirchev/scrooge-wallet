@@ -42,15 +42,20 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public String register(@Valid UserCreateRequest userCreateRequest, BindingResult bindingResult) {
+    public ModelAndView register(@Valid UserCreateRequest userCreateRequest, BindingResult bindingResult) {
+
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            return "register";
+            modelAndView.setViewName("register");
+            modelAndView.addObject("userCreateRequest", userCreateRequest);
+            return modelAndView;
         }
 
         userService.register(userCreateRequest);
+        modelAndView.setViewName("redirect:/login");
 
-        return "redirect:/login";
+        return modelAndView;
     }
 
     @GetMapping()

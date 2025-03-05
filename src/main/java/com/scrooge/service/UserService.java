@@ -1,8 +1,13 @@
 package com.scrooge.service;
 
+import com.scrooge.config.client.EmailNotification;
+import com.scrooge.exception.ResourceAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
+import com.scrooge.model.enums.NotificationType;
 import com.scrooge.security.CurrentPrinciple;
+import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
+import com.scrooge.web.dto.NotificationRequest;
 import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.web.dto.UserCreateRequest;
@@ -14,8 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static com.scrooge.config.CommonMessages.REGISTRATION_MESSAGE;
+import static com.scrooge.config.CommonMessages.WELCOME_MESSAGE;
 import static com.scrooge.exception.ExceptionMessages.INVALID_USER_EMAIL;
 import static com.scrooge.exception.ExceptionMessages.INVALID_USER_ID;
 
@@ -25,12 +33,14 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final AuditLogService auditLogService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailNotification emailNotification;
 
-    public UserService(UserRepository userRepository, AuditLogService auditLogService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, AuditLogService auditLogService, PasswordEncoder passwordEncoder, EmailNotification emailNotification) {
 
         this.userRepository = userRepository;
         this.auditLogService = auditLogService;
         this.passwordEncoder = passwordEncoder;
+        this.emailNotification = emailNotification;
     }
 
     public User getUserByEmail(String email) {
@@ -41,6 +51,12 @@ public class UserService implements UserDetailsService {
 
     public void register(UserCreateRequest request) {
 
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+
+        if (optionalUser.isPresent()) {
+            throw new ResourceAlreadyExistException("Email already registered - [%s]".formatted(request.getEmail()));
+        }
+
         User user = UserMapper.mapToUser(request);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -48,6 +64,23 @@ public class UserService implements UserDetailsService {
 
         String logMessage = String.format("User with email %s created.", request.getEmail());
         auditLogService.log("USER_CREATED", logMessage, persistedUser);
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .userId(persistedUser.getId())
+                .subject(REGISTRATION_MESSAGE)
+                .body(WELCOME_MESSAGE.formatted(user.getFirstName()))
+                .email(persistedUser.getEmail())
+                .type(NotificationType.NOTIFICATION)
+                .build();
+
+        NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = NotificationPreferenceCreateRequest
+                .builder()
+                .userId(user.getId())
+                .enableNotification(true)
+                .email(user.getEmail())
+                .build();
+        emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
+        emailNotification.sendNotification(notificationRequest);
     }
 
     public User getUserById(UUID userId) {

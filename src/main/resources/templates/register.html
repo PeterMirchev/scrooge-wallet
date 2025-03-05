@@ -12,15 +12,29 @@
   <form th:action="@{/register}" th:method="post" th:object="${userCreateRequest}">
     <label for="email">Email:</label>
     <input th:field="*{email}" type="email" id="email" name="email" required>
-    <p th:errors="*{email}"></p>
+    <div th:if="${#fields.hasErrors('email')}" class="error">
+      <p th:errors="*{email}"></p>
+    </div>
+
     <label for="password">Password:</label>
     <input th:field="*{password}" type="password" id="password" name="password" required>
-    <p th:errors="*{password}"></p>
+    <div th:if="${#fields.hasErrors('password')}" class="error">
+      <p th:errors="*{password}"></p>
+    </div>
+
     <label for="confirmPassword">Confirm Password:</label>
     <input th:field="*{confirmPassword}" type="password" id="confirmPassword" name="confirmPassword" required>
-    <p th:errors="*{confirmPassword}"></p>
-    <p th:errors="*{matchingPasswords}"></p>
+    <div th:if="${#fields.hasErrors('password')}" class="error">
+      <p th:errors="*{confirmPassword}"></p>
+      <p th:errors="*{matchingPasswords}"></p>
+    </div>
+
     <button type="submit">Register</button>
+
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error">
+      <p th:text="${errorMessage}"></p>
+    </div>
   </form>
 </div>
 </body>
