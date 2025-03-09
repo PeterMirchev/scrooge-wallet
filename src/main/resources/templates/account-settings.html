@@ -17,17 +17,51 @@
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
         <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
-        <li><a th:href="@{/account-settings}" class="button">Account Settings</a></li>
-        <!-- Logout Button -->
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
         <!-- Logout Button -->
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>
             </form>
         </li>
-
     </ul>
 </aside>
+
+<div class="main-div">
+    <form class="form" th:action="@{'/users/' + ${user.id} + '/account-settings'}" th:method="PUT" th:object="${userUpdateRequest}">
+
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="First Name" th:field="*{firstName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" placeholder="Phone Number" th:field="*{phoneNumber}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+
+        <label for="country">Country</label>
+        <select id="country" th:field="*{country}">
+            <option value="" disabled selected>Select your country</option>
+            <option value="BULGARIA" th:selected="${userUpdateRequest.country == 'BULGARIA'}">Bulgaria</option>
+            <option value="FRANCE" th:selected="${userUpdateRequest.country == 'FRANCE'}">France</option>
+            <option value="GERMANY" th:selected="${userUpdateRequest.country == 'GERMANY'}">Germany</option>
+            <option value="GREECE" th:selected="${userUpdateRequest.country == 'GREECE'}">Greece</option>
+            <option value="UNITED_KINGDOM" th:selected="${userUpdateRequest.country == 'UNITED_KINGDOM'}">United Kingdom</option>
+            <option value="UNITED_STATES" th:selected="${userUpdateRequest.country == 'UNITED_STATES'}">United States</option>
+        </select>
+        <p class="alert-warning" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
+
+        <button class="profile-actions-button">
+            <p>Save</p>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </button>
+    </form>
+</div>
 
 </body>
 </html>

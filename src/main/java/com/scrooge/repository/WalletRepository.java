@@ -13,6 +13,7 @@ public interface WalletRepository extends JpaRepository<Wallet, UUID> {
     @Query("""
         SELECT w FROM Wallet w
         WHERE w.user.id = :userId
+        ORDER BY w.createdOn ASC
     """)
     List<Wallet> findAllByUserId(UUID userId);
 }

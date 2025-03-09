@@ -1,5 +1,6 @@
 package com.scrooge.web;
 
+import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -72,9 +75,11 @@ public class IndexController {
     public ModelAndView getHomePage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
+        List<AuditLog> auditLog = user.getAuditLog();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("auditLog", auditLog);
 
         return modelAndView;
     }
@@ -90,7 +95,7 @@ public class IndexController {
         return modelAndView;
     }
 
-    @GetMapping("/audit-logs")
+ /*   @GetMapping("/audit-logs")
     public ModelAndView getAuditLogPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
@@ -99,7 +104,7 @@ public class IndexController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
-    }
+    }*/
 
     @GetMapping("/transactions")
     public ModelAndView getTransactionsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
@@ -121,7 +126,7 @@ public class IndexController {
 
         return modelAndView;
     }
- @GetMapping("/account-settings")
+/* @GetMapping("/account-settings")
     public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
@@ -130,6 +135,6 @@ public class IndexController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
-    }
+    }*/
 
 }

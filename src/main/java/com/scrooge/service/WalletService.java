@@ -1,5 +1,6 @@
 package com.scrooge.service;
 
+import com.scrooge.exception.InsufficientAmountException;
 import com.scrooge.exception.ResourceAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
@@ -53,6 +54,13 @@ public class WalletService {
         checkIfWalletNameExists(user, request.getName());
 
         Wallet wallet = WalletMapper.mapToWallet(request);
+
+        if (user.getWallets().size() > 0) {
+            wallet.setMainWallet(false);
+        } else {
+            wallet.setMainWallet(true);
+        }
+
         wallet.setUser(user);
 
         String logMessage = String.format("Wallet with name %s created.", wallet.getName());
@@ -78,6 +86,18 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
+    public Wallet setMainWallet(UUID walletId, UUID userId) {
+
+        User user = userService.getUserById(userId);
+        Wallet wallet = getWalletById(walletId);
+
+        user.getWallets().forEach(w -> w.setMainWallet(false));
+
+        wallet.setMainWallet(true);
+
+        return walletRepository.save(wallet);
+    }
+
     public BigDecimal getWalletBalance(UUID walletId) {
 
         Wallet wallet = getWalletById(walletId);
@@ -92,14 +112,14 @@ public class WalletService {
         Wallet wallet = getWalletById(walletId);
 
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
         }
 
         transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT);
 
         wallet.setBalance(wallet.getBalance().add(amount));
 
-        String logMessage = String.format("Deposit to wallet %s", wallet.getName());
+        String logMessage = String.format("%.2f %s deposited to wallet %s",amount, wallet.getCurrency(), wallet.getName());
         auditLogService.log("DEPOSIT", logMessage, user);
 
         return walletRepository.save(wallet);
@@ -128,6 +148,36 @@ public class WalletService {
 
         return walletRepository.save(wallet);
     }
+
+    public void transferMoneyBetweenWallets(UUID senderWallet, UUID recipientWallet, BigDecimal amount) {
+
+        Wallet wallet = getWalletById(senderWallet);
+        Wallet recipient = getWalletById(recipientWallet);
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            throw new IllegalArgumentException(INSUFFICIENT_BALANCE);
+        }
+
+
+
+        wallet.setBalance(wallet.getBalance().subtract(amount));
+        recipient.setBalance(recipient.getBalance().add(amount));
+
+        transactionService.setTransactionToWallet(wallet, amount, TransactionType.WITHDRAWAL);
+        transactionService.setTransactionToWallet(recipient, amount, TransactionType.DEPOSIT);
+
+        String message  = "Transfer %.2f %s from wallet %s to wallet %s".formatted(amount, wallet.getCurrency(), wallet.getName(), recipient.getName());
+
+        auditLogService.log("INTERNAL_TRANSFER", message, wallet.getUser());
+
+        walletRepository.save(wallet);
+        walletRepository.save(recipient);
+    }
+
 
     public void increaseWalletBalance(UUID walletId, BigDecimal amount) {
 

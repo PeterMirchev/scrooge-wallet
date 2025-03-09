@@ -1,6 +1,7 @@
 package com.scrooge.service;
 
 import com.scrooge.config.client.EmailNotification;
+import com.scrooge.exception.EmailAlreadyExistException;
 import com.scrooge.exception.ResourceAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
@@ -54,7 +55,7 @@ public class UserService implements UserDetailsService {
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
 
         if (optionalUser.isPresent()) {
-            throw new ResourceAlreadyExistException("Email already registered - [%s]".formatted(request.getEmail()));
+            throw new EmailAlreadyExistException("Email already registered - [%s]".formatted(request.getEmail()));
         }
 
         User user = UserMapper.mapToUser(request);

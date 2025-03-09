@@ -41,9 +41,11 @@ public class User {
     private List<Wallet> wallets = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy("createdOn DESC")
     private List<Pocket> pockets = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OrderBy("createdOn DESC")
     private List<AuditLog> auditLog = new ArrayList<>();
 
 }

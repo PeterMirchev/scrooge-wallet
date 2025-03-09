@@ -1,6 +1,7 @@
 package com.scrooge.web.mapper;
 
 import com.scrooge.model.User;
+import com.scrooge.model.enums.Country;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
 
@@ -21,9 +22,22 @@ public class UserMapper {
 
     public static void mapUserUpdateToUser(User user, UserUpdateRequest request) {
 
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setPhoneNumber(request.getPhoneNumber());
+        if (request.getFirstName().length() > 0) {
+            user.setFirstName(request.getFirstName());
+        }
+
+        if (request.getLastName().length() > 0) {
+            user.setLastName(request.getLastName());
+        }
+
+        if (request.getCountry().length() > 0) {
+            user.setCountry(Country.valueOf(request.getCountry()));
+        }
+
+        if (request.getPhoneNumber().length() > 0) {
+            user.setPhoneNumber(request.getPhoneNumber());
+        }
+
         user.setUpdatedOn(LocalDateTime.now());
     }
 }

@@ -22,12 +22,19 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private Currency currency;
+
     private BigDecimal balance;
+
+    private boolean mainWallet;
+
     private LocalDateTime createdOn;
+
     private LocalDateTime updatedOn;
 
     @ManyToOne
@@ -35,5 +42,6 @@ public class Wallet {
     private User user;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OrderBy("createdOn DESC")
     private List<Transaction> transactions = new ArrayList<>();
 }

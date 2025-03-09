@@ -18,7 +18,7 @@
     <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
     <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
     <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
-    <li><a th:href="@{/account-settings}" class="button">Account Settings</a></li>
+    <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
     <!-- Logout Button -->
     <li class="logout-button">
       <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
@@ -33,7 +33,7 @@
   <h2>Your Wallets</h2>
 
   <!-- Create New Wallet Link -->
-  <a th:href="@{/wallets/new}" class="button">Create New Wallet</a>
+  <a th:href="@{/wallets/new-wallet}" class="button">Create New Wallet</a>
 
   <!-- Wallets Table -->
   <div class="transactions">
