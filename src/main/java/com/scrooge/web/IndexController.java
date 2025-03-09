@@ -84,7 +84,7 @@ public class IndexController {
         return modelAndView;
     }
 
-    @GetMapping("/pockets")
+/*    @GetMapping("/pockets")
     public ModelAndView getPocketsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
@@ -93,7 +93,7 @@ public class IndexController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
-    }
+    }*/
 
  /*   @GetMapping("/audit-logs")
     public ModelAndView getAuditLogPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {

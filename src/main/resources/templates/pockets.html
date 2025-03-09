@@ -14,9 +14,9 @@
         <li><a th:href="@{/home}" class="button">Dashboard</a></li>
         <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
         <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
-        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
         <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
         <!-- Logout Button -->
         <!-- Logout Button -->
@@ -27,7 +27,46 @@
         </li>
 
     </ul>
-</aside>
+</aside >
+
+<main id="pockets-content" class="pockets-info">
+
+    <h2>Your Pockets</h2>
+
+    <a th:href="@{'/pockets/new-pocket'}" class="button">Create New Pocket</a>
+
+    <!-- Wallets Table -->
+    <div class="pockets">
+        <table class="pockets-table">
+            <thead>
+            <tr>
+                <th>Pocket Name</th>
+                <th>Description</th>
+                <th>Target Amount</th>
+                <th>Balance</th>
+                <th>Currency</th>
+                <th>Date Created</th>
+                <th>Date Updated</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Loop through wallets and display them -->
+            <tr th:each="pocket : ${user.pockets}">
+                <td th:text="${pocket.name}"></td>
+                <td th:text="${pocket.goalDescription}"></td>
+                <td th:text="${pocket.targetAmount}"></td>
+                <td th:text="${pocket.balance}"></td>
+                <td th:text="${pocket.currency}"></td>
+                <td th:text="${#temporals.format(pocket.createdOn, 'HH:mm dd MMM YYYY')}"></td>
+                <td th:text="${#temporals.format(pocket.updatedOn, 'HH:mm dd MMM YYYY')}"></td>
+                <td> <a th:href="@{'/pockets/' + ${pocket.id}}" class="button"> View </a> </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
 
 </body>
 </html>

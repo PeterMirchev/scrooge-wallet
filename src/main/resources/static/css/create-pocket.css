@@ -1,0 +1,157 @@
+body {
+    display: flex;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+/* Sidebar Navigation */
+.navigation-panel {
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    width: 270px;
+    height: calc(100vh - 40px);
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: #47047c;
+}
+
+.navigation-panel ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.navigation-panel li {
+    margin-bottom: 15px;
+}
+
+.button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #9559c7;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #7a5cc9;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Logout Button */
+.logout-button {
+    margin-top: 100px;
+}
+
+.logout {
+    background-color: rgba(231, 8, 8, 0.6);
+    color: white;
+}
+
+.logout:hover {
+    background-color: #330202;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Wallets Content */
+.pocket-info {
+    margin-left: 300px; /* Align with sidebar */
+    width: calc(100% - 300px); /* Remaining space for content */
+    padding: 20px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+/* Wallet Form */
+.pocket-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px; /* Limit form width */
+    margin: 0 auto; /* Center the form */
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align labels to the left */
+}
+
+/* Label styling */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* Input fields */
+.form-control {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+/* Select field for Currency */
+select.form-control {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Submit Button */
+button.button {
+    background-color: #9559c7;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 400px; /* Limit button width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button hover effect */
+button.button:hover {
+    background-color: #7a5cc9;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+/* Error message styling */
+.error p {
+    color: red;
+    font-size: 14px;
+}
