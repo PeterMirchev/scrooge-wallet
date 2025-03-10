@@ -3,6 +3,7 @@ package com.scrooge.service;
 import com.scrooge.exception.InsufficientAmountException;
 import com.scrooge.exception.ResourceAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
+import com.scrooge.exception.WalletAmountMustBeZero;
 import com.scrooge.model.User;
 import com.scrooge.model.Wallet;
 import com.scrooge.model.enums.TransactionType;
@@ -11,6 +12,7 @@ import com.scrooge.web.dto.WalletCreateRequest;
 import com.scrooge.web.dto.WalletUpdateRequest;
 import com.scrooge.web.mapper.WalletMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -155,11 +157,11 @@ public class WalletService {
         Wallet recipient = getWalletById(recipientWallet);
 
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
         }
 
         if (wallet.getBalance().compareTo(amount) < 0) {
-            throw new IllegalArgumentException(INSUFFICIENT_BALANCE);
+            throw new InsufficientAmountException(INSUFFICIENT_BALANCE);
         }
 
 
@@ -196,5 +198,22 @@ public class WalletService {
         if (walletExists) {
             throw new ResourceAlreadyExistException("Wallet name [%s] already exists".formatted(walletName));
         }
+    }
+
+    @Transactional
+    public void deleteWallet(UUID walletId, User user) {
+
+        Wallet currentWallet = getWalletById(walletId);
+
+
+        if (currentWallet.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+            throw new WalletAmountMustBeZero(WALLET_AMOUNT_MUST_BE_ZERO);
+        }
+
+        user.getWallets().removeIf(wallet -> wallet.getId().equals(walletId));
+
+        walletRepository.delete(currentWallet);
+
+        System.out.println();
     }
 }

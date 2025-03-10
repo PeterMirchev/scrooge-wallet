@@ -1,143 +1,146 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wallets</title>
-  <!-- Link to the home.css file in the static directory -->
-  <link rel="stylesheet" href="/css/wallet.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallets</title>
+    <!-- Link to the home.css file in the static directory -->
+    <link rel="stylesheet" href="/css/wallet.css">
 </head>
 <body>
 
 <!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
-  <ul>
-    <li><a th:href="@{/home}" class="button">Dashboard</a></li>
-    <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
-    <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
-    <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-    <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
-    <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
-    <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-    <!-- Logout Button -->
-    <li class="logout-button">
-      <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
-        <button type="submit" class="button logout">Logout</button>
-      </form>
-    </li>
-  </ul>
+    <ul>
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+        <!-- Logout Button -->
+        <li class="logout-button">
+            <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </li>
+    </ul>
 </aside>
 
 <!-- Wallets Content (Right Side) -->
 <main id="wallet-content" class="wallet">
-  <div class="wallet" >
+    <div class="wallet">
 
-    <div class="wallet-content">
-      <p>
-        <span class="wallet-text"> wallet:</span>
-        <span class="wallet-name" th:text="${wallet.name}"> wallet</span>
-      </p>
-    </div>
+        <div class="wallet-content">
 
-    <div class="balance-info">
+            <div class="action-buttons">
+                <p>
+                    <span class="wallet-name" th:text="${wallet.name}"> Wallet Name:</span>
+                </p>
+                <div>
+                    <form th:action="@{'/wallets/' + ${wallet.id} + '/main-state'}" th:method="put">
+                        <button type="submit" class="button">Set Main Wallet</button>
+                    </form>
+                </div>
+                <div class="delete-wallet-button">
+                    <form th:action="@{'/wallets/' + ${wallet.id}}" th:method="delete">
+                        <button type="submit" class="button">Delete Wallet</button>
+                    </form>
+                </div>
 
-      <p >
-        <span class="balance-text">Balance:</span>
-        <span class="balance" th:text="${wallet.balance}"> </span>
-<!--        <span class="currency" th:text="${wallet.getCurrency()}"></span>-->
-      </p>
-    </div>
+            </div>
 
-    <div class="wallet-currency">
-      <p>
-        <span class="wallet-creation"> currency:</span>
-        <span class="currency" th:text="${wallet.currency}"> currency:</span>
-      </p>
-    </div>
+            <div class="wallet-creation-date">
+                <p>
+                    <span class="wallet-creation"> created:</span>
+                    <span class="created-on" th:text="${#temporals.format(wallet.createdOn, 'HH:mm dd MMM YYYY')}"> created</span>
+                </p>
+            </div>
 
-    <div class="wallet-main">
-      <p>
-        <span class="main"> main wallet:</span>
-        <span class="currency" th:text="${wallet.isMainWallet() ? 'TRUE' : 'FALSE'}"></span>
-      </p>
-    </div>
+            <div class="wallet-main">
+                <p>
+                    <span class="main"> main wallet:</span>
+                    <span class="currency" th:text="${wallet.isMainWallet() ? 'TRUE' : 'FALSE'}"></span>
+                </p>
+            </div>
 
-    <div class="wallet-creation-date">
-      <p>
-        <span class="wallet-creation"> created:</span>
-        <span class="created-on" th:text="${#temporals.format(wallet.createdOn, 'HH:mm dd MMM YYYY')}"> created</span>
-        <p>Wallet ID: <span th:text="${wallet.id}"></span></p>
-      </p>
-    </div>
+            <div class="balance-info">
+                <p>
+                    <span class="balance" th:text="${wallet.balance}"> </span>
+                    <span class="currency" th:text="${wallet.currency}"> currency:</span>
+                </p>
+            </div>
 
-    <div class="deposit-form">
+            <div class="deposit-form">
 
-      <form th:action="@{/wallets/{id}/deposit(id=${wallet.id})}" th:method="post">
-        <label for="amount"></label>
-        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-        <button type="submit" class="button">Deposit</button>
-      </form>
-    </div>
-
-    <div>
-      <form th:action="@{'/wallets/' + ${wallet.id} + '/main-state'}" th:method="put">
-
-        <button type="submit" class="button">Set Main Wallet</button>
-      </form>
-    </div>
-
-    <div class="withdrawal-form">
-      <form id="withdrawal-form" th:action="@{/wallets/{walletId}/withdrawal(walletId=${wallet.id})}" th:method="post">
-        <label for="amount-withdrawal">Amount to Transfer</label>
-        <input type="number" id="amount-withdrawal" name="amount" placeholder="Enter amount" required>
-
-        <label for="recipientWalletId">Transfer to Wallet</label>
-        <select id="recipientWalletId" name="recipientWalletId" required>
-          <option value="" disabled selected>Select Wallet</option>
-          <option th:each="recipientWallet : ${user.wallets}"
-                  th:value="${recipientWallet.id}"
-                  th:text="${recipientWallet.name}"
-                  th:if="${recipientWallet.id != wallet.id}">Wallet</option>
-        </select>
-
-        <button type="submit" class="button">Transfer Money</button>
-      </form>
-    </div>
+                <form th:action="@{/wallets/{id}/deposit(id=${wallet.id})}" th:method="post">
+                    <label for="amount"></label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+                    <button type="submit" class="button">Deposit</button>
+                </form>
+                <div th:if="${errorMessage}" class="error">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+            </div>
 
 
+            <div class="withdrawal-form">
+                <form id="withdrawal-form" th:action="@{/wallets/{walletId}/withdrawal(walletId=${wallet.id})}"
+                      th:method="post">
+                    <label for="amount-withdrawal">Amount to Transfer</label>
+                    <input type="number" id="amount-withdrawal" name="amount" placeholder="Enter amount" required>
 
-    <!-- Wallets Table -->
-    <div class="transactions">
-      <table class="wallet-transactions">
-        <thead>
-        <tr>
-          <th>Amount</th>
-          <th>Type</th>
-          <th>Date</th>
-        </tr>
-        </thead>
-        <tbody>
+                    <label for="recipientWalletId">Transfer to Wallet</label>
+                    <select id="recipientWalletId" name="recipientWalletId" required>
+                        <option value="" disabled selected>Select Wallet</option>
+                        <option th:each="recipientWallet : ${user.wallets}"
+                                th:value="${recipientWallet.id}"
+                                th:text="${recipientWallet.name}"
+                                th:if="${recipientWallet.id != wallet.id}">Wallet
+                        </option>
+                    </select>
 
-        <tr th:if="${#lists.isEmpty(wallet.transactions)}">
-          <td colspan="3" style="text-align: center;">No transactions</td>
-        </tr>
+                    <button type="submit" class="button">Transfer Money</button>
+                </form>
+                <div th:if="${errorMessage}" class="error">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+            </div>
 
-        <!-- Loop through wallets and display them -->
-        <tr th:each="transaction : ${wallet.transactions}">
-          <td th:text="${transaction.amount}"></td>
-          <td th:text="${transaction.type}"></td>
-          <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <!-- Display error message if any -->
-    <div th:if="${errorMessage}" class="error">
-      <p th:text="${errorMessage}"></p>
-    </div>
-  </div>
+            <!-- Wallets Table -->
+            <div class="transactions">
+                <span>Transactions history</span>
+                <table class="wallet-transactions">
+                    <thead>
+
+                    <tr>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:if="${#lists.isEmpty(wallet.transactions)}">
+                        <td colspan="3" style="text-align: center;">No transactions</td>
+                    </tr>
+
+                    <!-- Loop through wallets and display them -->
+                    <tr th:each="transaction : ${wallet.transactions}">
+                        <td th:text="${transaction.amount}"></td>
+                        <td th:text="${transaction.type}"></td>
+                        <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </main>
 
+<div th:if="${errorMessage}" class="error">
+    <p th:text="${errorMessage}"></p>
+</div>
 </body>
 </html>

@@ -45,7 +45,7 @@
 }
 
 /* Logout Button */
-.logout-button {
+.logout-button{
     margin-top: 100px;
 }
 
@@ -63,6 +63,12 @@
     background-color: #330202;
     transform: scale(1.1);
     transition: transform 0.3s ease;
+}
+
+
+
+body {
+    font-family: Arial, sans-serif;
 }
 
 /* Wallet Content */
@@ -100,9 +106,21 @@
     margin-bottom: 20px;
 }
 
+.balance-info {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;      /* Centers vertically */
+    margin-bottom: 20px;
+}
+
 .balance {
-    font-size: x-large;
-    font-weight: bold;
+    font-size: xxx-large;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 200px; /* Adjust the spacing for the buttons */
+    width: 100%; /* Allow buttons to align at the right end */
 }
 
 .balance-text {
@@ -172,6 +190,8 @@
 .error {
     color: red;
     font-size: 14px;
+    align-content: center;
+    align-self: center;
 }
 
 /* Responsive Design */
@@ -181,7 +201,10 @@
     }
 
     #wallet-content {
-        margin-left: 220px;
+        display: flex;
+        flex-direction: column; /* Keep the direction column for other content */
+        align-items: flex-start; /* Align items to start */
+        width: 100%; /* Ensure it takes full width */
     }
 
     .wallet {

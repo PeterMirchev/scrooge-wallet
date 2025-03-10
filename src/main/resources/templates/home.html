@@ -67,7 +67,7 @@
       </thead>
       <tbody>
       <tr th:each="log, iterStat : ${user.auditLog}"
-          th:if="${iterStat.index < 3}">
+          th:if="${iterStat.index < 4}">
         <td th:text="${log.message}"></td>
         <td th:text="${log.action}"></td>
         <td th:text="${#temporals.format(log.createdOn, 'dd MMM yyyy')}"></td>

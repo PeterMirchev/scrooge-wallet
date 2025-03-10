@@ -79,6 +79,10 @@ h2 {
     color: #9559c7; /* Title color */
 }
 
+body {
+    font-family: Arial, sans-serif;
+}
+
 /* Pockets Table Styling */
 .pockets-table {
     width: 100%;

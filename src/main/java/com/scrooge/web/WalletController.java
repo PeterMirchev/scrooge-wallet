@@ -111,8 +111,8 @@ public class WalletController {
     }
 
 
-    @PostMapping("/{walletId}/withdrawal")
-    public ModelAndView withdrawalBetweenWallets(@PathVariable(name = "walletId") UUID walletId,
+    @PostMapping("/{id}/withdrawal")
+    public ModelAndView withdrawalBetweenWallets(@PathVariable(name = "id") UUID walletId,
                                                  @RequestParam("recipientWalletId") UUID recipientWalletId,
                                                  @RequestParam("amount") BigDecimal amount,
                                                  @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
@@ -134,13 +134,27 @@ public class WalletController {
         return modelAndView;
     }
 
+
+
     @PutMapping("/{id}/main-state")
     public String setMainWallet(@PathVariable(name = "id") UUID id, @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
 
         walletService.setMainWallet(id, currentPrinciple.getId());
 
         return "redirect:/wallets/" + id;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteWallet(@AuthenticationPrincipal CurrentPrinciple currentPrinciple, @PathVariable(name = "id") UUID id, Model model) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+        walletService.deleteWallet(id, user);
+
+        model.addAttribute("user", user);
+        model.addAttribute("wallets", user.getWallets());
+
+        return "redirect:/wallets";
     }
 
 }

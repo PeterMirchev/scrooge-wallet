@@ -1,9 +1,6 @@
 package com.scrooge.web.exception;
 
-import com.scrooge.exception.EmailAlreadyExistException;
-import com.scrooge.exception.InsufficientAmountException;
-import com.scrooge.exception.ResourceAlreadyExistException;
-import com.scrooge.exception.ResourceNotFoundException;
+import com.scrooge.exception.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,8 +34,9 @@ public class GlobalControllerAdvice {
 
         return "redirect:/wallets/new-wallet";
     }
+
     @ExceptionHandler(InsufficientAmountException.class)
-    public String resourceNotFoundException(InsufficientAmountException message, RedirectAttributes redirectAttributes) {
+    public String insufficientAmountException(InsufficientAmountException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
@@ -46,5 +44,11 @@ public class GlobalControllerAdvice {
         return "redirect:/wallets/{id}";
     }
 
+    @ExceptionHandler(WalletAmountMustBeZero.class)
+    public String walletAmountMustBeZero(WalletAmountMustBeZero message, RedirectAttributes redirectAttributes) {
 
+        redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
+
+        return "redirect:/wallets/{id}";
+    }
 }

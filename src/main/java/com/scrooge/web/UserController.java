@@ -46,7 +46,7 @@ public class UserController {
 
         return modelAndView;
     }
-    @PostMapping("/{id}/account-settings")
+    @PutMapping("/{id}/account-settings")
     public ModelAndView updateUser(@PathVariable UUID id, @Valid UserUpdateRequest userUpdateRequest, BindingResult bindingResult) {
 
         User updatedUser = userService.update(id, userUpdateRequest);
