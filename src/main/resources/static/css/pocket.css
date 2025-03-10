@@ -1,0 +1,213 @@
+.navigation-panel {
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    width: 270px;
+    height: calc(100vh - 40px);
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: #47047c;
+}
+
+.navigation-panel ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.navigation-panel li {
+    margin-bottom: 15px;
+}
+
+.button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #9559c7;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #7a5cc9;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Logout Button */
+.logout-button {
+    margin-top: 100px;
+}
+
+.button.button.logout {
+    background-color: rgba(231, 8, 8, 0.6);
+    color: white;
+}
+
+.logout {
+    background-color: rgba(231, 8, 8, 0.6);
+    color: white;
+}
+
+.button.button.logout:hover {
+    background-color: #330202;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Wallet Content */
+#pocket-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 300px;
+    margin-top: 40px;
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Wallet Section */
+.pocket {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.pocket-name {
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
+.pocket h2 {
+    font-size: xxx-large;
+    margin-bottom: 20px;
+}
+
+
+
+.currency {
+    font-size: small;
+}
+
+/* Wallet Transactions */
+.pocket .transactions {
+    margin-top: 50px;
+    overflow-x: auto;
+}
+
+.pocket-transactions {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pocket-transactions th,
+.pocket-transactions td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Wallet Form */
+.pocket form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.balance-info {
+    display: flex;
+    justify-content: center;  /* Centers horizontally */
+    align-items: center;      /* Centers vertically */
+    margin-bottom: 20px;
+}
+
+.balance {
+    font-size: xxx-large;
+}
+
+.button {
+    margin-top: 20px;
+}
+
+.pocket form input {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.pocket form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #9559c7;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.pocket form button:hover {
+    background-color: #7a5cc9;
+    transform: scale(1.1);
+}
+
+/* Error Messages */
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navigation-panel {
+        width: 200px;
+    }
+
+    #pocket-content {
+        margin-left: 220px;
+    }
+
+    .pocket {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-panel {
+        width: 100px;
+    }
+
+    #pocket-content {
+        margin-left: 120px;
+        padding: 10px;
+    }
+
+    .pocket {
+        padding: 10px;
+    }
+}

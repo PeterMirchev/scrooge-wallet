@@ -1,5 +1,6 @@
 package com.scrooge.web;
 
+import com.scrooge.model.Pocket;
 import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.PocketService;
@@ -7,14 +8,15 @@ import com.scrooge.service.UserService;
 import com.scrooge.service.WalletService;
 import com.scrooge.web.dto.PocketCreateRequest;
 import jakarta.validation.Valid;
+import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/pockets")
@@ -70,4 +72,15 @@ public class PocketController {
         return modelAndView;
     }
 
+    @GetMapping("/{id}")
+    public String getPocketPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple, @PathVariable(name = "id") UUID id, Model model) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+        Pocket pocket = pocketService.getPocketById(id);
+        model.addAttribute("pocket", pocket);
+        model.addAttribute("user", user);
+
+        return "pocket";
+    }
 }
