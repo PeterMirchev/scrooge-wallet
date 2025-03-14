@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Not Found</title>
+    <link rel="stylesheet" href="/css/not-found.css" >
+</head>
+<body>
+
+<div class="main-error">
+
+    <span>Resource Not Found Exception, please go back.</span>
+    <div th:if="${errorMessage}" class="error">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <a class="home" th:href="@{/home}">Home</a>
+
+</div>
+
+</body>
+</html>

@@ -8,17 +8,20 @@
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
     <ul>
         <li><a th:href="@{/home}" class="button">Dashboard</a></li>
         <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
         <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-        <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-        <!-- Logout Button -->
+
+        <li th:if="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>

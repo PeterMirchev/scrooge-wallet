@@ -8,12 +8,12 @@
 </head>
 <body>
 <div class="register-container">
-  <h2>Register</h2>
+  <h2>Register </h2>
   <form th:action="@{/register}" th:method="post" th:object="${userCreateRequest}">
     <label for="email">Email:</label>
     <input th:field="*{email}" type="email" id="email" name="email" required>
     <div th:if="${#fields.hasErrors('email')}" class="error">
-      <p th:errors="*{email}"></p>
+      <p th:text="${emailAlreadyExistException}" th:errors="*{email}" ></p>
     </div>
 
     <label for="password">Password:</label>
@@ -24,18 +24,20 @@
 
     <label for="confirmPassword">Confirm Password:</label>
     <input th:field="*{confirmPassword}" type="password" id="confirmPassword" name="confirmPassword" required>
-    <div th:if="${#fields.hasErrors('password')}" class="error">
+    <div th:if="${#fields.hasErrors('confirmPassword') || #fields.hasErrors('matchingPasswords')}" class="error">
       <p th:errors="*{confirmPassword}"></p>
-      <p th:errors="*{matchingPasswords}"></p>
+      <p th:if="${#fields.hasErrors('matchingPasswords')}" th:text="'Passwords do not match.'"></p>
     </div>
 
     <button type="submit">Register</button>
 
-    <!-- Error Message -->
-    <div th:if="${errorMessage}" class="error">
-      <p th:text="${errorMessage}"></p>
-    </div>
   </form>
+  <div th:if="${emailAlreadyExistException}" class="error">
+    <p th:text="${emailAlreadyExistException}"></p>
+  </div>
+  <div th:if="${notificationException}" class="error">
+    <p th:text="${notificationException}"></p>
+  </div>
 </div>
 </body>
 </html>

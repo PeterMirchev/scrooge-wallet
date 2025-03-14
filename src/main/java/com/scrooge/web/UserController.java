@@ -6,12 +6,14 @@ import com.scrooge.service.UserService;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,8 +26,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}")
-    public ModelAndView getUser(@AuthenticationPrincipal CurrentPrinciple currentPrinciple, UUID userId) {
+    @GetMapping("/profile")
+    public ModelAndView getUser(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
         ModelAndView modelAndView = new ModelAndView();
@@ -35,6 +37,37 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    public ModelAndView getAllUsers(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        List<User> users = userService.getAllUsers();
+
+        User admin = userService.getUserById(currentPrinciple.getId());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users");
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("admin", admin);
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/status")
+    public String switchUserStatus(@PathVariable UUID id) {
+
+        userService.switchStatus(id);
+
+        return "redirect:/users";
+    }
+
+    @PutMapping("/{id}/role")
+    public String switchUserRole(@PathVariable UUID id) {
+
+        userService.switchRole(id);
+
+        return "redirect:/users";
+    }
     @GetMapping("/account-settings")
     public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
@@ -49,8 +82,6 @@ public class UserController {
     @PutMapping("/{id}/account-settings")
     public ModelAndView updateUser(@PathVariable UUID id, @Valid UserUpdateRequest userUpdateRequest, BindingResult bindingResult) {
 
-        User updatedUser = userService.update(id, userUpdateRequest);
-
         if(bindingResult.hasErrors()) {
             User user = userService.getUserById(id);
             ModelAndView modelAndView = new ModelAndView();
@@ -60,7 +91,6 @@ public class UserController {
         }
 
         userService.update(id, userUpdateRequest);
-
 
         return new ModelAndView("redirect:/home");
     }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallets</title>
+    <link rel="stylesheet" href="/css/users.css">
+</head>
+<body>
+
+<aside class="navigation-panel">
+    <ul>
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+
+        <li th:if="${user == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
+        <li class="logout-button">
+            <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </li>
+    </ul>
+</aside>
+
+<main id="users-content" class="users">
+
+    <span >All Scrooge Wallet Users</span>
+
+    <div class="users">
+
+
+        <div class="users-table">
+            <table class="users-table">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Country</th>
+                    <th>Account Status</th>
+                    <th>Role</th>
+                    <th>Switch Role</th>
+                    <th>Enable-Disable</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.phoneNumber}"></td>
+                    <td th:text="${user.country}"></td>
+                    <td th:switch="${user.active}">
+                        <span th:case="true">ACTIVE</span>
+                        <span th:case="false">INACTIVE</span>
+                    </td>
+                    <td th:text="${user.role}"></td>
+                    <td>
+                        <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
+                            <input type="hidden" name="_method" value="put"/>
+                            <button type="submit" class="button"  th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Remove Admin' : 'Set Admin'}">Switch Role</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{'/users/' + ${user.id} + '/status'}" th:method="PUT">
+                            <input type="hidden" name="_method" value="put"/>
+                            <button type="submit" class="button"  th:text="${user.active ? 'Disable User' : 'Enable User'}">Enable - Disable</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<div th:if="${errorMessage}" class="error">
+    <p th:text="${errorMessage}"></p>
+</div>
+</body>
+</html>

@@ -2,10 +2,12 @@ package com.scrooge.service;
 
 import com.scrooge.config.client.EmailNotification;
 import com.scrooge.exception.EmailAlreadyExistException;
-import com.scrooge.exception.ResourceAlreadyExistException;
+import com.scrooge.exception.NotificationException;
 import com.scrooge.exception.ResourceNotFoundException;
+import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.NotificationType;
+import com.scrooge.model.enums.Role;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
 import com.scrooge.web.dto.NotificationRequest;
@@ -13,12 +15,15 @@ import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
+import feign.RetryableException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +49,11 @@ public class UserService implements UserDetailsService {
         this.emailNotification = emailNotification;
     }
 
+    public Optional<User> getRootAdmin(String email) {
+
+        return userRepository.findByEmail(email);
+    }
+
     public User getUserByEmail(String email) {
 
         return userRepository.findByEmail(email)
@@ -66,22 +76,16 @@ public class UserService implements UserDetailsService {
         String logMessage = String.format("User with email %s created.", request.getEmail());
         auditLogService.log("USER_CREATED", logMessage, persistedUser);
 
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .userId(persistedUser.getId())
-                .subject(REGISTRATION_MESSAGE)
-                .body(WELCOME_MESSAGE.formatted(user.getFirstName()))
-                .email(persistedUser.getEmail())
-                .type(NotificationType.NOTIFICATION)
-                .build();
+        NotificationRequest notificationRequest = mapNotificationRequest(user, persistedUser);
 
-        NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = NotificationPreferenceCreateRequest
-                .builder()
-                .userId(user.getId())
-                .enableNotification(true)
-                .email(user.getEmail())
-                .build();
+        NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(user);
+
         emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
-        emailNotification.sendNotification(notificationRequest);
+        try {
+            emailNotification.sendNotification(notificationRequest);
+        } catch (RetryableException e) {
+            throw new NotificationException(e.getClass().getSimpleName());
+        }
     }
 
     public User getUserById(UUID userId) {
@@ -127,5 +131,60 @@ public class UserService implements UserDetailsService {
         User user = getUserByEmail(email);
 
         return new CurrentPrinciple(user.getId(), email, user.getPassword(), user.getRole());
+    }
+
+    public void switchStatus(UUID userId) {
+
+        User user = getUserById(userId);
+
+        user.setActive(!user.isActive());
+
+        userRepository.save(user);
+
+        String message = "Your account has been deactivated by admin user.";
+        auditLogService.log("ACCOUNT_DEACTIVATION", message, user);
+    }
+
+    public void switchRole(UUID userId) {
+
+        User user = getUserById(userId);
+
+        if (user.getRole() == Role.USER) {
+            user.setRole(Role.ADMINISTRATOR);
+        } else {
+            user.setRole(Role.USER);
+        }
+
+        userRepository.save(user);
+        String message = "Your account role has been set to %s by admin user.".formatted(user.getRole());
+        auditLogService.log("ROLE_MODIFICATION", message, user);
+    }
+
+    protected static NotificationPreferenceCreateRequest mapNotificationPreferenceCreateRequest(User user) {
+
+        return NotificationPreferenceCreateRequest
+                .builder()
+                .userId(user.getId())
+                .enableNotification(true)
+                .email(user.getEmail())
+                .build();
+    }
+
+    protected static NotificationRequest mapNotificationRequest(User user, User persistedUser) {
+
+        return NotificationRequest.builder()
+                .userId(persistedUser.getId())
+                .subject(REGISTRATION_MESSAGE)
+                .body(WELCOME_MESSAGE.formatted(user.getFirstName()))
+                .email(persistedUser.getEmail())
+                .type(NotificationType.NOTIFICATION)
+                .build();
+    }
+
+    public void removeAuditLogFromUser(AuditLog log) {
+
+        User user = log.getUser();
+        user.getAuditLog().remove(log);
+        userRepository.save(user);
     }
 }

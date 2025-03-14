@@ -4,20 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="/css/header.css"> <!-- Correct path for header styles -->
-  <link rel="stylesheet" href="/css/login-form.css"> <!-- Correct path for login page styles -->
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/login-form.css">
 </head>
 <body>
 
 <div class="login-container">
   <h2>Login</h2>
+
   <form th:action="@{/login}" th:method="post" th:object="${requestLogin}">
     <label for="email">Email:</label>
     <input th:field="*{email}" type="email" id="email" name="email" required>
     <p th:errors="*{email}"></p>
+
     <label for="password">Password:</label>
     <input th:field="*{password}" type="password" id="password" name="password" required>
     <p th:errors="*{password}"></p>
+
+    <div th:if="${param.error}" class="error">
+      <p >Invalid username or password.</p>
+    </div>
+
     <button type="submit">Login</button>
   </form>
 </div>

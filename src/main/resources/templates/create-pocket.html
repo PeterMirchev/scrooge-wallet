@@ -4,22 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Wallet</title>
-  <!-- Link to the home.css file -->
   <link rel="stylesheet" href="/css/create-pocket.css">
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
   <ul>
     <li><a th:href="@{/home}" class="button">Dashboard</a></li>
     <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
     <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+    <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-    <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
     <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-    <!-- Logout Button -->
+
     <li class="logout-button">
       <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
         <button type="submit" class="button logout">Logout</button>
@@ -28,13 +26,11 @@
   </ul>
 </aside>
 
-<!-- Create Wallet Content (Right Side) -->
 <main class="pocket-info">
   <h2>Create New Pocket</h2>
 
-  <!-- Create Wallet Form -->
   <form th:action="@{'/pockets'}" th:method="POST" th:object="${pocketCreateRequest}" class="pocket-form">
-    <!-- Pocket Name Field -->
+
     <div class="form-group">
       <label for="name">Pocket Name:</label>
       <input type="text" id="name" name="name" th:value="${pocketCreateRequest.name}" required class="form-control">
@@ -43,7 +39,6 @@
       </div>
     </div>
 
-    <!-- Goal Description Field -->
     <div class="form-group">
       <label for="goalDescription">Goal Description:</label>
       <input type="text" id="goalDescription" name="goalDescription" th:value="${pocketCreateRequest.goalDescription}" required class="form-control">
@@ -52,7 +47,6 @@
       </div>
     </div>
 
-    <!-- Target Amount Field -->
     <div class="form-group">
       <label for="targetAmount">Target Amount:</label>
       <input type="number" id="targetAmount" name="targetAmount" th:value="${pocketCreateRequest.targetAmount}" required class="form-control" step="0.01">
@@ -66,19 +60,15 @@
       <select id="currency" name="currency" required class="form-control">
         <option value="USD" th:selected="${pocketCreateRequest.currency == 'USD'}">USD</option>
         <option value="EUR" th:selected="${pocketCreateRequest.currency == 'EUR'}">EUR</option>
-        <!-- More currencies can be added here -->
+        <option value="BGN" th:selected="${pocketCreateRequest.currency == 'BGN'}">BGN</option>
       </select>
       <div th:if="${#fields.hasErrors('currency')}" class="error">
         <p th:errors="*{currency}">Please select a currency</p>
       </div>
     </div>
 
-
-
-    <!-- Submit Button -->
     <button type="submit" class="button">Create Pocket</button>
 
-    <!-- Error Message -->
     <div th:if="${errorMessage}" class="error">
       <p th:text="${errorMessage}"></p>
     </div>

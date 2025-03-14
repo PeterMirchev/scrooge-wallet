@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
-			<version>4.2.0</version> <!-- Compatible version for Spring Boot 3.2.x -->
+			<version>4.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.openfeign</groupId>

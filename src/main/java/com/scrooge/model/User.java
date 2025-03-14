@@ -21,15 +21,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private String firstName;
+
     private String lastName;
+
     @Column(unique = true, nullable = false)
     private String email;
+
     private String phoneNumber;
+
     @Column(nullable = false)
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Country country;
+
+    private boolean active;
 
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;

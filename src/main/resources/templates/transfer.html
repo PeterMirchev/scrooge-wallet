@@ -8,18 +8,16 @@
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
     <ul>
         <li><a th:href="@{/home}" class="button">Dashboard</a></li>
         <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
         <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-        <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-        <!-- Logout Button -->
-        <!-- Logout Button -->
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>
@@ -28,6 +26,83 @@
 
     </ul>
 </aside>
+
+<div class="send-containers">
+
+    <div class="send-money-by-email">
+
+        <div class="send-money-message">
+            <p>
+                <span class="send-money-message"> </span>
+                <span class="send-money-message" > Send Money via email</span>
+            </p>
+        </div>
+
+        <form id="withdrawal-form" th:action="@{/wallets/transfer}" th:method="put">
+            <label for="amount-to-send">Amount to Send</label>
+            <input type="number" id="amount-to-send" name="amount" placeholder="Enter amount" required>
+
+            <label for="walletId">Send from Wallet</label>
+            <select id="walletId" name="walletId" required>
+                <option value="" disabled selected>Select Wallet to send from</option>
+                <option th:each="wallet : ${user.wallets}"
+                        th:value="${wallet.id}"
+                        th:text="${wallet.name}">Wallet</option>
+            </select>
+
+            <label for="receiver-email">Receiver Email</label>
+            <input type="text" id="receiver-email" name="receiverEmail" placeholder="Enter Receiver Email" required>
+
+            <button type="submit" class="button">Send Money</button>
+
+        </form>
+        <div th:if="${errorMessage}" class="error">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+    </div>
+
+    <div class="send-money-to-pocket">
+
+        <div class="send-money-to-pocket-message">
+            <p>
+                <span class="send-money-to-pocket-message"> </span>
+                <span class="send-money-to-pocket-message" > Send Money to pocket</span>
+            </p>
+        </div>
+
+        <form id="send-money-to-pocket-form" th:action="@{/wallets/transfer/pocket}" th:method="put">
+            <label for="amount-to-send">Amount to Send</label>
+            <input type="number" id="amount-to-pocket-send" name="amount" placeholder="Enter amount" required>
+
+            <label for="wallet">Send from Wallet</label>
+            <select id="wallet" name="walletId" required>
+                <option value="" disabled selected>Select Wallet to send from</option>
+                <option th:each="wallet : ${user.wallets}"
+                        th:value="${wallet.id}"
+                        th:text="${wallet.name}">Wallet</option>
+            </select>
+
+            <label for="pocketId">Receiver Email</label>
+            <select id="pocketId" name="pocketId" required>
+                <option value="" disabled selected>Select Select pocket to send</option>
+                <option th:each="pocket : ${user.pockets}"
+                        th:value="${pocket.id}"
+                        th:text="${pocket.name}">Wallet</option>
+            </select>
+
+            <button type="submit" class="button">Send Money</button>
+            <div th:if="${errorMessage}" class="error">
+                <p th:text="${errorMessage}"></p>
+            </div>
+        </form>
+        <div th:if="${errorMessage}" class="error">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

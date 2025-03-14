@@ -157,4 +157,51 @@ public class WalletController {
         return "redirect:/wallets";
     }
 
+    @GetMapping("/transfer")
+    public ModelAndView getTransferPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("transfer");
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @PutMapping("/transfer")
+    public String transferMoneyByEmail(@AuthenticationPrincipal CurrentPrinciple currentPrinciple,
+                                        @RequestParam BigDecimal amount,
+                                        @RequestParam UUID walletId,
+                                        @RequestParam String receiverEmail,
+                                        Model model) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+
+        model.addAttribute("user", user);
+
+        walletService.transferMoneyByEmail(walletId, amount, user, receiverEmail);
+
+        return "redirect:/wallets/transfer";
+    }
+
+    @PutMapping("/transfer/pocket")
+    public String transferMoneyToPocket(@AuthenticationPrincipal CurrentPrinciple currentPrinciple,
+                                       @RequestParam BigDecimal amount,
+                                       @RequestParam UUID walletId,
+                                       @RequestParam UUID pocketId,
+                                       Model model) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+        model.addAttribute("user", user);
+
+        System.out.println();
+
+        walletService.transferMoneyToPocket(walletId, amount, user, pocketId);
+
+        return "redirect:/wallets/transfer";
+
+    }
+
 }

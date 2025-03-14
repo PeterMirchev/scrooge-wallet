@@ -4,22 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wallets</title>
-  <!-- Link to the home.css file in the static directory -->
   <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
   <ul>
     <li><a th:href="@{/home}" class="button">Dashboard</a></li>
     <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
     <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+    <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-    <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
     <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-    <!-- Logout Button -->
+
     <li class="logout-button">
       <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
         <button type="submit" class="button logout">Logout</button>
@@ -28,14 +26,11 @@
   </ul>
 </aside>
 
-<!-- Wallets Content (Right Side) -->
 <main id="wallets-content" class="user-info">
   <h2>Your Wallets</h2>
 
-  <!-- Create New Wallet Link -->
   <a th:href="@{/wallets/new-wallet}" class="button">Create New Wallet</a>
 
-  <!-- Wallets Table -->
   <div class="transactions">
     <table class="audit-log-table">
       <thead>
@@ -47,7 +42,7 @@
       </tr>
       </thead>
       <tbody>
-      <!-- Loop through wallets and display them -->
+
       <tr th:each="wallet : ${wallets}">
         <td th:text="${wallet.name}"></td>
         <td th:text="${wallet.balance}"></td>

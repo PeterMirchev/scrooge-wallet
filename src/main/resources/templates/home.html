@@ -8,18 +8,20 @@
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
 <aside class="navigation-panel">
   <ul>
     <li><a th:href="@{/home}" class="button">Dashboard</a></li>
     <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
     <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+    <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-    <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
     <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
     <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-    <!-- Logout Button -->
-    <!-- Logout Button -->
+
+    <li th:if="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
+      <a th:href="@{/users}" class="button">All Users</a>
+    </li>
+
     <li class="logout-button">
       <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
         <button type="submit" class="button logout">Logout</button>
@@ -29,34 +31,29 @@
   </ul>
 </aside>
 
-<!-- User Information (Right Side) -->
 <main class="user-info">
   <div class="user-details">
     <h2>User Information</h2>
 
-    <!-- Avatar Above First Name -->
     <div class="avatar-container">
       <img src="/images/user.png" alt="User Avatar" class="avatar">
     </div>
 
-    <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
-    <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+    <p><strong>First Name:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'Set first name' : user.firstName}"></span></p>
+    <p><strong>Last Name:</strong> <span th:text="${#strings.isEmpty(user.lastName) ? 'set last name' : user.lastName}"></span></p>
     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-    <p><strong>Phone Number:</strong> <span th:text="${user.phoneNumber}"></span></p>
-    <p><strong>Country:</strong> <span th:text="${user.country}"></span></p>
-<!--    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>-->
+    <p><strong>Phone Number:</strong> <span th:text="${#strings.isEmpty(user.phoneNumber) ? 'set phon number' : user.phoneNumber}"></span></p>
+    <p><strong>Country:</strong> <span th:text="${#strings.isEmpty(user.country) ? 'set your country' : user.country}"></span></p>
     <p><strong>Created On:</strong> <span th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy')}"></span></p>
     <p><strong>Updated On:</strong> <span th:text="${#temporals.format(user.updatedOn, 'dd MMM yyyy')}"></span></p>
   </div>
 
-  <!-- Transactions (Audit Logs Table) -->
   <div class="transactions">
-    <!-- Display a message if there are no audit logs -->
+
     <div th:if="${#lists.isEmpty(user.auditLog)}">
       <p>No audit logs available.</p>
     </div>
 
-    <!-- Render the table if audit logs exist -->
     <table class="audit-log-table" th:unless="${#lists.isEmpty(user.auditLog)}">
       <thead>
       <tr>

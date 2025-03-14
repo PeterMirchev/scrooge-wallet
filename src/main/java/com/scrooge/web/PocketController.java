@@ -83,4 +83,12 @@ public class PocketController {
 
         return "pocket";
     }
+
+    @PutMapping("/{id}/withdrawal")
+    public String withdrawMoneyFromPocket(@PathVariable(name = "id") UUID id, @AuthenticationPrincipal CurrentPrinciple currentPrinciple, @RequestParam UUID walletId) {
+
+        walletService.depositFromPocket(walletId, id, currentPrinciple.getId());
+
+        return "redirect:/pockets";
+    }
 }

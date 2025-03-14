@@ -8,18 +8,17 @@
 </head>
 <body>
 
-<!-- Navigation Panel (Left Side) -->
+
 <aside class="navigation-panel">
     <ul>
         <li><a th:href="@{/home}" class="button">Dashboard</a></li>
         <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
         <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-        <li><a th:href="@{/transfer}" class="button">Transfer</a></li>
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
-        <!-- Logout Button -->
-        <!-- Logout Button -->
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>
@@ -30,10 +29,8 @@
 </aside>
 
 <main id="audit-logs-content" class="user-info">
-    <h2>Your Wallets</h2>
+    <h2>Your Audit Logs</h2>
 
-
-    <!-- Wallets Table -->
     <div class="audit-logs">
         <table class="audit-log-table">
             <thead>
@@ -45,11 +42,10 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Loop through wallets and display them -->
             <tr th:each="log : ${user.auditLog}">
                 <td th:text="${log.message}"></td>
                 <td th:text="${log.action}"></td>
-                <td th:text="${log.user}"></td>
+                <td th:text="${log.user.firstName} + ' ' + ${log.user.getLastName()} + ' ' + ${log.user.getEmail()}"></td>
                 <td th:text="${#temporals.format(log.createdOn, 'yyyy-MMM-dd HH:mm')}"></td>
             </tr>
             </tbody>

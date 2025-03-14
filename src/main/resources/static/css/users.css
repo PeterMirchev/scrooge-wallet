@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     box-shadow: #47047c;
+    font-family: Arial, sans-serif;
 }
 
 .navigation-panel ul {
@@ -65,52 +66,107 @@
     transition: transform 0.3s ease;
 }
 
+
+#users-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 300px;
+    margin-top: 40px;
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
 }
 
-.send-money-by-email {
-    margin-left: 318px;
-    margin-top: 50px;
-
-}
-
-.send-money-message {
-    font-size: x-large;
-}
-
-.send-money-by-email {
-    display: flex;
-    flex-direction: column;
-/*    align-items: center;*/
-    justify-content: flex-start;
-    margin-left: 300px;
+.pockets-info {
+    margin-left: 300px; /* Aligning with the navigation panel */
     margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
     padding: 20px;
-    width: 100%;
-    max-width: 1200px;
+    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
 }
 
-.send-money-to-pocket {
-    display: flex;
-    flex-direction: column;
-    /*    align-items: center;*/
-    justify-content: flex-start;
-    margin-left: 300px;
-    margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    padding: 20px;
+h2 {
+    color: #9559c7; /* Title color */
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Pockets Table Styling */
+.users-table {
     width: 100%;
-    max-width: 1200px;
-    border-radius: 10px;
+    border-collapse: collapse;
+    margin-top: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.send-money-to-pocket-message {
-    font-size: x-large;
+.users-table th, .users-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.users-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.users-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.users-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.users-table td {
+    font-size: 14px;
+}
+
+.users-table .message {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navigation-panel {
+        width: 200px;
+    }
+
+    .users-info {
+        margin-left: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-panel {
+        width: 100px;
+    }
+
+    .users-info {
+        margin-left: 120px;
+        padding: 10px;
+    }
+
+    .users-table {
+        font-size: 14px;
+    }
 }

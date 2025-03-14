@@ -2,6 +2,7 @@ package com.scrooge.web.mapper;
 
 import com.scrooge.model.User;
 import com.scrooge.model.enums.Country;
+import com.scrooge.model.enums.Role;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
 
@@ -15,6 +16,8 @@ public class UserMapper {
         return User.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .role(Role.USER)
+                .active(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
