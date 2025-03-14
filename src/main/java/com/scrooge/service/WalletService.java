@@ -244,7 +244,7 @@ public class WalletService {
 
         user.getWallets().removeIf(wallet -> wallet.getId().equals(walletId));
 
-        if (currentWallet.isMainWallet() && user.getWallets().size() > 1) {
+        if (currentWallet.isMainWallet() && user.getWallets().size() >= 1) {
 
             Wallet newMainWallet = user.getWallets()
                     .stream()
