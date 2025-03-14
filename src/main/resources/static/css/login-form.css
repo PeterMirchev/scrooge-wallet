@@ -2,23 +2,23 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #9559c7, #7a5cc9, #b93fa1); /* Gradient background for the full page */
-    color: white; /* Ensuring text color is white */
+    background: linear-gradient(135deg, #9559c7, #7a5cc9, #b93fa1);
+    color: white;
     font-family: Arial, sans-serif;
 }
 
 h2 {
-    color: purple; /* Purple text for heading inside the login container */
+    color: purple;
 }
 
 form {
-    color: purple; /* Purple text for form labels */
+    color: purple;
 }
 
 input, button {
-    background-color: white;  /* Light blue background for input fields */
-    color: black; /* Purple text for input fields */
-    border: none; /* Purple border for input fields */
+    background-color: white;
+    color: black;
+    border: none;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
@@ -26,21 +26,21 @@ input, button {
 
 input:focus, button:focus {
     outline: none;
-    border: 2px solid #7a5cc9; /* Blue border on focus */
+    border: 2px solid #7a5cc9;
 }
-
 
 .login-container {
     width: 300px;
-    margin: 50px auto; /* Adds space at the top of the page (50px or adjust to your preference) */
+    margin: 50px auto;
     padding: 20px;
-    background: rgba(173, 216, 230, 0.9); /* Light blue background for the login container */
+    background: rgba(173, 216, 230, 0.9);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds shadow around the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
+
 .login-container button {
-    background-color: #9559c7;  /* Green button for register */
+    background-color: #9559c7;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -52,8 +52,9 @@ input:focus, button:focus {
 }
 
 .login-container button:hover {
-    background-color: #5d08a2; /* Darker green when hovered */
+    background-color: #5d08a2;
 }
+
 .login-container h2 {
     margin-bottom: 20px;
 }

@@ -1,29 +1,29 @@
-/* logo.css */
+
 .logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    margin: 0; /* No margins */
-    overflow: hidden; /* Prevent image overflow */
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
     background-color: #07abde;
 }
 
 .logo-big {
-    width: 100%; /* Full width of the screen */
-    height: 100%; /* Full height of the screen */
+    width: 100%;
+    height: 100%;
 }
 
 .logo-big img {
-    width: 100%; /* Image takes full width */
-    height: 100%; /* Image takes full height */
-    object-fit: contain; /* Ensures the image fits within the screen without zooming in */
-    object-position: center; /* Keeps the image centered */
-    border-radius: 0; /* Optional, remove border radius */
-    box-shadow: none; /* Optional, remove any shadow */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .logo-big img:hover {
-    transform: scale(0.98); /* Zoom-out effect, reduce zooming */
-    transition: transform 0.3s ease; /* Smooth transition */
+    transform: scale(0.98);
+    transition: transform 0.3s ease;
 }

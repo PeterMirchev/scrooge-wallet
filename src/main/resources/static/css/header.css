@@ -1,24 +1,24 @@
-/* header.css */
+
 .header {
     border-image: fill;
     background-color: #07abde;
     padding: 10px 0;
-    width: 100%; /* Ensure the header spans the full width */
+    width: 100%;
 }
 
 .header-inner {
-    max-width: 700px; /* Maintain max width */
+    max-width: 700px;
     margin: 0 auto;
     display: flex;
-    justify-content: center; /* Center the buttons horizontally */
+    justify-content: center;
     align-items: center;
-    width: 100%; /* Ensure the container spans the full width */
-    padding: 0; /* Remove the previous padding, we're using flexbox */
+    width: 100%;
+    padding: 0;
 }
 
 .nav {
     display: flex;
-    gap: 15px; /* Space between buttons */
+    gap: 15px;
 }
 
 .button {
@@ -38,8 +38,8 @@
 
 .button.login:hover {
     background-color: #9559c7;
-    transform: scale(1.1); /* Zoom-out effect, reduce zooming */
-    transition: transform 0.3s ease; /* Smooth transition */
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 .button.register {
@@ -49,6 +49,6 @@
 
 .button.register:hover {
     background-color: #9559c7;
-    transform: scale(1.1); /* Zoom-out effect, reduce zooming */
-    transition: transform 0.3s ease; /* Smooth transition */
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }

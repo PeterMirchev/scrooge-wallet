@@ -7,7 +7,6 @@ body {
     height: 100vh;
 }
 
-/* Sidebar Navigation */
 .navigation-panel {
     position: fixed;
     top: 40px;
@@ -54,7 +53,6 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Logout Button */
 .logout-button {
     margin-top: 100px;
 }
@@ -70,10 +68,9 @@ body {
     transition: transform 0.3s ease;
 }
 
-/* Wallets Content */
 .pocket-info {
-    margin-left: 300px; /* Align with sidebar */
-    width: calc(100% - 300px); /* Remaining space for content */
+    margin-left: 300px;
+    width: calc(100% - 300px);
     padding: 20px;
     box-sizing: border-box;
     background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
@@ -82,24 +79,21 @@ body {
     margin-top: 30px;
 }
 
-/* Wallet Form */
 .pocket-form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 800px; /* Limit form width */
-    margin: 0 auto; /* Center the form */
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-/* Form Group */
 .form-group {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align labels to the left */
+    align-items: flex-start;
 }
 
-/* Label styling */
 .form-group label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -107,7 +101,6 @@ body {
     text-align: left;
 }
 
-/* Input fields */
 .form-control {
     padding: 10px;
     font-size: 14px;
@@ -117,7 +110,6 @@ body {
     width: 100%;
 }
 
-/* Select field for Currency */
 select.form-control {
     padding: 10px;
     font-size: 14px;
@@ -126,7 +118,6 @@ select.form-control {
     width: 100%;
 }
 
-/* Submit Button */
 button.button {
     background-color: #9559c7;
     color: white;
@@ -139,18 +130,17 @@ button.button {
     display: inline-block;
     margin-top: 10px;
     width: 100%;
-    max-width: 400px; /* Limit button width */
+    max-width: 400px;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Button hover effect */
 button.button:hover {
     background-color: #7a5cc9;
     transform: scale(1.1);
     transition: transform 0.3s ease;
 }
-/* Error message styling */
+
 .error p {
     color: red;
     font-size: 14px;

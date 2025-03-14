@@ -44,7 +44,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Logout Button */
 .logout-button{
     margin-top: 100px;
 }
@@ -65,13 +64,10 @@
     transition: transform 0.3s ease;
 }
 
-
-
 body {
     font-family: Arial, sans-serif;
 }
 
-/* Wallet Content */
 #wallet-content {
     display: flex;
     flex-direction: column;
@@ -88,7 +84,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Wallet Section */
 .wallet {
     width: 100%;
     max-width: 1200px;
@@ -108,8 +103,8 @@ body {
 
 .balance-info {
     display: flex;
-    justify-content: center;  /* Centers horizontally */
-    align-items: center;      /* Centers vertically */
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -119,8 +114,8 @@ body {
 
 .action-buttons {
     display: flex;
-    gap: 200px; /* Adjust the spacing for the buttons */
-    width: 100%; /* Allow buttons to align at the right end */
+    gap: 200px;
+    width: 100%;
 }
 
 .balance-text {
@@ -131,7 +126,6 @@ body {
     font-size: small;
 }
 
-/* Wallet Transactions */
 .wallet .transactions {
     margin-top: 50px;
     overflow-x: auto;
@@ -149,7 +143,6 @@ body {
     border: 1px solid #ddd;
 }
 
-/* Wallet Form */
 .wallet form {
     margin-bottom: 20px;
     display: flex;
@@ -186,7 +179,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Error Messages */
 .error {
     color: red;
     font-size: 14px;
@@ -202,9 +194,9 @@ body {
 
     #wallet-content {
         display: flex;
-        flex-direction: column; /* Keep the direction column for other content */
-        align-items: flex-start; /* Align items to start */
-        width: 100%; /* Ensure it takes full width */
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
     }
 
     .wallet {

@@ -44,7 +44,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Logout Button */
 .logout-button {
     margin-top: 100px;
 }
@@ -65,7 +64,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Main Content Styling */
 .main-div {
     margin-left: 300px;
     margin-top: 40px;
@@ -83,7 +81,6 @@
     align-items: center;
 }
 
-/* Form Styling */
 .form {
     display: flex;
     flex-direction: column;
@@ -111,7 +108,6 @@
     font-size: 14px;
 }
 
-/* Save Button */
 .profile-actions-button {
     display: flex;
     align-items: center;
@@ -132,7 +128,6 @@
     transform: scale(1.1);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .navigation-panel {
         width: 200px;

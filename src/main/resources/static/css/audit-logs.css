@@ -44,7 +44,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Logout Button */
 .logout-button {
     margin-top: 100px;
 }
@@ -65,9 +64,8 @@
     transition: transform 0.3s ease;
 }
 
-/* Main Content Styling */
 .user-info {
-    margin-left: 300px; /* Aligning with the navigation panel */
+    margin-left: 300px;
     margin-top: 40px;
     padding: 20px;
     background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
@@ -76,10 +74,9 @@
 }
 
 h2 {
-    color: #9559c7; /* Title color */
+    color: #9559c7;
 }
 
-/* Table Styling */
 .audit-log-table {
     width: 100%;
     border-collapse: collapse;
@@ -94,10 +91,9 @@ h2 {
 }
 
 .audit-log-table th {
-    background-color: #e0c5e2; /* Header background color */
+    background-color: #e0c5e2;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .navigation-panel {
         width: 200px;

@@ -45,7 +45,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Logout Button */
 .logout-button {
     margin-top: 100px;
 }
@@ -65,7 +64,6 @@
     transform: scale(1.1);
     transition: transform 0.3s ease;
 }
-
 
 #users-content {
     display: flex;
@@ -88,7 +86,7 @@ body {
 }
 
 .pockets-info {
-    margin-left: 300px; /* Aligning with the navigation panel */
+    margin-left: 300px;
     margin-top: 40px;
     padding: 20px;
     background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
@@ -97,14 +95,13 @@ body {
 }
 
 h2 {
-    color: #9559c7; /* Title color */
+    color: #9559c7;
 }
 
 body {
     font-family: Arial, sans-serif;
 }
 
-/* Pockets Table Styling */
 .users-table {
     width: 100%;
     border-collapse: collapse;
@@ -144,8 +141,6 @@ body {
     white-space: nowrap;
 }
 
-
-/* Responsive Design */
 @media (max-width: 768px) {
     .navigation-panel {
         width: 200px;
