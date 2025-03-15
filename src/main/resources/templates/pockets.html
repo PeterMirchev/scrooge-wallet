@@ -60,7 +60,7 @@
                 <td th:text="${pocket.currency}"></td>
                 <td th:text="${#temporals.format(pocket.createdOn, 'HH:mm dd MMM YYYY')}"></td>
                 <td th:text="${#temporals.format(pocket.updatedOn, 'HH:mm dd MMM YYYY')}"></td>
-                <td> <a th:href="@{'/pockets/' + ${pocket.id}}" class="button"> View </a> </td>
+                <td> <a th:href="@{'/pockets/' + ${pocket.id}}" class="button" style="text-decoration: none !important;"> View </a> </td>
             </tr>
             </tbody>
         </table>

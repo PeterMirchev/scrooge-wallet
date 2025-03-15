@@ -65,7 +65,7 @@
                     <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
                         <input type="hidden" name="_method" value="put"/>
                         <button type="submit" class="button"
-                                th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Remove' : 'Set Admin'}">
+                                th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Disable Admin' : 'Enable Admin'}">
                             Switch Role
                         </button>
                     </form>
