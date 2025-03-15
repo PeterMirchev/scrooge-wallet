@@ -38,7 +38,7 @@ body {
     display: block;
     padding: 12px;
     border-radius: 6px;
-    background-color: #9559c7;
+    background: linear-gradient(135deg, #7a5cc9, #9559c7);
     color: white;
     font-weight: bold;
     text-decoration: none;
@@ -47,7 +47,7 @@ body {
 }
 
 .button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 

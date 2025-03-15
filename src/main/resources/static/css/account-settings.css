@@ -36,20 +36,37 @@ body {
 }
 
 .button {
-    display: block;
-    padding: 12px;
-    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
-    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.button:hover {
-    background-color: #7a5cc9;
-    transform: scale(1.05);
+button:hover {
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
+}
+
+.logout {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #7a5cc9, #9559c7);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .button.logout {
@@ -61,7 +78,7 @@ body {
     background-color: rgba(130, 111, 203, 0.6);
 }
 
-.main-div {
+.main-div , .notification-div{
     background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
     margin-left: 320px;
     margin-top: 40px;
@@ -71,6 +88,7 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    margin-right: 15%;
 }
 
 .form {
@@ -94,6 +112,18 @@ body {
     width: 100%;
 }
 
+.notification-div {
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
+    margin-left: 320px;
+    margin-top: 40px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
 .alert-warning {
     background: rgba(231, 8, 8, 0.1);
     color: #9b0a0a;
@@ -103,7 +133,7 @@ body {
     margin-top: 10px;
 }
 
-.profile-actions-button {
+.save-button, .notification-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,10 +146,16 @@ body {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    width: 400px;
 }
 
-.profile-actions-button:hover {
-    background-color: #7a5cc9;
+.save-button:hover , .notification-button:hover{
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
+}
+
+.notification-div {
+    display: flex;
 }
 
 @media (max-width: 768px) {

@@ -38,19 +38,35 @@ body {
 }
 
 .button {
-    display: block;
-    padding: 12px;
-    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
-    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     text-align: center;
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #7a5cc9, #9559c7);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 

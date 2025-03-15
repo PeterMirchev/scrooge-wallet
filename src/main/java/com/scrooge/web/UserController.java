@@ -3,7 +3,7 @@ package com.scrooge.web;
 import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
-import com.scrooge.web.dto.UserCreateRequest;
+import com.scrooge.web.dto.NotificationPreferenceResponse;
 import com.scrooge.web.dto.UserUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -72,10 +72,12 @@ public class UserController {
     public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         User user = userService.getUserById(currentPrinciple.getId());
+        NotificationPreferenceResponse notificationPreferenceResponse = userService.getNotificationPreference(currentPrinciple.getId());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("account-settings");
         modelAndView.addObject("user", user);
         modelAndView.addObject("userUpdateRequest", new UserUpdateRequest());
+        modelAndView.addObject("notificationPreference", notificationPreferenceResponse);
 
         return modelAndView;
     }
@@ -91,7 +93,14 @@ public class UserController {
         }
 
         userService.update(id, userUpdateRequest);
-
         return new ModelAndView("redirect:/home");
+    }
+
+    @PutMapping("/{id}/account-settings/preference")
+    public String switchNotificationPreference(@PathVariable(name = "id") UUID uuid, @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        userService.switchNotificationPreference(uuid);
+
+        return "redirect:/users/account-settings";
     }
 }

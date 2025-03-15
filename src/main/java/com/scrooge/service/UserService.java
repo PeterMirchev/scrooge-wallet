@@ -4,17 +4,13 @@ import com.scrooge.config.client.EmailNotification;
 import com.scrooge.exception.EmailAlreadyExistException;
 import com.scrooge.exception.InvalidUserEmailException;
 import com.scrooge.exception.ResourceNotFoundException;
-import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.NotificationType;
 import com.scrooge.model.enums.Role;
 import com.scrooge.security.CurrentPrinciple;
-import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
-import com.scrooge.web.dto.NotificationRequest;
+import com.scrooge.web.dto.*;
 import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
-import com.scrooge.web.dto.UserCreateRequest;
-import com.scrooge.web.dto.UserUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -156,7 +152,7 @@ public class UserService implements UserDetailsService {
         auditLogService.log("ROLE_MODIFICATION", message, user);
     }
 
-    protected static NotificationPreferenceCreateRequest mapNotificationPreferenceCreateRequest(User user) {
+    public static NotificationPreferenceCreateRequest mapNotificationPreferenceCreateRequest(User user) {
 
         return NotificationPreferenceCreateRequest
                 .builder()
@@ -175,5 +171,19 @@ public class UserService implements UserDetailsService {
                 .email(persistedUser.getEmail())
                 .type(NotificationType.NOTIFICATION)
                 .build();
+    }
+
+    public NotificationPreferenceResponse switchNotificationPreference(UUID userId) {
+
+        return emailNotification.switchNotificationPreference(userId);
+    }
+
+    public NotificationPreferenceResponse getNotificationPreference(UUID id) {
+
+        NotificationPreferenceResponse notificationPreference = emailNotification.getNotificationPreference(id);
+
+        System.out.println();
+
+        return notificationPreference;
     }
 }

@@ -11,16 +11,16 @@
 
 <aside class="navigation-panel">
     <ul>
-        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
-        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
-        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
-        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
-        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
-        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+        <li><a th:href="@{/home}" class="button" style="text-decoration: none !important;">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button" style="text-decoration: none !important;">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button" style="text-decoration: none !important;">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button" style="text-decoration: none !important;">Transfer</a></li>
+        <li><a th:href="@{/transactions}" class="button" style="text-decoration: none !important;">Transactions</a></li>
+        <li><a th:href="@{/audit-logs}" class="button" style="text-decoration: none !important;">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button" style="text-decoration: none !important;">Account Settings</a></li>
 
         <li sec:authorize="hasRole('ADMINISTRATOR')">
-            <a th:href="@{/users}" class="button">All Users</a>
+            <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
         </li>
 
         <li class="logout-button">
