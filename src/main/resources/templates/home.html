@@ -33,19 +33,37 @@
 
 <main class="user-info">
   <div class="user-details">
-    <h2>User Information</h2>
 
-    <div class="avatar-container">
-      <img src="/images/user.png" alt="User Avatar" class="avatar">
+    <div class="user-main-info">
+      <h2>User Information</h2>
+
+      <div class="avatar-container">
+        <img src="/images/user.png" alt="User Avatar" class="avatar">
+      </div>
+
+      <p><strong>First Name:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'Set first name' : user.firstName}"></span></p>
+      <p><strong>Last Name:</strong> <span th:text="${#strings.isEmpty(user.lastName) ? 'set last name' : user.lastName}"></span></p>
+      <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+      <p><strong>Phone Number:</strong> <span th:text="${#strings.isEmpty(user.phoneNumber) ? 'set phon number' : user.phoneNumber}"></span></p>
+      <p><strong>Country:</strong> <span th:text="${#strings.isEmpty(user.country) ? 'set your country' : user.country}"></span></p>
+      <p><strong>Created On:</strong> <span th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy')}"></span></p>
+      <p><strong>Updated On:</strong> <span th:text="${#temporals.format(user.updatedOn, 'dd MMM yyyy')}"></span></p>
     </div>
 
-    <p><strong>First Name:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'Set first name' : user.firstName}"></span></p>
-    <p><strong>Last Name:</strong> <span th:text="${#strings.isEmpty(user.lastName) ? 'set last name' : user.lastName}"></span></p>
-    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-    <p><strong>Phone Number:</strong> <span th:text="${#strings.isEmpty(user.phoneNumber) ? 'set phon number' : user.phoneNumber}"></span></p>
-    <p><strong>Country:</strong> <span th:text="${#strings.isEmpty(user.country) ? 'set your country' : user.country}"></span></p>
-    <p><strong>Created On:</strong> <span th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy')}"></span></p>
-    <p><strong>Updated On:</strong> <span th:text="${#temporals.format(user.updatedOn, 'dd MMM yyyy')}"></span></p>
+    <div class="user-assets">
+      <div class="available-wallets">
+        <h3>Your wallets information</h3>
+
+        <p><strong>Wallets count</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No wallets available' : user.wallets.size()}"></span></p>
+
+      </div>
+      <div class="available-pockets">
+        <h3>User pockets information</h3>
+
+        <p><strong>Pockets count:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No pockets available yet' : user.pockets.size()}"></span></p>
+      </div>
+    </div>
+
   </div>
 
   <div class="transactions">

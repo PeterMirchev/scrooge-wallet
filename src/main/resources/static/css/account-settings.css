@@ -1,24 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
+}
+
+
 .navigation-panel {
     position: fixed;
-    top: 40px;
+    top: 20px;
     left: 20px;
     width: 270px;
     height: calc(100vh - 40px);
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    background: linear-gradient(135deg, #431c66, #702963);
     color: white;
     padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: #47047c;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-panel ul {
-    padding: 0;
     list-style: none;
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
 }
 
@@ -27,69 +36,51 @@
 }
 
 .button {
-    padding: 10px 20px;
-    border-radius: 5px;
+    display: block;
+    padding: 12px;
+    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+    transform: scale(1.05);
 }
 
-.logout-button {
-    margin-top: 100px;
+.button.logout {
+    margin-top: 130%;
+    background-color: rgba(56, 36, 133, 0.6);
 }
 
-.button.button.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
-}
-
-.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
-}
-
-.button.button.logout:hover {
-    background-color: #330202;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+.button.logout:hover {
+    background-color: rgba(130, 111, 203, 0.6);
 }
 
 .main-div {
-    margin-left: 300px;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
+    margin-left: 320px;
     margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    height: auto;
-    max-width: 1200px;
-    align-items: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 600px;
 }
 
 .form label {
-    font-weight: bold;
+    font-weight: 500;
     margin-top: 10px;
 }
 
@@ -97,15 +88,19 @@
 .form select {
     padding: 10px;
     margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
     width: 100%;
 }
 
 .alert-warning {
-    color: red;
-    font-size: 14px;
+    background: rgba(231, 8, 8, 0.1);
+    color: #9b0a0a;
+    padding: 10px;
+    border-left: 4px solid #9b0a0a;
+    border-radius: 6px;
+    margin-top: 10px;
 }
 
 .profile-actions-button {
@@ -113,38 +108,41 @@
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 12px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .profile-actions-button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
     .navigation-panel {
-        width: 200px;
+        width: 100%;
+        height: auto;
+        position: relative;
+        text-align: center;
     }
 
     .main-div {
-        margin-left: 220px;
+        margin-left: 0;
+        padding: 20px;
     }
 }
 
 @media (max-width: 480px) {
     .navigation-panel {
-        width: 100px;
+        width: 100%;
     }
 
     .main-div {
-        margin-left: 120px;
+        margin-left: 0;
         padding: 10px;
     }
 
@@ -154,5 +152,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
 }

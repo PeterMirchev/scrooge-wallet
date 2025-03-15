@@ -15,7 +15,7 @@ public class UserCreateRequest {
     @Email
     private String email;
     @NotBlank
-    @Size(min = 6)
+    @Size(min = 6, max = 16, message = "your password must be at least 6 symbols.")
     private String password;
     @NotBlank
     private String confirmPassword;

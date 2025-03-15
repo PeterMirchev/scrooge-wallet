@@ -2,7 +2,7 @@ package com.scrooge.service;
 
 import com.scrooge.config.client.EmailNotification;
 import com.scrooge.exception.EmailAlreadyExistException;
-import com.scrooge.exception.NotificationException;
+import com.scrooge.exception.InvalidUserEmailException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
@@ -15,15 +15,13 @@ import com.scrooge.web.mapper.UserMapper;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
-import feign.RetryableException;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,15 +47,15 @@ public class UserService implements UserDetailsService {
         this.emailNotification = emailNotification;
     }
 
-    public Optional<User> getRootAdmin(String email) {
+    public Optional<User> getRootAdmin() {
 
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail("main.admin@scrooge.com");
     }
 
     public User getUserByEmail(String email) {
 
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(INVALID_USER_EMAIL.formatted(email)));
+                .orElseThrow(() -> new InvalidUserEmailException(INVALID_USER_EMAIL.formatted(email)));
     }
 
     public void register(UserCreateRequest request) {
@@ -80,11 +78,18 @@ public class UserService implements UserDetailsService {
 
         NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(user);
 
-        emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
+
+        ResponseEntity<Void> httpResponse;
+
         try {
-            emailNotification.sendNotification(notificationRequest);
-        } catch (RetryableException e) {
-            throw new NotificationException(e.getClass().getSimpleName());
+            emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
+            httpResponse = emailNotification.sendNotification(notificationRequest);
+            if (httpResponse.getStatusCode().is2xxSuccessful()) {
+               auditLogService.log("REGISTRATION_NOTIFICATION", "Registration confirmation sent by email.", user);
+            }
+
+        } catch (Exception e) {
+            auditLogService.log("NOTIFICATION_FAIL", "Unable to send notification registration confirmation.", user);
         }
     }
 
@@ -116,21 +121,12 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public void deleteById(UUID userId) {
-
-        userRepository.findById(userId)
-                .ifPresentOrElse(
-                        userRepository::delete, () -> {
-                            throw new ResourceNotFoundException(INVALID_USER_ID.formatted(userId));
-                        });
-    }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = getUserByEmail(email);
 
-        return new CurrentPrinciple(user.getId(), email, user.getPassword(), user.getRole());
+        return new CurrentPrinciple(user.getId(), email, user.getPassword(), user.getRole(), user.isActive());
     }
 
     public void switchStatus(UUID userId) {
@@ -179,12 +175,5 @@ public class UserService implements UserDetailsService {
                 .email(persistedUser.getEmail())
                 .type(NotificationType.NOTIFICATION)
                 .build();
-    }
-
-    public void removeAuditLogFromUser(AuditLog log) {
-
-        User user = log.getUser();
-        user.getAuditLog().remove(log);
-        userRepository.save(user);
     }
 }

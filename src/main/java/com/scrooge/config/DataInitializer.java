@@ -29,7 +29,7 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
 
     private void createAdminUser() {
 
-        if (userService.getRootAdmin("main.admin@scrooge.com").isEmpty()) {
+        if (userService.getRootAdmin().isEmpty()) {
 
             User admin = User.builder()
                     .email("main.admin@scrooge.com")

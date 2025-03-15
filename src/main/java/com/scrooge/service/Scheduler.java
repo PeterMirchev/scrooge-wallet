@@ -14,13 +14,15 @@ public class Scheduler {
 
     private final UserService userService;
     private final EmailNotification emailNotification;
+    private final AuditLogService auditLogService;
 
-    public Scheduler(UserService userService, EmailNotification emailNotification) {
+    public Scheduler(UserService userService, EmailNotification emailNotification, AuditLogService auditLogService) {
         this.emailNotification = emailNotification;
         this.userService = userService;
+        this.auditLogService = auditLogService;
     }
 
-    @Scheduled(fixedDelay = 500000)
+    @Scheduled(fixedDelay = 1000000000)
     public void notifyDeactivateUsers() {
 
         List<User> users = userService.getAllUsers();
@@ -36,7 +38,11 @@ public class Scheduler {
                     .build();
 
             if (!u.isActive()){
-                emailNotification.sendNotification(notificationRequest);
+                try {
+                    emailNotification.sendNotification(notificationRequest);
+                } catch (Exception e) {
+                    auditLogService.log("NOTIFICATION", "Fail to send email notification", u);
+                }
             }
         });
     }

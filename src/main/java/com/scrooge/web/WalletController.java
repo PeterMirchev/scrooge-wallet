@@ -196,11 +196,9 @@ public class WalletController {
 
         model.addAttribute("user", user);
 
-        System.out.println();
-
         walletService.transferMoneyToPocket(walletId, amount, user, pocketId);
 
-        return "redirect:/wallets/transfer";
+        return "redirect:/pockets/" + pocketId;
 
     }
 

@@ -19,6 +19,7 @@ public class CurrentPrinciple implements UserDetails {
     private String email;
     private String password;
     private Role role;
+    private boolean active;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,24 +42,24 @@ public class CurrentPrinciple implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
 
-        return true;
+        return active;
     }
 
     @Override
     public boolean isAccountNonLocked() {
 
-        return true;
+        return active;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
 
-        return true;
+        return active;
     }
 
     @Override
     public boolean isEnabled() {
 
-        return true;
+        return active;
     }
 }

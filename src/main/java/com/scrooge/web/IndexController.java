@@ -26,7 +26,12 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        if (currentPrinciple != null) {
+           return new ModelAndView("redirect:/home");
+        }
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("requestLogin", new RequestLogin());
@@ -83,39 +88,5 @@ public class IndexController {
 
         return modelAndView;
     }
-
-/*    @GetMapping("/pockets")
-    public ModelAndView getPocketsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
-        User user = userService.getUserById(currentPrinciple.getId());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("pockets");
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }*/
-
- /*   @GetMapping("/audit-logs")
-    public ModelAndView getAuditLogPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
-        User user = userService.getUserById(currentPrinciple.getId());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("audit-logs");
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }*/
-
-
-/* @GetMapping("/account-settings")
-    public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
-        User user = userService.getUserById(currentPrinciple.getId());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("account-settings");
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }*/
 
 }

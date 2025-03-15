@@ -18,6 +18,10 @@
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
+        <li sec:authorize="hasRole('ADMINISTRATOR')">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>
@@ -76,9 +80,7 @@
                     <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
                     <button type="submit" class="button">Deposit</button>
                 </form>
-                <div th:if="${errorMessage}" class="error">
-                    <p th:text="${errorMessage}"></p>
-                </div>
+
             </div>
 
 
@@ -112,7 +114,9 @@
 
                     <tr>
                         <th>Amount</th>
-                        <th>Type</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                        <th>Transaction type</th>
                         <th>Date</th>
                     </tr>
                     </thead>
@@ -124,6 +128,8 @@
 
                     <tr th:each="transaction : ${wallet.transactions}">
                         <td th:text="${transaction.amount}"></td>
+                        <td th:text="${transaction.wallet.currency}"></td>
+                        <td th:text="${transaction.successful ? 'SUCCESSFUL' : 'FAILED'}"></td>
                         <td th:text="${transaction.type}"></td>
                         <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
                     </tr>
@@ -134,8 +140,5 @@
     </div>
 </main>
 
-<div th:if="${errorMessage}" class="error">
-    <p th:text="${errorMessage}"></p>
-</div>
 </body>
 </html>

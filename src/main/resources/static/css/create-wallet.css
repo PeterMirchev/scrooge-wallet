@@ -1,27 +1,30 @@
-
-body {
-    display: flex;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+* {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
+}
+
 
 .navigation-panel {
     position: fixed;
-    top: 40px;
+    top: 20px;
     left: 20px;
     width: 270px;
     height: calc(100vh - 40px);
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    background: linear-gradient(135deg, #431c66, #702963);
     color: white;
     padding: 20px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: #47047c;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-panel ul {
@@ -37,46 +40,39 @@ body {
 }
 
 .button {
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+    opacity: 0.8;
 }
 
-.logout-button {
-    margin-top: 100px;
+.button.logout {
+    margin-top: 130%;
+    background-color: rgba(56, 36, 133, 0.6);
 }
 
-.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
-}
-
-.logout:hover {
-    background-color: #330202;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+.button.logout:hover {
+    background-color: rgba(130, 111, 203, 0.6);
 }
 
 .create-wallet-content {
     background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    margin-left: 300px;
-    width: calc(100% - 300px);
-    padding: 20px;
+    margin-left: 320px;
+    width: calc(100% - 320px);
+    padding: 40px;
     box-sizing: border-box;
     max-width: 1200px;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
     height: auto;
@@ -90,7 +86,6 @@ body {
     margin: 0 auto;
 }
 
-/* Form Group */
 .form-group {
     margin-bottom: 20px;
     display: flex;
@@ -108,17 +103,24 @@ body {
 .form-control {
     padding: 10px;
     font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 6px;
+    border: 2px solid #ddd;
     margin-bottom: 5px;
     width: 100%;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: #9559c7;
+    outline: none;
+    box-shadow: 0 0 8px rgba(149, 89, 199, 0.3);
 }
 
 select.form-control {
     padding: 10px;
     font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 6px;
+    border: 2px solid #ddd;
     width: 100%;
 }
 
@@ -126,10 +128,10 @@ button.button {
     background-color: #9559c7;
     color: white;
     font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     text-align: center;
     display: inline-block;
     margin-top: 10px;
@@ -141,15 +143,15 @@ button.button {
 
 button.button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-}
-
-.error p {
-    color: red;
-    font-size: 14px;
+    transform: scale(1.05);
 }
 
 .error {
-    margin-top: 20px;
+    background: rgba(231, 8, 8, 0.1);
+    color: #9b0a0a;
+    padding: 10px;
+    border-left: 4px solid #9b0a0a;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 14px;
 }

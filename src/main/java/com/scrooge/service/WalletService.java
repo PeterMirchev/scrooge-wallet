@@ -101,10 +101,11 @@ public class WalletService {
         Wallet wallet = getWalletById(walletId);
 
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT, false);
             throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT);
+        transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT, true);
 
         wallet.setBalance(wallet.getBalance().add(amount));
 
@@ -129,8 +130,8 @@ public class WalletService {
 
         recipient.setBalance(recipient.getBalance().add(amount));
 
-        transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION);
-        transactionService.setTransactionToWallet(recipient, amount, TransactionType.DEPOSIT);
+        transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, true);
+        transactionService.setTransactionToWallet(recipient, amount, TransactionType.DEPOSIT, true);
 
         String message = "Transfer %.2f %s from wallet %s to wallet %s".formatted(amount, wallet.getCurrency(), wallet.getName(), recipient.getName());
 
@@ -145,6 +146,11 @@ public class WalletService {
         User receiverUser = userService.getUserByEmail(receiverEmail);
 
         Wallet senderWallet = getWalletById(senderWalletId);
+
+        if (receiverUser.getWallets().isEmpty()) {
+            throw new ReceiverHasNoWalletException("%s cannot accept money right now.". formatted(receiverEmail));
+        }
+
         Wallet receiverWallet = receiverUser
                 .getWallets()
                 .stream()
@@ -166,21 +172,11 @@ public class WalletService {
         auditLogService.log("TRANSFER", senderMessage, user);
         auditLogService.log("TRANSFER", receiverMessage, receiverUser);
 
-        transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.TRANSFER);
-        transactionService.setTransactionToWallet(receiverWallet, amount, TransactionType.TRANSFER);
+        transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.TRANSFER, true);
+        transactionService.setTransactionToWallet(receiverWallet, amount, TransactionType.TRANSFER, true);
 
         walletRepository.save(receiverWallet);
         walletRepository.save(senderWallet);
-    }
-
-    private static void amountAndWalletAmountValidation(BigDecimal amount, Wallet senderWallet) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
-        }
-
-        if (senderWallet.getBalance().compareTo(amount) < 0) {
-            throw new InsufficientTransferAmountException(INSUFFICIENT_BALANCE);
-        }
     }
 
     @Transactional
@@ -198,7 +194,7 @@ public class WalletService {
             amount = convertAmount(pocket.getCurrency(), wallet.getCurrency(), amount);
         }
 
-        transactionService.setTransactionToWallet(wallet, amount, TransactionType.WITHDRAWAL);
+        transactionService.setTransactionToWallet(wallet, amount, TransactionType.WITHDRAWAL, true);
 
         String message = "Deposit %.2f %s from wallet %s to pocket %s"
                 .formatted(amount, pocket.getCurrency(), wallet.getName(), pocket.getName());
@@ -206,6 +202,19 @@ public class WalletService {
 
         pocketService.deposit(amount, pocketId, user.getId());
         walletRepository.save(wallet);
+    }
+
+    private void amountAndWalletAmountValidation(BigDecimal amount, Wallet senderWallet) {
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        if (senderWallet.getBalance().compareTo(amount) < 0) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            throw new InsufficientTransferAmountException(INSUFFICIENT_BALANCE);
+        }
     }
 
     @Transactional
@@ -221,7 +230,7 @@ public class WalletService {
             amount = convertAmount(pocket.getCurrency(), wallet.getCurrency(), amount);
         }
 
-        transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION);
+        transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, true);
         String messageLog = "Internal transaction from pocket %s with %.2f %s amount to wallet %s. Pocket with name %s automatically deleted after transaction."
                 .formatted(pocket.getName(), amount, pocket.getCurrency(), wallet.getName(), pocket.getName());
         auditLogService.log("TRANSACTION_FROM_POCKET", messageLog, user);
@@ -239,7 +248,8 @@ public class WalletService {
         Wallet currentWallet = getWalletById(walletId);
 
         if (currentWallet.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-            throw new WalletAmountMustBeZero(WALLET_AMOUNT_MUST_BE_ZERO);
+            auditLogService.log("UNSUPPORTED_OPERATION", "Attempt to delete wallet denied: The wallet contains insufficient balance. Please withdraw funds before deletion.", user);
+            throw new WalletAmountMustBeZeroException(WALLET_AMOUNT_MUST_BE_ZERO);
         }
 
         user.getWallets().removeIf(wallet -> wallet.getId().equals(walletId));

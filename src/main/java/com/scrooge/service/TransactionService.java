@@ -32,9 +32,9 @@ public class TransactionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid Transaction ID - %s".formatted(transactionId)));
     }
 
-    public void setTransactionToWallet(Wallet wallet, BigDecimal amount, TransactionType type) {
+    public void setTransactionToWallet(Wallet wallet, BigDecimal amount, TransactionType type, boolean successful) {
 
-        Transaction transaction = TransactionMapper.mapToTransaction(amount, type);
+        Transaction transaction = TransactionMapper.mapToTransaction(amount, type, successful);
         transaction.setWallet(wallet);
 
         transactionRepository.save(transaction);

@@ -38,6 +38,12 @@
   <div th:if="${notificationException}" class="error">
     <p th:text="${notificationException}"></p>
   </div>
+
+  <div th:if="${notificationServiceException}" class="error">
+    <p th:text="${notificationServiceException}"></p>
+  </div>
+
+  <p>Have an account? <a th:href="@{/login}">Login</a> </p>
 </div>
 </body>
 </html>

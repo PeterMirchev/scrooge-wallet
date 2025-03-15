@@ -1,24 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
+}
+
 .navigation-panel {
     position: fixed;
-    top: 40px;
+    top: 20px;
     left: 20px;
     width: 270px;
     height: calc(100vh - 40px);
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    background: linear-gradient(135deg, #431c66, #702963);
     color: white;
     padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: #47047c;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-panel ul {
-    padding: 0;
     list-style: none;
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
 }
 
@@ -27,87 +35,141 @@
 }
 
 .button {
-    padding: 10px 20px;
-    border-radius: 5px;
+    display: block;
+    padding: 12px;
+    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+    opacity: 0.8;
 }
 
-.logout-button {
-    margin-top: 100px;
+.button.logout {
+    margin-top: 130%;
+    background-color: rgba(56, 36, 133, 0.6);
 }
 
-.button.button.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
+.button.logout:hover {
+    background-color: rgba(130, 111, 203, 0.6);
 }
 
-.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
-}
-
-.button.button.logout:hover {
-    background-color: #330202;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-}
-
-body {
-    font-family: Arial, sans-serif;
-}
-
-.send-money-by-email {
-    margin-left: 318px;
-    margin-top: 50px;
-
-}
-
-.send-money-message {
-    font-size: x-large;
-}
-
-.send-money-by-email {
+.send-containers {
+    margin-left: 320px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 300px;
-    margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    gap: 30px;
 }
 
+.send-money-by-email,
 .send-money-to-pocket {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 300px;
-    margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
 }
 
+.send-money-message,
 .send-money-to-pocket-message {
-    font-size: x-large;
+    font-size: 22px;
+    font-weight: bold;
+    color: #5a287d;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #444;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+    border-color: #9559c7;
+    outline: none;
+    box-shadow: 0 0 8px rgba(149, 89, 199, 0.3);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #7a5cc9, #9559c7);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
+}
+
+.error {
+    background: rgba(231, 8, 8, 0.1);
+    color: #9b0a0a;
+    padding: 10px;
+    border-left: 4px solid #9b0a0a;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+@media (max-width: 1024px) {
+    .send-containers {
+        margin-left: 300px;
+        padding: 20px;
+    }
+
+    .send-money-by-email,
+    .send-money-to-pocket {
+        width: 90%;
+        margin: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigation-panel {
+        width: 100%;
+        height: auto;
+        position: relative;
+        text-align: center;
+    }
+
+    .send-containers {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .send-money-by-email,
+    .send-money-to-pocket {
+        width: 100%;
+    }
 }

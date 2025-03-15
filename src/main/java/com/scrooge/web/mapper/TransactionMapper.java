@@ -8,11 +8,12 @@ import java.time.LocalDateTime;
 
 public class TransactionMapper {
 
-    public static Transaction mapToTransaction(BigDecimal amount, TransactionType type) {
+    public static Transaction mapToTransaction(BigDecimal amount, TransactionType type, boolean successful) {
 
         return Transaction.builder()
                 .amount(amount)
                 .type(type)
+                .successful(successful)
                 .createdOn(LocalDateTime.now())
                 .build();
     }

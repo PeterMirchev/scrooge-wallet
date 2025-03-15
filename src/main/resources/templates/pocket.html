@@ -1,88 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wallets</title>
-  <link rel="stylesheet" href="/css/pocket.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallets</title>
+    <link rel="stylesheet" href="/css/pocket.css">
 </head>
 <body class="body">
 
 <aside class="navigation-panel">
-  <ul>
-    <li><a th:href="@{/home}" class="button">Dashboard</a></li>
-    <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
-    <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
-    <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
-    <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
-    <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
-    <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+    <ul>
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
-    <li class="logout-button">
-      <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
-        <button type="submit" class="button logout">Logout</button>
-      </form>
-    </li>
-  </ul>
+        <li sec:authorize="hasRole('ADMINISTRATOR')">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
+        <li class="logout-button">
+            <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </li>
+
+    </ul>
 </aside>
 
 <main id="pocket-content" class="pocket">
-  <div class="pocket">
+    <div class="pocket">
 
-    <div class="pocket-content">
-      <p>
-        <span class="pocket-text"> </span>
-        <span class="pocket-name" th:text="${pocket.name}"> </span>
-      </p>
+        <div class="pocket-content">
+            <p>
+                <span class="pocket-text"> </span>
+                <span class="pocket-name" th:text="${pocket.name}"> </span>
+            </p>
+        </div>
+
+        <div class="goal-description">
+            <p>
+                <span class="goal-description"> Goal Description:</span>
+                <span class="goal-description" th:text="${pocket.goalDescription}"> Goal Description:</span>
+            </p>
+        </div>
+
+        <div class="pocket-target-amount">
+            <p>
+                <span class="pocket-target-amount"> Target Amount:</span>
+                <span class="pocket-target-amount" th:text="${pocket.targetAmount}"> Target Amount:</span>
+            </p>
+        </div>
+
+        <div class="pocket-creation-date">
+            <p>
+                <span class="pocket-creation"> created:</span>
+                <span class="created-on"
+                      th:text="${#temporals.format(pocket.createdOn, 'HH:mm dd MMM YYYY')}"> created</span>
+            </p>
+        </div>
+
+        <div class="balance-info">
+            <p>
+                <span class="balance" th:text="${pocket.balance}"> </span>
+                <span class="currency" th:text="${pocket.currency}"> currency:</span>
+            </p>
+        </div>
+
+        <div class="withdrawal-form">
+            <form id="withdrawal-form" th:action="@{'/pockets/' + ${pocket.id} + '/withdrawal'}" th:method="put">
+
+                <label for="wallet-id">Transfer to Wallet</label>
+                <select id="wallet-id" name="walletId" required>
+                    <option value="" disabled selected>Select Wallet</option>
+                    <option th:each="wallet : ${user.wallets}"
+                            th:value="${wallet.id}"
+                            th:text="${wallet.name}">Wallet
+                    </option>
+                </select>
+
+                <button type="submit" class="transfer-button">Transfer All Money</button>
+            </form>
+        </div>
+
+        <div th:if="${errorMessage}" class="error">
+            <p th:text="${errorMessage}"></p>
+        </div>
     </div>
 
-    <div class="pocket-content">
-      <p>
-        <span class="goal-description"> Goal Description:</span>
-        <span class="goal-description" th:text="${pocket.goalDescription}"> Goal Description:</span>
-      </p>
+    <div class="documentation">
+        <div class="documentation-info">
+            <h3 class="info">Pocket Purpose and Functionality</h3>
+            <ul>
+                <li>The purpose of a pocket is to simulate a real-life scenario where an individual wishes to save extra
+                    money.
+                </li>
+                <li>Each pocket has a personalized goal, allowing users to set specific saving objectives.</li>
+                <li>Users can save money in their pockets until they reach their defined goals.</li>
+                <li>Users can transfer the saved money from the pocket to a selected wallet even if the goal is NOT
+                    reached.
+                </li>
+                <li><strong>After the transfer, the corresponding pocket WILL BE AUTOMATICALLY DELETED from the system.</strong></li>
+            </ul>
+        </div>
     </div>
-
-    <div class="pocket-content">
-      <p>
-        <span class="pocket-target-amount"> Target Amount:</span>
-        <span class="pocket-target-amount" th:text="${pocket.targetAmount}"> Target Amount:</span>
-      </p>
-    </div>
-
-    <div class="pocket-creation-date">
-      <p>
-        <span class="pocket-creation"> created:</span>
-        <span class="created-on" th:text="${#temporals.format(pocket.createdOn, 'HH:mm dd MMM YYYY')}"> created</span>
-      </p>
-    </div>
-
-    <div class="balance-info">
-      <p>
-        <span class="balance" th:text="${pocket.balance}"> </span>
-        <span class="currency" th:text="${pocket.currency}"> currency:</span>
-      </p>
-    </div>
-
-    <div class="withdrawal-form">
-      <form id="withdrawal-form" th:action="@{'/pockets/' + ${pocket.id} + '/withdrawal'}" th:method="put">
-
-        <label for="walletId">Transfer to Wallet</label>
-        <select id="walletId" name="walletId" required>
-          <option value="" disabled selected>Select Wallet</option>
-          <option th:each="wallet : ${user.wallets}"
-                  th:value="${wallet.id}"
-                  th:text="${wallet.name}">Wallet</option>
-        </select>
-
-        <button type="submit" class="button">Transfer All Money</button>
-      </form>
-    </div>
-
-    <div th:if="${errorMessage}" class="error">
-      <p th:text="${errorMessage}"></p>
-    </div>
-  </div>
 </main>
 
 </body>

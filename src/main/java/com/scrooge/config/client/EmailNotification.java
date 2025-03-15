@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface EmailNotification {
 
     @PostMapping("/notification")
-    public ResponseEntity<NotificationResponse> sendNotification(@RequestBody NotificationRequest request);
+    ResponseEntity<Void> sendNotification(@RequestBody NotificationRequest request);
     @PostMapping("/preference")
-    public ResponseEntity<NotificationPreferenceResponse> createNotificationPreference(@RequestBody NotificationPreferenceCreateRequest request);
+    ResponseEntity<NotificationPreferenceResponse> createNotificationPreference(@RequestBody NotificationPreferenceCreateRequest request);
 }

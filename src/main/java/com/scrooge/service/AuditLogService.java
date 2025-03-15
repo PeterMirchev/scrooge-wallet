@@ -4,8 +4,6 @@ import com.scrooge.model.AuditLog;
 import com.scrooge.model.User;
 import com.scrooge.web.mapper.AuditLogMapper;
 import com.scrooge.repository.AuditLogRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +28,6 @@ public class AuditLogService {
     public List<AuditLog> getAuditLogsForUser(UUID userId) {
         return auditLogRepository.findTopNByUserIdOrderByCreatedOnDesc(userId);
     }
-
 
     public List<AuditLog> findLogsBefore(LocalDateTime thresholdTime) {
 

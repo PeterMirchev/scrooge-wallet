@@ -18,7 +18,7 @@
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
-        <li th:if="${user == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
+        <li sec:authorize="hasRole('ADMINISTRATOR')">
             <a th:href="@{/users}" class="button">All Users</a>
         </li>
 
@@ -30,62 +30,59 @@
     </ul>
 </aside>
 
-<main id="users-content" class="users">
+<main id="users-content" class="users-content">
 
-    <span >All Scrooge Wallet Users</span>
+    <h2>All Scrooge Wallet Users</h2>
 
     <div class="users">
-
-
-        <div class="users-table">
-            <table class="users-table">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Country</th>
-                    <th>Account Status</th>
-                    <th>Role</th>
-                    <th>Switch Role</th>
-                    <th>Enable-Disable</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.firstName}"></td>
-                    <td th:text="${user.lastName}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.phoneNumber}"></td>
-                    <td th:text="${user.country}"></td>
-                    <td th:switch="${user.active}">
-                        <span th:case="true">ACTIVE</span>
-                        <span th:case="false">INACTIVE</span>
-                    </td>
-                    <td th:text="${user.role}"></td>
-                    <td>
-                        <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
-                            <input type="hidden" name="_method" value="put"/>
-                            <button type="submit" class="button"  th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Remove Admin' : 'Set Admin'}">Switch Role</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form th:action="@{'/users/' + ${user.id} + '/status'}" th:method="PUT">
-                            <input type="hidden" name="_method" value="put"/>
-                            <button type="submit" class="button"  th:text="${user.active ? 'Disable User' : 'Enable User'}">Enable - Disable</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="users-table">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Country</th>
+                <th>Account Status</th>
+                <th>Role</th>
+                <th>Switch Role</th>
+                <th>Enable-Disable</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}" th:if="${admin.id != user.id}">
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.phoneNumber}"></td>
+                <td th:text="${user.country}"></td>
+                <td th:switch="${user.active}">
+                    <span th:case="true">ACTIVE</span>
+                    <span th:case="false">INACTIVE</span>
+                </td>
+                <td th:text="${user.role}"></td>
+                <td>
+                    <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
+                        <input type="hidden" name="_method" value="put"/>
+                        <button type="submit" class="button"
+                                th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Remove' : 'Set Admin'}">
+                            Switch Role
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{'/users/' + ${user.id} + '/status'}" th:method="PUT">
+                        <input type="hidden" name="_method" value="put"/>
+                        <button type="submit" class="button" th:text="${user.active ? 'Disable User' : 'Enable User'}">
+                            Enable - Disable
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
     </div>
 </main>
-
-<div th:if="${errorMessage}" class="error">
-    <p th:text="${errorMessage}"></p>
-</div>
 </body>
 </html>

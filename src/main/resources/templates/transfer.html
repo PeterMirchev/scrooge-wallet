@@ -18,6 +18,10 @@
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
+        <li sec:authorize="hasRole('ADMINISTRATOR')">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>
@@ -56,8 +60,16 @@
             <button type="submit" class="button">Send Money</button>
 
         </form>
-        <div th:if="${errorMessage}" class="error">
-            <p th:text="${errorMessage}"></p>
+        <div th:if="${invalidUserEmailException}" class="error">
+            <p th:text="${invalidUserEmailException}"></p>
+        </div>
+
+        <div th:if="${insufficientTransferAmountException}" class="error">
+            <p th:text="${insufficientTransferAmountException}"></p>
+        </div>
+
+        <div th:if="${receiverHasNoWalletException}" class="error">
+            <p th:text="${receiverHasNoWalletException}"></p>
         </div>
 
     </div>
@@ -83,7 +95,7 @@
                         th:text="${wallet.name}">Wallet</option>
             </select>
 
-            <label for="pocketId">Receiver Email</label>
+            <label for="pocketId">Pocket Receiver</label>
             <select id="pocketId" name="pocketId" required>
                 <option value="" disabled selected>Select Select pocket to send</option>
                 <option th:each="pocket : ${user.pockets}"
@@ -98,6 +110,14 @@
         </form>
         <div th:if="${errorMessage}" class="error">
             <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div th:if="${insufficientTransferAmountException}" class="error">
+            <p th:text="${insufficientTransferAmountException}"></p>
+        </div>
+
+        <div th:if="${receiverHasNoWalletException}" class="error">
+            <p th:text="${receiverHasNoWalletException}"></p>
         </div>
 
     </div>

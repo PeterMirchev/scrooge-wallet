@@ -47,7 +47,7 @@ class UserServiceUTest {
 
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
 
-        userService.getRootAdmin(email);
+        userService.getRootAdmin();
 
         assertNotNull(user);
     }

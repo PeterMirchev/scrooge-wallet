@@ -19,6 +19,10 @@
         <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
+        <li sec:authorize="hasRole('ADMINISTRATOR')">
+            <a th:href="@{/users}" class="button">All Users</a>
+        </li>
+
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
                 <button type="submit" class="button logout">Logout</button>

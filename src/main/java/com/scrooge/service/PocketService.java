@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.UUID;
 
 import static com.scrooge.exception.ExceptionMessages.*;
@@ -53,23 +54,7 @@ public class PocketService {
         return pocket;
     }
 
-    public Pocket update(PocketUpdateRequest request, UUID pocketId, UUID userId) {
-
-        User user = userService.getUserById(userId);
-
-        checkIfPocketNameExists(user, request.getName());
-
-        Pocket pocket = getPocketById(pocketId);
-
-        updatePocket(request, pocket);
-
-        String logMessage = String.format("Pocket with name %s updated.", pocket.getName());
-        auditLogService.log("UPDATE_POCKET", logMessage, user);
-
-        return pocketRepository.save(pocket);
-    }
-
-    public void deposit(BigDecimal amount, UUID pocketId, UUID userId) {
+    public void deposit(BigDecimal amount,  UUID pocketId, UUID userId) {
 
         User user = userService.getUserById(userId);
 
@@ -81,23 +66,11 @@ public class PocketService {
 
         pocket.setBalance(pocket.getBalance().add(amount));
 
-        String logMessage = String.format("Deposit of %s to Pocket %s.", pocket.getName(), amount);
+        String logMessage = String.format("Deposit of %.2f %s to Pocket %s.", amount, pocket.getCurrency(), pocket.getName());
         auditLogService.log("DEPOSIT", logMessage, user);
 
         pocketRepository.save(pocket);
     }
-
-    void delete(UUID pocketId) {
-
-        Pocket pocket = getPocketById(pocketId);
-
-        User user = userService.getUserById(pocket.getUser().getId());
-
-        pocketRepository.delete(pocket);
-
-        auditLogService.log("DELETED_POCKET", "Pocket successfully deleted", user);
-    }
-
 
     void delete(Pocket pocket) {
 
@@ -106,13 +79,6 @@ public class PocketService {
         pocketRepository.delete(pocket);
 
         auditLogService.log("DELETED_POCKET", "Pocket successfully deleted", user);
-    }
-
-    protected static void updatePocket(PocketUpdateRequest request, Pocket pocket) {
-
-        pocket.setName(request.getName());
-        pocket.setGoalDescription(request.getGoalDescription());
-        pocket.setTargetAmount(request.getTargetAmount());
     }
 
     protected static void checkIfPocketNameExists(User user, String request) {

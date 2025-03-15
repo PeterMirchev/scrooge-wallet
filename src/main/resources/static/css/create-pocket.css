@@ -1,34 +1,36 @@
-body {
-    display: flex;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+* {
     margin: 0;
     padding: 0;
-    height: 100vh;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
 }
 
 .navigation-panel {
     position: fixed;
-    top: 40px;
+    top: 20px;
     left: 20px;
     width: 270px;
     height: calc(100vh - 40px);
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    background: linear-gradient(135deg, #431c66, #702963);
     color: white;
     padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: #47047c;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navigation-panel ul {
-    padding: 0;
     list-style: none;
+    flex-grow: 1;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 }
 
 .navigation-panel li {
@@ -36,47 +38,42 @@ body {
 }
 
 .button {
-    padding: 10px 20px;
-    border-radius: 5px;
+    display: block;
+    padding: 12px 20px;
+    border-radius: 6px;
     background-color: #9559c7;
     color: white;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
     background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+    opacity: 0.8;
 }
 
-.logout-button {
-    margin-top: 100px;
+.button.logout {
+    margin-top: 130%;
+    background-color: rgba(56, 36, 133, 0.6);
 }
 
-.logout {
-    background-color: rgba(231, 8, 8, 0.6);
-    color: white;
+.button.logout:hover {
+    background-color: rgba(130, 111, 203, 0.6);
 }
 
-.logout:hover {
-    background-color: #330202;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f4f9;
+    color: #333;
 }
-
 .pocket-info {
-    margin-left: 300px;
-    width: calc(100% - 300px);
-    padding: 20px;
-    box-sizing: border-box;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
+    margin-left: 320px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .pocket-form {
@@ -119,26 +116,21 @@ select.form-control {
 }
 
 button.button {
-    background-color: #9559c7;
-    color: white;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    display: inline-block;
-    margin-top: 10px;
     width: 100%;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #7a5cc9, #9559c7);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 button.button:hover {
-    background-color: #7a5cc9;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    transform: scale(1.05);
 }
 
 .error p {

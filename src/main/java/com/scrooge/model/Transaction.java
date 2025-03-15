@@ -20,9 +20,13 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private BigDecimal amount;
+
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
+    private boolean successful;
 
     private LocalDateTime createdOn;
 
