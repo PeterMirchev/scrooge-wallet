@@ -120,7 +120,17 @@ public class WalletService {
         Wallet wallet = getWalletById(senderWallet);
         Wallet recipient = getWalletById(recipientWallet);
 
-        amountAndWalletAmountValidation(amount, wallet);
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to negative amount.", wallet.getUser());
+            throw new InternalTransactionException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to insufficient funds.", wallet.getUser());
+            throw new InternalTransactionException(INSUFFICIENT_BALANCE);
+        }
 
         wallet.setBalance(wallet.getBalance().subtract(amount));
 
@@ -143,12 +153,19 @@ public class WalletService {
 
     public void transferMoneyByEmail(UUID senderWalletId, BigDecimal amount, User user, String receiverEmail) {
 
-        User receiverUser = userService.getUserByEmail(receiverEmail);
-
         Wallet senderWallet = getWalletById(senderWalletId);
+        User receiverUser;
+
+        try {
+            receiverUser = userService.getUserByEmail(receiverEmail);
+        } catch (InvalidUserEmailException e) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.TRANSFER, false);
+            auditLogService.log("TRANSFER", "Transaction fail due to invalid email address - %s".formatted(receiverEmail), user);
+            throw new InvalidUserEmailException(INVALID_USER_EMAIL.formatted(receiverEmail));
+        }
 
         if (receiverUser.getWallets().isEmpty()) {
-            throw new ReceiverHasNoWalletException("%s cannot accept money right now.". formatted(receiverEmail));
+            throw new ReceiverHasNoWalletException("%s cannot accept money right now.".formatted(receiverEmail));
         }
 
         Wallet receiverWallet = receiverUser
@@ -208,11 +225,13 @@ public class WalletService {
 
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("TRANSACTION", "Transaction fail due to negative amount.", senderWallet.getUser());
             throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
         }
 
         if (senderWallet.getBalance().compareTo(amount) < 0) {
             transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("TRANSACTION", "Transaction fail due to insufficient funds.", senderWallet.getUser());
             throw new InsufficientTransferAmountException(INSUFFICIENT_BALANCE);
         }
     }

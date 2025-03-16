@@ -98,6 +98,14 @@ public class GlobalControllerAdvice {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
+        return "redirect:/wallets/transfer";
+    }
+
+    @ExceptionHandler(InternalTransactionException.class)
+    public String internalTransactionException(InternalTransactionException message, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
+
         return "redirect:/wallets/{id}";
     }
 
