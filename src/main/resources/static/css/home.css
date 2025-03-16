@@ -272,6 +272,10 @@ select.form-control {
     width: 100%;
 }
 
+.last-activities {
+    text-align: center;
+}
+
 button.button {
     background-color: #9559c7;
     color: white;
