@@ -2,17 +2,17 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #9559c7, #7a5cc9, #b93fa1);
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
     color: white;
     font-family: Arial, sans-serif;
 }
 
 h2 {
-    color: purple;
+    color: white;
 }
 
 form {
-    color: purple;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,7 +22,7 @@ form {
     width: 400px;
     margin: 50px auto;
     padding: 20px;
-    background: rgba(173, 216, 230, 0.9);
+    background: linear-gradient(135deg, #d0c0f8, #9559c7);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -51,23 +51,35 @@ form {
 }
 
 .register-container button {
-    background-color: #9559c7;
-    color: white;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
+    color: #5d08a2;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 15px;
+    margin-bottom: 10px;
     border-radius: 5px;
 }
 
 .register-container button:hover {
-    background-color: #5d08a2;
+    background: linear-gradient(135deg, #f5eded, #e0d3fc, #f8e5e5);
+    opacity: 0.8;
 }
 
 .register-container p {
-    color: red;
+    color: #ffffff;
     font-size: 14px;
     margin-top: 5px;
+}
+
+.have-account {
+    margin-bottom: 5px;
+    color: white;
+}
+
+.have-account:hover {
+    margin-bottom: 5px;
+    color: white;
 }

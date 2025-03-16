@@ -25,7 +25,7 @@ body {
     left: 20px;
     width: 270px;
     height: calc(100vh - 40px);
-    background: linear-gradient(135deg, #431c66, #702963);
+    background: linear-gradient(135deg, #b9a2d7, #9f73c0, #c9b1c3);
     color: white;
     padding: 20px;
     border-radius: 12px;
@@ -91,9 +91,10 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-left: 300px;
-    margin-top: 40px;
-    background: linear-gradient(135deg, #f8f8f8, #e0c5e2, #d1e5f0, #f8f8f8);
+    margin-left: 330px;
+    margin-top: 30px;
+    margin-bottom: 360px;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
     padding: 20px;
     width: 100%;
     max-width: 1200px;
@@ -133,7 +134,7 @@ button:hover {
 .action-buttons {
     margin-top: -50px;
     display: flex;
-    gap: 200px;
+    gap: 100px;
     width: 100%;
     justify-content: flex-end;
 }
@@ -158,6 +159,21 @@ button:hover {
 .wallet-transactions {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.transactions {
+    margin-top: 30px;
+    max-width: 1200px;
+    margin-left: -40px;
+    margin-right: -100px;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .wallet-transactions th,
@@ -165,6 +181,23 @@ button:hover {
     padding: 8px;
     text-align: left;
     border: 1px solid #ddd;
+}
+
+.wallet-transactions th {
+    background-color: #e0c5e2;
+    font-weight: bold;
+}
+
+.wallet-transactions tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.wallet-transactions tr:hover {
+    background-color: #f1f1f1;
+}
+
+.wallet-transactions td {
+    font-size: 14px;
 }
 
 .wallet form {
@@ -202,11 +235,23 @@ button:hover {
     background-color: #7a5cc9;
 }
 
+#deposit-button {
+    width: auto;
+    padding: 10px 40px !important;
+}
+
+#transfer-button {
+    width: auto;
+    padding: 10px 20px !important;
+}
+
 .error {
+    margin-top: 50px;
     color: red;
     font-size: 14px;
     align-content: center;
     align-self: center;
+    margin-bottom: -30px;
 }
 
 /* Responsive Design */

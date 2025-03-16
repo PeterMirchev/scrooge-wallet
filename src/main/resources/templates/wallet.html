@@ -30,7 +30,7 @@
     </ul>
 </aside>
 
-<main id="wallet-content" class="wallet">
+<main id="wallet-content" class="wallet-main">
     <div class="wallet">
 
         <div class="wallet-content">
@@ -78,7 +78,7 @@
                 <form th:action="@{/wallets/{id}/deposit(id=${wallet.id})}" th:method="post">
                     <label for="amount"></label>
                     <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-                    <button type="submit" class="button">Deposit</button>
+                    <button type="submit" class="button" id="deposit-button">Deposit</button>
                 </form>
 
             </div>
@@ -100,42 +100,43 @@
                         </option>
                     </select>
 
-                    <button type="submit" class="button">Transfer Money</button>
+                    <button type="submit" class="button" id="transfer-button">Transfer Money</button>
                 </form>
                 <div th:if="${errorMessage}" class="error">
                     <p th:text="${errorMessage}"></p>
                 </div>
             </div>
 
-            <div class="transactions">
-                <span>Transactions history</span>
-                <table class="wallet-transactions">
-                    <thead>
+        </div>
 
-                    <tr>
-                        <th>Amount</th>
-                        <th>Currency</th>
-                        <th>Status</th>
-                        <th>Transaction type</th>
-                        <th>Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+        <div class="transactions">
+            <h3 >Transactions history</h3>
+            <table class="wallet-transactions">
+                <thead>
 
-                    <tr th:if="${#lists.isEmpty(wallet.transactions)}">
-                        <td colspan="3" style="text-align: center;">No transactions</td>
-                    </tr>
+                <tr>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                    <th>Status</th>
+                    <th>Transaction type</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
 
-                    <tr th:each="transaction : ${wallet.transactions}">
-                        <td th:text="${transaction.amount}"></td>
-                        <td th:text="${transaction.wallet.currency}"></td>
-                        <td th:text="${transaction.successful ? 'SUCCESSFUL' : 'FAILED'}"></td>
-                        <td th:text="${transaction.type}"></td>
-                        <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                <tr th:if="${#lists.isEmpty(wallet.transactions)}">
+                    <td colspan="3" style="text-align: center;">No transactions</td>
+                </tr>
+
+                <tr th:each="transaction : ${wallet.transactions}">
+                    <td th:text="${transaction.amount}"></td>
+                    <td th:text="${transaction.wallet.currency}"></td>
+                    <td th:text="${transaction.successful ? 'SUCCESSFUL' : 'FAILED'}"></td>
+                    <td th:text="${transaction.type}"></td>
+                    <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </main>
