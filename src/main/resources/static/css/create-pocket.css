@@ -46,11 +46,10 @@ body {
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 
@@ -60,7 +59,8 @@ body {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 body {
@@ -68,12 +68,18 @@ body {
     background: #f4f4f9;
     color: #333;
 }
+
 .pocket-info {
-    margin-left: 320px;
+    background: linear-gradient(135deg, #f8f8f8, #e7daf8, #f8f8f8);
     padding: 40px;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-right: 500px;
+    margin-left: 320px;
+    margin-top: 50px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .pocket-form {
@@ -125,12 +131,11 @@ button.button {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
 
 button.button:hover {
     background: linear-gradient(135deg, #9559c7, #7a5cc9);
-    transform: scale(1.05);
+    opacity: 0.8;
 }
 
 .error p {
