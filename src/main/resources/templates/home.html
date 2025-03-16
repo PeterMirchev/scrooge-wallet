@@ -54,13 +54,13 @@
       <div class="available-wallets">
         <h3>Your wallets information</h3>
 
-        <p><strong>Wallets count:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No wallets available' : user.wallets.size()}"></span></p>
+        <p><strong>Available wallets:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No wallets available' : user.wallets.size()}"></span></p>
         <p>There are no limits to the number of wallets a user can create, allowing each wallet to represent distinct financial purposes or goals.</p>
       </div>
       <div class="available-pockets">
         <h3>User pockets information</h3>
 
-        <p><strong>Pockets count:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No pockets available yet' : user.pockets.size()}"></span></p>
+        <p><strong>Available pockets:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'No pockets available yet' : user.pockets.size()}"></span></p>
         <p>Each pocket contains a unique goal, allowing users to define specific savings targets, while funds can be accumulated in that pocket until the user decides to withdraw or utilize them.</p>
       </div>
     </div>
