@@ -164,13 +164,12 @@ button:hover {
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    transition: all 0.3s ease-in-out;
     border: none;
     cursor: pointer;
 }
 
 .pocket form button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 

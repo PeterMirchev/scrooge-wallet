@@ -48,11 +48,10 @@ body {
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 
@@ -62,7 +61,8 @@ body {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .create-wallet-content {
@@ -131,7 +131,6 @@ button.button {
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     text-align: center;
     display: inline-block;
     margin-top: 10px;
@@ -142,8 +141,8 @@ button.button {
 }
 
 button.button:hover {
-    background-color: #7a5cc9;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .error {

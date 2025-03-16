@@ -41,7 +41,6 @@ body {
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     text-align: center;
     display: inline-block;
     width: 100%;
@@ -50,10 +49,6 @@ body {
     margin-right: auto;
 }
 
-button:hover {
-    background: linear-gradient(135deg, #9559c7, #7a5cc9);
-    opacity: 0.8;
-}
 
 .logout {
     width: 100%;
@@ -65,7 +60,6 @@ button:hover {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
 
 .button.logout {
@@ -74,7 +68,8 @@ button:hover {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .send-containers {

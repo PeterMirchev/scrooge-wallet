@@ -43,7 +43,6 @@ body {
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    transition: all 0.3s ease-in-out;
 }
 
 .logout {
@@ -56,7 +55,6 @@ body {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
 
 .create-wallet-button {
@@ -69,12 +67,11 @@ body {
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    transition: all 0.3s ease-in-out;
     width: 270px;
 }
 
-.button:hover {
-    background-color: #7a5cc9;
+.button:hover , .create-wallet-button:hover {
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
 
@@ -84,7 +81,8 @@ body {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .user-info {
@@ -121,19 +119,31 @@ body {
 }
 
 .user-assets {
-    margin-left: 300px;
+
+}
+
+.available-wallets, .available-pockets{
+    text-align: left;
 }
 
 .available-wallets {
-    margin-top: -50px;
+    margin-top: -40px;
 }
 
 .available-pockets {
-    margin-top: 100px;
+    margin-top: 90px;
 }
 
 .user-main-info {
-    margin-left: 50px;
+    margin-right: 300px;
+    margin-left: 20px;
+
+    padding-left: -20px;
+}
+
+.user-main-info p {
+    width: 250px;
+    text-align: center;
 }
 
 .avatar-container {
@@ -280,9 +290,8 @@ button.button {
 }
 
 button.button:hover {
-    background-color: #7a5cc9;
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .error p {

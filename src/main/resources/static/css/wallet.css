@@ -50,7 +50,6 @@ body {
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     text-align: center;
     display: inline-block;
     width: 100%;
@@ -83,7 +82,8 @@ button:hover {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 #wallet-content {
@@ -226,13 +226,13 @@ button:hover {
     text-decoration: none;
     text-align: center;
     display: inline-block;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     border: none;
     cursor: pointer;
 }
 
 .wallet form button:hover {
-    background-color: #7a5cc9;
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 #deposit-button {

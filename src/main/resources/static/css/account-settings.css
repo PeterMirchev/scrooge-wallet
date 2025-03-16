@@ -42,7 +42,6 @@ body {
     padding: 12px 20px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     text-align: center;
     display: inline-block;
     width: 100%;
@@ -75,7 +74,8 @@ button:hover {
 }
 
 .button.logout:hover {
-    background-color: rgba(130, 111, 203, 0.6);
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.8;
 }
 
 .main-div , .notification-div{
@@ -145,11 +145,10 @@ button:hover {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    width: 400px;
+    width: 250px;
 }
 
-.save-button:hover , .notification-button:hover{
+.save-button:hover , .notification-button:hover, button:hover{
     background: linear-gradient(135deg, #9559c7, #7a5cc9);
     opacity: 0.8;
 }
