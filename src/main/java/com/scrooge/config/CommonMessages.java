@@ -6,7 +6,7 @@ public class CommonMessages {
                     You have registered successfully for Scrooge Wallet.%n%n
                     
                     Best Regards,
-                    Scrooge Wallet Team
+                    Scrooge Wallet Teamz
                     """;
     public static final String REGISTRATION_MESSAGE = "Successful Scrooge Wallet Registration";
 }

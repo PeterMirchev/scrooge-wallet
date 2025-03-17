@@ -68,6 +68,7 @@ public class UserController {
 
         return "redirect:/users";
     }
+
     @GetMapping("/account-settings")
     public ModelAndView getAccountSettingsPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
@@ -81,6 +82,7 @@ public class UserController {
 
         return modelAndView;
     }
+
     @PutMapping("/{id}/account-settings")
     public ModelAndView updateUser(@PathVariable UUID id, @Valid UserUpdateRequest userUpdateRequest, BindingResult bindingResult) {
 

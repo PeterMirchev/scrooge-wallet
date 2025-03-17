@@ -1,6 +1,6 @@
 package com.scrooge.service;
 
-import com.scrooge.config.client.EmailNotification;
+import com.scrooge.config.client.emailnotificaion.EmailNotification;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.NotificationType;
 import com.scrooge.web.dto.NotificationRequest;

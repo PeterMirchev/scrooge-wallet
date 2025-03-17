@@ -1,4 +1,4 @@
-package com.scrooge.config.client;
+package com.scrooge.config.client.emailnotificaion;
 
 import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
 import com.scrooge.web.dto.NotificationPreferenceResponse;

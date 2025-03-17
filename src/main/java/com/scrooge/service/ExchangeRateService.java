@@ -1,7 +1,7 @@
 package com.scrooge.service;
 
-import com.scrooge.config.client.exchange.ExchangeRateResponse;
-import com.scrooge.config.client.exchange.RateExchange;
+import com.scrooge.config.client.exchangerate.ExchangeRateResponse;
+import com.scrooge.config.client.exchangerate.RateExchange;
 import com.scrooge.exception.InsufficientAmountException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

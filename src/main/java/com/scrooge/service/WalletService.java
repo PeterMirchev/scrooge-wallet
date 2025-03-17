@@ -1,6 +1,6 @@
 package com.scrooge.service;
 
-import com.scrooge.config.client.exchange.ExchangeRateResponse;
+import com.scrooge.config.client.exchangerate.ExchangeRateResponse;
 import com.scrooge.exception.*;
 import com.scrooge.model.Pocket;
 import com.scrooge.model.User;
@@ -102,7 +102,7 @@ public class WalletService {
 
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT, false);
-            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+            throw new InvalidInternalTransferAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
         }
 
         transactionService.setTransactionToWallet(wallet, amount, TransactionType.DEPOSIT, true);

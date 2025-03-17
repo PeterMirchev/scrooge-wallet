@@ -22,15 +22,21 @@ public class Pocket {
 
     @Column(nullable = false, unique = true)
     private String name;
+
     @Column(nullable = false)
     private String goalDescription;
+
     @Column(nullable = false)
     private BigDecimal targetAmount;
+
     @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
+
     @Column(nullable = false)
     private Currency currency;
+
     private LocalDateTime createdOn;
+
     private LocalDateTime updatedOn;
 
     @ManyToOne

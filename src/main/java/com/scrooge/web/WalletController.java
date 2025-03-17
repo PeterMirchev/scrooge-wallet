@@ -110,7 +110,6 @@ public class WalletController {
         return "wallet";
     }
 
-
     @PostMapping("/{id}/withdrawal")
     public ModelAndView withdrawalBetweenWallets(@PathVariable(name = "id") UUID walletId,
                                                  @RequestParam("recipientWalletId") UUID recipientWalletId,
@@ -133,8 +132,6 @@ public class WalletController {
 
         return modelAndView;
     }
-
-
 
     @PutMapping("/{id}/main-state")
     public String setMainWallet(@PathVariable(name = "id") UUID id, @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
@@ -177,7 +174,6 @@ public class WalletController {
 
         User user = userService.getUserById(currentPrinciple.getId());
 
-
         model.addAttribute("user", user);
 
         walletService.transferMoneyByEmail(walletId, amount, user, receiverEmail);
@@ -199,7 +195,5 @@ public class WalletController {
         walletService.transferMoneyToPocket(walletId, amount, user, pocketId);
 
         return "redirect:/pockets/" + pocketId;
-
     }
-
 }

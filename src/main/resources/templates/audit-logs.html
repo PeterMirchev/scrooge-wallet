@@ -46,10 +46,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="log : ${user.auditLog}">
+            <tr th:each="log : ${auditLogs}">
                 <td th:text="${log.message}"></td>
                 <td th:text="${log.action}"></td>
-                <td th:text="${log.user.firstName} + ' ' + ${log.user.getLastName()} + ' ' + ${log.user.getEmail()}"></td>
+                <td th:text="${log.user.getEmail()}"></td>
                 <td th:text="${#temporals.format(log.createdOn, 'yyyy-MMM-dd HH:mm')}"></td>
             </tr>
             </tbody>

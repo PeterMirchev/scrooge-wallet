@@ -26,7 +26,7 @@ public class AuditLogService {
     }
 
     public List<AuditLog> getAuditLogsForUser(UUID userId) {
-        return auditLogRepository.findTopNByUserIdOrderByCreatedOnDesc(userId);
+        return auditLogRepository.findAllByUserIdOrderByCreatedOnDesc(userId);
     }
 
     public List<AuditLog> findLogsBefore(LocalDateTime thresholdTime) {

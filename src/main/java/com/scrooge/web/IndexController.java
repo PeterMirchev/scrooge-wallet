@@ -79,7 +79,7 @@ public class IndexController {
     @GetMapping("/home")
     public ModelAndView getHomePage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
-        User user = userService.getUserById(currentPrinciple.getId());
+         User user = userService.getUserById(currentPrinciple.getId());
         List<AuditLog> auditLog = user.getAuditLog();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
@@ -88,5 +88,4 @@ public class IndexController {
 
         return modelAndView;
     }
-
 }

@@ -12,8 +12,8 @@ import java.util.UUID;
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, UUID> {
 
-    List<AuditLog> findTopNByUserIdOrderByCreatedOnDesc(UUID userId);
-
     List<AuditLog> findByCreatedOnBefore(LocalDateTime thresholdTime);
+
+    List<AuditLog> findAllByUserIdOrderByCreatedOnDesc(UUID userId);
 }
 

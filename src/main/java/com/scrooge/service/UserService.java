@@ -1,6 +1,6 @@
 package com.scrooge.service;
 
-import com.scrooge.config.client.EmailNotification;
+import com.scrooge.config.client.emailnotificaion.EmailNotification;
 import com.scrooge.exception.EmailAlreadyExistException;
 import com.scrooge.exception.InvalidUserEmailException;
 import com.scrooge.exception.ResourceNotFoundException;
@@ -71,12 +71,9 @@ public class UserService implements UserDetailsService {
         auditLogService.log("USER_CREATED", logMessage, persistedUser);
 
         NotificationRequest notificationRequest = mapNotificationRequest(user, persistedUser);
-
-        NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(user);
-
+        NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(persistedUser);
 
         ResponseEntity<Void> httpResponse;
-
         try {
             emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
             httpResponse = emailNotification.sendNotification(notificationRequest);
@@ -167,7 +164,7 @@ public class UserService implements UserDetailsService {
         return NotificationRequest.builder()
                 .userId(persistedUser.getId())
                 .subject(REGISTRATION_MESSAGE)
-                .body(WELCOME_MESSAGE.formatted(user.getFirstName()))
+                .body(WELCOME_MESSAGE)
                 .email(persistedUser.getEmail())
                 .type(NotificationType.NOTIFICATION)
                 .build();

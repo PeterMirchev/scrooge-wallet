@@ -55,8 +55,8 @@ public class GlobalControllerAdvice {
         return "redirect:/wallets/transfer";
     }
 
-    @ExceptionHandler(WalletAmountMustBeZeroException.class)
-    public String walletAmountMustBeZero(WalletAmountMustBeZeroException message, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    @ExceptionHandler({WalletAmountMustBeZeroException.class, InvalidInternalTransferAmountException.class})
+    public String walletAmountMustBeZero(RuntimeException message, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
         Map<String, String> attribute = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());

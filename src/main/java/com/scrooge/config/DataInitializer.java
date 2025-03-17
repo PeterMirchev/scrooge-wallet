@@ -1,13 +1,13 @@
 package com.scrooge.config;
 
-import com.scrooge.config.client.EmailNotification;
+import com.scrooge.config.client.emailnotificaion.EmailNotification;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.Role;
+import com.scrooge.service.AuditLogService;
 import com.scrooge.service.UserService;
 import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,13 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final EmailNotification emailNotification;
+    private final AuditLogService auditLogService;
 
-    public DataInitializer(UserService userService, PasswordEncoder passwordEncoder, EmailNotification emailNotification) {
+    public DataInitializer(UserService userService, PasswordEncoder passwordEncoder, EmailNotification emailNotification, AuditLogService auditLogService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.emailNotification = emailNotification;
+        this.auditLogService = auditLogService;
     }
 
     @Override
@@ -49,8 +51,13 @@ public class DataInitializer implements ApplicationListener<ApplicationReadyEven
 
             User persisted = userService.save(admin);
 
-            NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(persisted);
-            emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
+            try {
+                NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(persisted);
+                emailNotification.createNotificationPreference(notificationPreferenceCreateRequest);
+            } catch (Exception e) {
+                auditLogService.log("NOTIFICATION_PREFERENCE_FAIL", "Unable to clreate notification preference.", admin);
+            }
+
         }
     }
 }
