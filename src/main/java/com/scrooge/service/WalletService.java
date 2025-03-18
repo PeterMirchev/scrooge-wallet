@@ -120,17 +120,7 @@ public class WalletService {
         Wallet wallet = getWalletById(senderWallet);
         Wallet recipient = getWalletById(recipientWallet);
 
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
-            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to negative amount.", wallet.getUser());
-            throw new InternalTransactionException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
-        }
-
-        if (wallet.getBalance().compareTo(amount) < 0) {
-            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
-            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to insufficient funds.", wallet.getUser());
-            throw new InternalTransactionException(INSUFFICIENT_BALANCE);
-        }
+        amountAdnWalletValidation(amount, wallet);
 
         wallet.setBalance(wallet.getBalance().subtract(amount));
 
@@ -221,21 +211,6 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
-    private void amountAndWalletAmountValidation(BigDecimal amount, Wallet senderWallet) {
-
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
-            auditLogService.log("TRANSACTION", "Transaction fail due to negative amount.", senderWallet.getUser());
-            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
-        }
-
-        if (senderWallet.getBalance().compareTo(amount) < 0) {
-            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
-            auditLogService.log("TRANSACTION", "Transaction fail due to insufficient funds.", senderWallet.getUser());
-            throw new InsufficientTransferAmountException(INSUFFICIENT_BALANCE);
-        }
-    }
-
     @Transactional
     public void depositFromPocket(UUID walletId, UUID pocketId, UUID userId) {
 
@@ -289,6 +264,36 @@ public class WalletService {
 
         String message = "%s wallet successfully deleted".formatted(currentWallet.getName());
         auditLogService.log("WALLET_DELETED", message, user);
+    }
+
+    protected void amountAndWalletAmountValidation(BigDecimal amount, Wallet senderWallet) {
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("TRANSACTION", "Transaction fail due to negative amount.", senderWallet.getUser());
+            throw new InsufficientAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        if (senderWallet.getBalance().compareTo(amount) < 0) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("TRANSACTION", "Transaction fail due to insufficient funds.", senderWallet.getUser());
+            throw new InsufficientTransferAmountException(INSUFFICIENT_BALANCE);
+        }
+    }
+
+    protected void amountAdnWalletValidation(BigDecimal amount, Wallet wallet) {
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to negative amount.", wallet.getUser());
+            throw new InternalTransactionException(AMOUNT_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, false);
+            auditLogService.log("INTERNAL_TRANSACTION", "Internal transaction fail due to insufficient funds.", wallet.getUser());
+            throw new InternalTransactionException(INSUFFICIENT_BALANCE);
+        }
     }
 
     protected BigDecimal convertAmount(Currency sender, Currency receiver, BigDecimal amount) {
