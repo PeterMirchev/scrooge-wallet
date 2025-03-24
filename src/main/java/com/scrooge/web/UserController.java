@@ -26,17 +26,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile")
-    public ModelAndView getUser(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
-        User user = userService.getUserById(currentPrinciple.getId());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("account-settings");
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }
-
     @GetMapping
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     public ModelAndView getAllUsers(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
@@ -54,6 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public String switchUserStatus(@PathVariable UUID id) {
 
         userService.switchStatus(id);
@@ -62,6 +52,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     public String switchUserRole(@PathVariable UUID id) {
 
         userService.switchRole(id);
@@ -99,7 +90,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/account-settings/preference")
-    public String switchNotificationPreference(@PathVariable(name = "id") UUID uuid, @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+    public String switchNotificationPreference(@PathVariable(name = "id") UUID uuid) {
 
         userService.switchNotificationPreference(uuid);
 

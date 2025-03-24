@@ -6,7 +6,6 @@ import com.scrooge.web.mapper.AuditLogMapper;
 import com.scrooge.repository.AuditLogRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,15 +26,5 @@ public class AuditLogService {
 
     public List<AuditLog> getAuditLogsForUser(UUID userId) {
         return auditLogRepository.findAllByUserIdOrderByCreatedOnDesc(userId);
-    }
-
-    public List<AuditLog> findLogsBefore(LocalDateTime thresholdTime) {
-
-        return  auditLogRepository.findByCreatedOnBefore(thresholdTime);
-    }
-
-    public void deleteLogs(List<AuditLog> oldLogs) {
-
-        oldLogs.forEach(auditLogRepository::delete);
     }
 }

@@ -13,6 +13,7 @@ import com.scrooge.model.enums.Country;
 import com.scrooge.model.enums.Role;
 import com.scrooge.repository.UserRepository;
 import com.scrooge.security.CurrentPrinciple;
+import com.scrooge.web.dto.NotificationPreferenceResponse;
 import com.scrooge.web.dto.UserCreateRequest;
 import com.scrooge.web.dto.UserUpdateRequest;
 import org.junit.jupiter.api.Test;
@@ -101,9 +102,7 @@ class UserServiceUTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
-            userService.getUserById(userId);
-        });
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> userService.getUserById(userId));
 
         String expectedMessage = String.format(INVALID_USER_ID, userId);
         assertEquals(expectedMessage, exception.getMessage());
@@ -183,7 +182,6 @@ class UserServiceUTest {
     @Test
     void whenRegisterUser_thenThrowEmailAlreadyExistException() {
 
-        String email = "test@email.bg";
         UserCreateRequest request = UserCreateRequest.builder()
                 .email("test@test.bg")
                 .password("123123")
@@ -216,7 +214,6 @@ class UserServiceUTest {
 
         userService.register(request);
 
-        String logMessage = String.format("User with email %s created.", request.getEmail());
         verify(auditLogService, times(2)).log(any(), any(), any());
     }
 
@@ -252,6 +249,77 @@ class UserServiceUTest {
         user.setActive(true);
         assertTrue(user.isActive());
         verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void whenSwitchRole_thenHappyPath() {
+
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .active(true)
+                .role(Role.USER)
+                .build();
+
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        userService.switchRole(user.getId());
+
+        user.setRole(Role.ADMINISTRATOR);
+        assertEquals(user.getRole(), Role.ADMINISTRATOR);
+        verify(userRepository, times(1)).save(user);
+
+    }
+    @Test
+    void whenSwitchRoleToUser_thenHappyPath() {
+
+        User user = User.builder()
+                .id(UUID.randomUUID())
+                .active(true)
+                .role(Role.ADMINISTRATOR)
+                .build();
+
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        userService.switchRole(user.getId());
+
+        user.setRole(Role.USER);
+        assertTrue(user.isActive());
+        verify(userRepository, times(1)).save(user);
+
+    }
+
+    @Test
+    void whenSwitchNotificationPreference_thenHappyPath() {
+
+        UUID id = UUID.randomUUID();
+        NotificationPreferenceResponse response = NotificationPreferenceResponse.builder()
+                .id(id)
+                .enableNotification(true)
+                .email("test@test.com")
+                .build();
+
+        when(emailNotification.switchNotificationPreference(id)).thenReturn(response);
+
+        userService.switchNotificationPreference(id);
+
+        verify(emailNotification, times(1)).switchNotificationPreference(id);
+    }
+
+    @Test
+    void whenGetNotificationPreference_thenHappyPath() {
+
+        UUID id = UUID.randomUUID();
+        NotificationPreferenceResponse response = NotificationPreferenceResponse.builder()
+                .id(id)
+                .enableNotification(true)
+                .email("test@test.com")
+                .build();
+
+        when(emailNotification.getNotificationPreference(id)).thenReturn(response);
+
+        userService.getNotificationPreference(id);
+
+        verify(emailNotification, times(1)).getNotificationPreference(id);
     }
 }
 

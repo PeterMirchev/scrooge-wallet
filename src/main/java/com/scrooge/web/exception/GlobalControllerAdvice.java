@@ -3,6 +3,7 @@ package com.scrooge.web.exception;
 import com.scrooge.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -17,14 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
-import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(ResourceAlreadyExistException.class)
-    public String resourceAlreadyExistException(ResourceAlreadyExistException message, RedirectAttributes redirectAttributes) {
+    public String handleResourceAlreadyExistException(ResourceAlreadyExistException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
@@ -32,15 +32,15 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(EmailAlreadyExistException.class)
-    public String EmailAlreadyExistException(EmailAlreadyExistException message, RedirectAttributes redirectAttributes) {
-
+    public String handleEmailAlreadyExistException(EmailAlreadyExistException message, RedirectAttributes redirectAttributes) {
+        System.out.println("Handler called for EmailAlreadyExistException: " + message.getMessage());
         redirectAttributes.addFlashAttribute("emailAlreadyExistException", message.getMessage());
 
         return "redirect:/register";
     }
 
     @ExceptionHandler(NotificationException.class)
-    public String notificationException(NotificationException message, RedirectAttributes redirectAttributes) {
+    public String handleNotificationException(NotificationException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("notificationException", message.getMessage());
 
@@ -48,7 +48,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(InvalidUserEmailException.class)
-    public String invalidUserEmailException(InvalidUserEmailException message, RedirectAttributes redirectAttributes) {
+    public String handleInvalidUserEmailException(InvalidUserEmailException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("invalidUserEmailException", message.getMessage());
 
@@ -56,7 +56,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler({WalletAmountMustBeZeroException.class, InvalidInternalTransferAmountException.class})
-    public String walletAmountMustBeZero(RuntimeException message, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+    public String handleWalletAmountMustBeZero(RuntimeException message, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
         Map<String, String> attribute = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
@@ -68,7 +68,7 @@ public class GlobalControllerAdvice {
             InsufficientTransferAmountException.class,
             InvocationTargetException.class
     })
-    public String insufficientTransferAmountException(InsufficientTransferAmountException message, RedirectAttributes redirectAttributes) {
+    public String handleInsufficientTransferAmountException(InsufficientTransferAmountException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("insufficientTransferAmountException", message.getMessage());
 
@@ -78,7 +78,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({
             ReceiverHasNoWalletException.class
     })
-    public String receiverHasNoWalletException(ReceiverHasNoWalletException message, RedirectAttributes redirectAttributes) {
+    public String handleReceiverHasNoWalletException(ReceiverHasNoWalletException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("receiverHasNoWalletException", message.getMessage());
 
@@ -86,7 +86,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public String resourceNotFoundException(ResourceNotFoundException message, RedirectAttributes redirectAttributes) {
+    public String handleResourceNotFoundException(ResourceNotFoundException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
@@ -94,7 +94,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(InsufficientAmountException.class)
-    public String insufficientAmountException(InsufficientAmountException message, RedirectAttributes redirectAttributes) {
+    public String handleInsufficientAmountException(InsufficientAmountException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
@@ -102,7 +102,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(InternalTransactionException.class)
-    public String internalTransactionException(InternalTransactionException message, RedirectAttributes redirectAttributes) {
+    public String handleInternalTransactionException(InternalTransactionException message, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", message.getMessage());
 
@@ -110,7 +110,7 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(NotificationServiceException.class)
-    public String notificationServiceException(RedirectAttributes redirectAttributes, NotificationServiceException exception) {
+    public String handleNotificationServiceException(RedirectAttributes redirectAttributes, NotificationServiceException exception) {
 
         String message = exception.getMessage();
 
@@ -126,7 +126,8 @@ public class GlobalControllerAdvice {
             MissingPathVariableException.class,
             MissingRequestCookieException.class,
             MissingRequestHeaderException.class,
-            MissingRequestValueException.class
+            MissingRequestValueException.class,
+            AuthorizationDeniedException.class
     })
     public ModelAndView handleNotFoundException() {
 

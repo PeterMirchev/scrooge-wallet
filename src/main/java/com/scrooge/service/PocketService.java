@@ -4,16 +4,12 @@ import com.scrooge.exception.ResourceAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.Pocket;
 import com.scrooge.model.User;
-import com.scrooge.model.Wallet;
 import com.scrooge.web.mapper.PocketMapper;
 import com.scrooge.repository.PocketRepository;
 import com.scrooge.web.dto.PocketCreateRequest;
-import com.scrooge.web.dto.PocketUpdateRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.UUID;
 
 import static com.scrooge.exception.ExceptionMessages.*;

@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
         String logMessage = String.format("User with email %s created.", request.getEmail());
         auditLogService.log("USER_CREATED", logMessage, persistedUser);
 
-        NotificationRequest notificationRequest = mapNotificationRequest(user, persistedUser);
+        NotificationRequest notificationRequest = mapNotificationRequest(persistedUser);
         NotificationPreferenceCreateRequest notificationPreferenceCreateRequest = mapNotificationPreferenceCreateRequest(persistedUser);
 
         ResponseEntity<Void> httpResponse;
@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User update(UUID userId, UserUpdateRequest request) {
+    public void update(UUID userId, UserUpdateRequest request) {
 
         User user = getUserById(userId);
 
@@ -106,7 +106,7 @@ public class UserService implements UserDetailsService {
         String logMessage = String.format("User with email %s updated.", user.getEmail());
         auditLogService.log("UPDATE_USER", logMessage, user);
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public User save(User user) {
@@ -159,7 +159,7 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    protected static NotificationRequest mapNotificationRequest(User user, User persistedUser) {
+    protected static NotificationRequest mapNotificationRequest(User persistedUser) {
 
         return NotificationRequest.builder()
                 .userId(persistedUser.getId())
@@ -170,17 +170,13 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public NotificationPreferenceResponse switchNotificationPreference(UUID userId) {
+    public void switchNotificationPreference(UUID userId) {
 
-        return emailNotification.switchNotificationPreference(userId);
+        emailNotification.switchNotificationPreference(userId);
     }
 
     public NotificationPreferenceResponse getNotificationPreference(UUID id) {
 
-        NotificationPreferenceResponse notificationPreference = emailNotification.getNotificationPreference(id);
-
-        System.out.println();
-
-        return notificationPreference;
+        return emailNotification.getNotificationPreference(id);
     }
 }

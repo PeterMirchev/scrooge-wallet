@@ -8,7 +8,6 @@ import com.scrooge.service.UserService;
 import com.scrooge.service.WalletService;
 import com.scrooge.web.dto.PocketCreateRequest;
 import jakarta.validation.Valid;
-import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -75,7 +75,7 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    public Wallet setMainWallet(UUID walletId, UUID userId) {
+    public void setMainWallet(UUID walletId, UUID userId) {
 
         User user = userService.getUserById(userId);
         Wallet wallet = getWalletById(walletId);
@@ -91,7 +91,7 @@ public class WalletService {
 
         auditLogService.log("SET_MAIN_WALLET", message, user);
 
-        return walletRepository.save(wallet);
+        walletRepository.save(wallet);
     }
 
     public Wallet deposit(UUID walletId, UUID userId, BigDecimal amount) {
@@ -198,7 +198,7 @@ public class WalletService {
         wallet.setBalance(wallet.getBalance().subtract(amount));
 
         if (!wallet.getCurrency().equals(pocket.getCurrency())) {
-            amount = convertAmount(pocket.getCurrency(), wallet.getCurrency(), amount);
+            amount = convertAmount(wallet.getCurrency(), pocket.getCurrency(), amount);
         }
 
         transactionService.setTransactionToWallet(wallet, amount, TransactionType.WITHDRAWAL, true);
@@ -221,7 +221,7 @@ public class WalletService {
         BigDecimal amount = pocket.getBalance();
 
         if (!wallet.getCurrency().equals(pocket.getCurrency())) {
-            amount = convertAmount(pocket.getCurrency(), wallet.getCurrency(), amount);
+            amount = convertAmount(wallet.getCurrency(), pocket.getCurrency(), amount);
         }
 
         transactionService.setTransactionToWallet(wallet, amount, TransactionType.INTERNAL_TRANSACTION, true);

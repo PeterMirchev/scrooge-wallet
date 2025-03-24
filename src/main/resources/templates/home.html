@@ -18,8 +18,8 @@
     <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
     <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
 
-    <li th:if="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
-      <a th:href="@{/users}" class="button">All Users</a>
+    <li sec:authorize="hasRole('ADMINISTRATOR')">
+      <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
     </li>
 
     <li class="logout-button">

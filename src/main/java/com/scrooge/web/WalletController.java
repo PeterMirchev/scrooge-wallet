@@ -91,7 +91,7 @@ public class WalletController {
 
         model.addAttribute("wallet", wallet);
 
-        return "redirect:/wallets/{id}";
+        return "redirect:/wallets";
     }
 
     @GetMapping("/{id}/withdrawal")

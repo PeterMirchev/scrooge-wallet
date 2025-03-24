@@ -1,10 +1,8 @@
 package com.scrooge.web;
 
 import com.scrooge.model.AuditLog;
-import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.AuditLogService;
-import com.scrooge.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

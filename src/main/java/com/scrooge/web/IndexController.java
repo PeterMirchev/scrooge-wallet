@@ -25,6 +25,7 @@ public class IndexController {
         this.userService = userService;
     }
 
+
     @GetMapping("/login")
     public ModelAndView getLoginPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
@@ -38,6 +39,7 @@ public class IndexController {
 
         return modelAndView;
     }
+
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
@@ -66,7 +68,7 @@ public class IndexController {
         return modelAndView;
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String getIndexPage(@AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
 
         if (currentPrinciple != null) {

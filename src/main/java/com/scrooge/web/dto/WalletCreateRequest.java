@@ -1,6 +1,7 @@
 package com.scrooge.web.dto;
 
 import com.scrooge.model.enums.Country;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +16,9 @@ import java.util.Currency;
 @AllArgsConstructor
 public class WalletCreateRequest {
 
-    @NotNull
+    @NotBlank(message = "Wallet name is required")
     private String name;
-    @NotNull
+
+    @NotBlank(message = "Currency is required")
     private String currency;
 }

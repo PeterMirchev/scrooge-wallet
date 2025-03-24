@@ -3,7 +3,6 @@ package com.scrooge.config.client.emailnotificaion;
 import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
 import com.scrooge.web.dto.NotificationPreferenceResponse;
 import com.scrooge.web.dto.NotificationRequest;
-import com.scrooge.web.dto.NotificationResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
