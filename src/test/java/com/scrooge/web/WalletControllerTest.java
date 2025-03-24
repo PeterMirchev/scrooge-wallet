@@ -1,7 +1,9 @@
 package com.scrooge.web;
 
 import com.scrooge.TestBuilder;
+import com.scrooge.exception.InvalidInternalTransferAmountException;
 import com.scrooge.exception.ResourceAlreadyExistException;
+import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
 
 import com.scrooge.model.Wallet;
@@ -19,8 +21,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Currency;
+import java.util.List;
 import java.util.UUID;
 
+import static com.scrooge.exception.ExceptionMessages.AMOUNT_MUST_BE_GREATER_THAN_ZERO;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -168,4 +172,55 @@ class WalletControllerTest {
         verify(userService, times(1)).getUserById(any());
         verify(walletService, times(1)).getWalletById(any());
     }
+
+
+    @Test
+    void depositToWallet_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        Wallet  wallet = user.getWallets().get(0);
+
+        when(walletService.getWalletById(wallet.getId())).thenReturn(wallet);
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        when(walletService.deposit(wallet.getId(), principal.getId(), BigDecimal.TEN)).thenReturn(wallet);
+
+        MockHttpServletRequestBuilder request = post("/wallets/{id}/deposit", wallet.getId())
+                .param("amount", BigDecimal.TEN.toString())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets"));
+
+        verify(walletService, times(1)).deposit(any(), any(), any());
+    }
+
+    @Test
+    void depositToWallet_thenThrowInvalidInternalTransferAmountException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        Wallet  wallet = user.getWallets().get(0);
+
+        when(walletService.getWalletById(wallet.getId())).thenReturn(wallet);
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        when(walletService.deposit(wallet.getId(), principal.getId(), BigDecimal.TEN)).thenThrow(new InvalidInternalTransferAmountException(AMOUNT_MUST_BE_GREATER_THAN_ZERO));
+
+        MockHttpServletRequestBuilder request = post("/wallets/{id}/deposit", wallet.getId())
+                .param("amount", BigDecimal.TEN.toString())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets/" + wallet.getId()))
+                .andExpect(flash().attributeExists("errorMessage"));
+
+        verify(walletService, times(1)).deposit(any(), any(), any());
+    }
+
 }

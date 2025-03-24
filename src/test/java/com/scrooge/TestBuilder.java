@@ -11,7 +11,6 @@ import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +21,17 @@ public class TestBuilder {
     public static User aRandomUser() {
 
         Wallet wallet = Wallet.builder()
+                .id(UUID.randomUUID())
                 .name("wallet")
+                .balance(BigDecimal.TEN)
+                .currency(Currency.getInstance("USD"))
+                .createdOn(LocalDateTime.now())
+                .updatedOn(LocalDateTime.now())
+                .build();
+
+        Wallet secondWallet = Wallet.builder()
+                .id(UUID.randomUUID())
+                .name("secondWallet")
                 .balance(BigDecimal.TEN)
                 .currency(Currency.getInstance("USD"))
                 .createdOn(LocalDateTime.now())
@@ -51,7 +60,7 @@ public class TestBuilder {
                 .country(Country.BULGARIA)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
-                .wallets(List.of(wallet))
+                .wallets(List.of(wallet, secondWallet))
                 .pockets(List.of(pocket))
                 .build();
 

@@ -94,21 +94,6 @@ public class WalletController {
         return "redirect:/wallets";
     }
 
-    @GetMapping("/{id}/withdrawal")
-    public String getTransferForm(@PathVariable("id") UUID id,
-                                   @AuthenticationPrincipal CurrentPrinciple currentPrinciple,
-                                   Model model) {
-
-        User user = userService.getUserById(currentPrinciple.getId());
-
-        Wallet wallet = walletService.getWalletById(id);
-
-        List<Wallet> wallets = walletService.getAllWalletsByUserId(user.getId());
-        model.addAttribute("currentWallet", wallet);
-        model.addAttribute("wallets", wallets);
-
-        return "wallet";
-    }
 
     @PostMapping("/{id}/withdrawal")
     public ModelAndView withdrawalBetweenWallets(@PathVariable(name = "id") UUID walletId,
