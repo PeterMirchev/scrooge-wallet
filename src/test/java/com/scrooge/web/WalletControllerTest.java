@@ -1,9 +1,7 @@
 package com.scrooge.web;
 
 import com.scrooge.TestBuilder;
-import com.scrooge.exception.InvalidInternalTransferAmountException;
-import com.scrooge.exception.ResourceAlreadyExistException;
-import com.scrooge.exception.ResourceNotFoundException;
+import com.scrooge.exception.*;
 import com.scrooge.model.User;
 
 import com.scrooge.model.Wallet;
@@ -19,17 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.List;
 import java.util.UUID;
 
-import static com.scrooge.exception.ExceptionMessages.AMOUNT_MUST_BE_GREATER_THAN_ZERO;
+import static com.scrooge.exception.ExceptionMessages.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(WalletController.class)
@@ -223,4 +217,266 @@ class WalletControllerTest {
         verify(walletService, times(1)).deposit(any(), any(), any());
     }
 
+    @Test
+    void withdrawalBetweenWallets_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        Wallet  wallet = user.getWallets().get(0);
+        Wallet recipient = user.getWallets().get(1);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        when(walletService.getWalletById(wallet.getId())).thenReturn(wallet);
+        when(walletService.getWalletById(recipient.getId())).thenReturn(recipient);
+
+        MockHttpServletRequestBuilder request = post("/wallets/{id}/withdrawal", wallet.getId())
+                .param("recipientWalletId", recipient.getId().toString())
+                .param("amount", BigDecimal.TEN.toString())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(view().name("wallet"))
+                .andExpect(model().attribute("user", user))
+                .andExpect(model().attribute("wallet", wallet))
+                .andExpect(model().attribute("recipientWallet", recipient));
+
+        verify(userService, times(1)).getUserById(any());
+        verify(walletService, times(2)).getWalletById(any());
+        verify(walletService, times(1)).transferMoneyBetweenWallets(any(), any(), any());
+    }
+
+    @Test
+    void deleteWallet_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        Wallet wallet = user.getWallets().get(0);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+
+        MockHttpServletRequestBuilder request = delete("/wallets/{id}", wallet.getId())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets"));
+
+        verify(walletService, times(1)).deleteWallet(any(), any());
+        verify(userService, times(1)).getUserById(any());
+    }
+
+    @Test
+    void deleteWallet_throwWalletAmountMustBeZeroException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        Wallet wallet = user.getWallets().get(0);
+
+        doThrow(new WalletAmountMustBeZeroException(WALLET_AMOUNT_MUST_BE_ZERO))
+                .when(walletService).deleteWallet(any(), any());
+
+        MockHttpServletRequestBuilder request = delete("/wallets/{id}", wallet.getId())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets/" + wallet.getId()));
+
+        verify(walletService, times(1)).deleteWallet(any(), any());
+        verify(userService, times(1)).getUserById(any());
+    }
+
+    @Test
+    void getTransferPage_happyPage() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+
+        MockHttpServletRequestBuilder request = get("/wallets/transfer")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(view().name("transfer"))
+                .andExpect(model().attributeExists("user"));
+
+        verify(userService, times(1)).getUserById(any());
+    }
+
+    @Test
+    void transferMoneyByEmail_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("receiverEmail", "test@test.com")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets/transfer"));
+
+        verify(walletService, times(1)).transferMoneyByEmail(any(), any(), any(), any());
+    }
+
+    @Test
+    void transferMoneyToPocket_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+
+        UUID pocketId = UUID.randomUUID();
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer/pocket")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("pocketId", pocketId.toString())
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/pockets/" + pocketId));
+
+        verify(walletService, times(1)).transferMoneyToPocket(any(), any(), any(), any());
+    }
+
+    @Test
+    void transferMoneyByEmail_thenInvalidUserEmailException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        doThrow(new InvalidUserEmailException(INVALID_USER_EMAIL.formatted("invalid@email.com")))
+                .when(walletService)
+                .transferMoneyByEmail(any(), any(), any(), any());
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("receiverEmail", "invalid@email.com")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("invalidUserEmailException"))
+                .andExpect(redirectedUrl("/wallets/transfer"));
+
+        verify(walletService, times(1)).transferMoneyByEmail(any(), any(), any(), any());
+    }
+
+    @Test
+    void transferMoneyByEmail_thenReceiverHasNoWalletException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        doThrow(new ReceiverHasNoWalletException("%s cannot accept money right now.".formatted("invalid@email.com")))
+                .when(walletService)
+                .transferMoneyByEmail(any(), any(), any(), any());
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("receiverEmail", "invalid@email.com")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("receiverHasNoWalletException"))
+                .andExpect(redirectedUrl("/wallets/transfer"));
+
+        verify(walletService, times(1)).transferMoneyByEmail(any(), any(), any(), any());
+    }
+
+    @Test
+    void transferMoneyByEmail_thenInsufficientTransferAmountException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        doThrow(new InsufficientTransferAmountException("%s cannot accept money right now.".formatted("invalid@email.com")))
+                .when(walletService)
+                .transferMoneyByEmail(any(), any(), any(), any());
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("receiverEmail", "invalid@email.com")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("insufficientTransferAmountException"))
+                .andExpect(redirectedUrl("/wallets/transfer"));
+
+        verify(walletService, times(1)).transferMoneyByEmail(any(), any(), any(), any());
+    }
+
+    @Test
+    void transferMoneyByEmail_thenInsufficientAmountException() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+
+        when(userService.getUserById(principal.getId())).thenReturn(user);
+        doThrow(new InsufficientAmountException("%s cannot accept money right now.".formatted("invalid@email.com")))
+                .when(walletService)
+                .transferMoneyByEmail(any(), any(), any(), any());
+
+        MockHttpServletRequestBuilder request = put("/wallets/transfer")
+                .param("amount", BigDecimal.TEN.toString())
+                .param("walletId", UUID.randomUUID().toString())
+                .param("receiverEmail", "invalid@email.com")
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("errorMessage"))
+                .andExpect(redirectedUrl("/wallets/transfer"));
+
+        verify(walletService, times(1)).transferMoneyByEmail(any(), any(), any(), any());
+    }
+
+    @Test
+    void setMainWallet_happyPath() throws Exception {
+
+        User user = TestBuilder.aRandomUser();
+        CurrentPrinciple principal = new CurrentPrinciple(user.getId(), user.getEmail(), user.getPassword(), user.getRole(), true);
+        UUID walletId = user.getWallets().get(0).getId();
+        MockHttpServletRequestBuilder request = put("/wallets/{id}/main-state", walletId)
+                .with(user(principal))
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets/" + walletId));
+
+        verify(walletService, times(1)).setMainWallet(any(), any());
+    }
 }

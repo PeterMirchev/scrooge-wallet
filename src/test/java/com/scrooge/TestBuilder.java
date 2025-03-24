@@ -39,6 +39,7 @@ public class TestBuilder {
                 .build();
 
         Pocket pocket = Pocket.builder()
+                .id(UUID.randomUUID())
                 .name("pocket")
                 .goalDescription("test")
                 .targetAmount(BigDecimal.TEN)

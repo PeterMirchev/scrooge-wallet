@@ -121,7 +121,7 @@ class IndexControllerTest {
                 .andExpect(redirectedUrl("/home"));
     }
 
-    @Test //TODO ?????????????????????????????
+    @Test
     void getIndexPage_happyPath() throws Exception {
 
         MockHttpServletRequestBuilder request = get("/");
@@ -129,6 +129,5 @@ class IndexControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
-
     }
 }

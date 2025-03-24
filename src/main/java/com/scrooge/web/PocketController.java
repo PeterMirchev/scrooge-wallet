@@ -59,7 +59,6 @@ public class PocketController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("create-pocket");
             modelAndView.addObject("pocketCreateRequest", pocketCreateRequest);
