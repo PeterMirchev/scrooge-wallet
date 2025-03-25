@@ -1,11 +1,9 @@
 package com.scrooge;
 
-import com.scrooge.model.AuditLog;
-import com.scrooge.model.Pocket;
-import com.scrooge.model.User;
-import com.scrooge.model.Wallet;
+import com.scrooge.model.*;
 import com.scrooge.model.enums.Country;
 import com.scrooge.model.enums.Role;
+import com.scrooge.model.enums.TransactionType;
 import com.scrooge.web.dto.UserCreateRequest;
 import lombok.experimental.UtilityClass;
 
@@ -20,6 +18,7 @@ public class TestBuilder {
 
     public static User aRandomUser() {
 
+
         Wallet wallet = Wallet.builder()
                 .id(UUID.randomUUID())
                 .name("wallet")
@@ -28,6 +27,26 @@ public class TestBuilder {
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
+
+        Transaction transaction = Transaction.builder()
+                .id(UUID.randomUUID())
+                .type(TransactionType.INTERNAL_TRANSACTION)
+                .successful(true)
+                .amount(BigDecimal.TEN)
+                .wallet(wallet)
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        Transaction transactionTwo = Transaction.builder()
+                .id(UUID.randomUUID())
+                .type(TransactionType.INTERNAL_TRANSACTION)
+                .successful(true)
+                .amount(BigDecimal.TEN)
+                .wallet(wallet)
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        wallet.setTransactions(List.of(transaction, transactionTwo));
 
         Wallet secondWallet = Wallet.builder()
                 .id(UUID.randomUUID())
@@ -64,8 +83,6 @@ public class TestBuilder {
                 .wallets(List.of(wallet, secondWallet))
                 .pockets(List.of(pocket))
                 .build();
-
-
 
         return user;
     }

@@ -237,11 +237,8 @@ class WalletControllerTest {
                 .with(csrf());
 
         mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andExpect(view().name("wallet"))
-                .andExpect(model().attribute("user", user))
-                .andExpect(model().attribute("wallet", wallet))
-                .andExpect(model().attribute("recipientWallet", recipient));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wallets"));
 
         verify(userService, times(1)).getUserById(any());
         verify(walletService, times(2)).getWalletById(any());
@@ -479,4 +476,5 @@ class WalletControllerTest {
 
         verify(walletService, times(1)).setMainWallet(any(), any());
     }
+
 }

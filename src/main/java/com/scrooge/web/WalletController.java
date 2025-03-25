@@ -81,42 +81,6 @@ public class WalletController {
         return "wallet";
     }
 
-    @PostMapping("/{id}/deposit")
-    public String depositToWallet(@PathVariable("id") UUID walletId,
-                                  @AuthenticationPrincipal CurrentPrinciple currentPrinciple,
-                                  @RequestParam("amount") BigDecimal amount,
-                                  Model model) {
-
-        Wallet wallet = walletService.deposit(walletId, currentPrinciple.getId(), amount);
-
-        model.addAttribute("wallet", wallet);
-
-        return "redirect:/wallets";
-    }
-
-
-    @PostMapping("/{id}/withdrawal")
-    public ModelAndView withdrawalBetweenWallets(@PathVariable(name = "id") UUID walletId,
-                                                 @RequestParam("recipientWalletId") UUID recipientWalletId,
-                                                 @RequestParam("amount") BigDecimal amount,
-                                                 @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
-
-        ModelAndView modelAndView = new ModelAndView();
-
-        User user = userService.getUserById(currentPrinciple.getId());
-
-        Wallet wallet = walletService.getWalletById(walletId);
-        Wallet recipient = walletService.getWalletById(recipientWalletId);
-
-        walletService.transferMoneyBetweenWallets(walletId, recipientWalletId, amount);
-
-        modelAndView.setViewName("wallet");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("wallet", wallet);
-        modelAndView.addObject("recipientWallet", recipient);
-
-        return modelAndView;
-    }
 
     @PutMapping("/{id}/main-state")
     public String setMainWallet(@PathVariable(name = "id") UUID id, @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
@@ -148,6 +112,39 @@ public class WalletController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
+    }
+
+    @PostMapping("/{id}/deposit")
+    public String depositToWallet(@PathVariable("id") UUID walletId,
+                                  @AuthenticationPrincipal CurrentPrinciple currentPrinciple,
+                                  @RequestParam("amount") BigDecimal amount,
+                                  Model model) {
+
+        Wallet wallet = walletService.deposit(walletId, currentPrinciple.getId(), amount);
+
+        model.addAttribute("wallet", wallet);
+
+        return "redirect:/wallets";
+    }
+
+    @PostMapping("/{id}/withdrawal")
+    public String withdrawalBetweenWallets(@PathVariable(name = "id") UUID walletId,
+                                                 @RequestParam("recipientWalletId") UUID recipientWalletId,
+                                                 @RequestParam("amount") BigDecimal amount,
+                                                 @AuthenticationPrincipal CurrentPrinciple currentPrinciple,  Model model) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+        Wallet wallet = walletService.getWalletById(walletId);
+        Wallet recipient = walletService.getWalletById(recipientWalletId);
+
+        walletService.transferMoneyBetweenWallets(walletId, recipientWalletId, amount);
+
+        model.addAttribute("user", user);
+        model.addAttribute("wallet", wallet);
+        model.addAttribute("recipientWallet", recipient);
+
+        return "redirect:/wallets";
     }
 
     @PutMapping("/transfer")
