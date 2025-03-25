@@ -51,11 +51,11 @@
             </thead>
             <tbody>
             <tr th:each="user : ${users}" th:if="${admin.id != user.id}">
-                <td th:text="${user.firstName != null && user.firstName.trim() != '' ? user.firstName : '-----'}"></td>
-                <td th:text="${user.lastName != null && user.lastName.trim() != '' ? user.lastName : '-----'}"></td>
+                <td th:text="${user.firstName ?: '-----'}"></td>
+                <td th:text="${user.lastName ?: '-----'}"></td>
                 <td th:text="${user.email}"></td>
-                <td th:text="${user.phoneNumber != null && user.phoneNumber.trim() != '' ? user.phoneNumber : '-----'}"></td>
-                <td th:text="${user.country != null && user.country.trim() != '' ? user.country : '-----'}"></td>
+                <td th:text="${user.phoneNumber ?: '-----'}"></td>
+                <td th:text="${user.country ?: '-----'}"></td>
                 <td th:switch="${user.active}">
                     <span th:case="true" style="color: #13c013;">ACTIVE</span>
                     <span th:case="false" style="color: #ce1414;">INACTIVE</span>

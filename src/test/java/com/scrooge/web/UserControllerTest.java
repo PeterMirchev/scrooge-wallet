@@ -4,6 +4,7 @@ import com.scrooge.TestBuilder;
 import com.scrooge.exception.EmailAlreadyExistException;
 import com.scrooge.exception.ResourceNotFoundException;
 import com.scrooge.model.User;
+import com.scrooge.model.enums.Country;
 import com.scrooge.model.enums.Role;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
@@ -83,7 +84,9 @@ class UserControllerTest {
                 .build();
 
         User user1 = TestBuilder.aRandomUser();
+        user1.setCountry(Country.UNITED_STATES);
         User user2 = TestBuilder.aRandomUser();
+        user2.setCountry(null);
         List<User> users = List.of(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(users);
