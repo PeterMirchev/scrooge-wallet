@@ -155,6 +155,8 @@ public class WalletService {
         }
 
         if (receiverUser.getWallets().isEmpty()) {
+            transactionService.setTransactionToWallet(senderWallet, amount, TransactionType.TRANSFER, false);
+            auditLogService.log("TRANSFER", "%s cannot accept money right now.".formatted(receiverEmail), user);
             throw new ReceiverHasNoWalletException("%s cannot accept money right now.".formatted(receiverEmail));
         }
 

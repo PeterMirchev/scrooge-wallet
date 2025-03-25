@@ -131,7 +131,10 @@
                 <tr th:each="transaction : ${wallet.transactions}">
                     <td th:text="${transaction.amount}"></td>
                     <td th:text="${transaction.wallet.currency}"></td>
-                    <td th:text="${transaction.successful ? 'SUCCESSFUL' : 'FAILED'}"></td>
+                    <td >
+                        <span th:if="${transaction.successful}" style="color: #4CAF50; font-weight: 300;">SUCCESSFUL</span>
+                        <span th:if="${!transaction.successful}" style="color: #d00808; font-weight: 300;">FAILED</span>
+                    </td>
                     <td th:text="${transaction.type}"></td>
                     <td th:text="${#temporals.format(transaction.createdOn, 'HH:mm dd MMM YYYY')}"></td>
                 </tr>

@@ -51,18 +51,18 @@
             </thead>
             <tbody>
             <tr th:each="user : ${users}" th:if="${admin.id != user.id}">
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.firstName != null && user.firstName.trim() != '' ? user.firstName : '-----'}"></td>
+                <td th:text="${user.lastName != null && user.lastName.trim() != '' ? user.lastName : '-----'}"></td>
                 <td th:text="${user.email}"></td>
-                <td th:text="${user.phoneNumber}"></td>
-                <td th:text="${user.country}"></td>
+                <td th:text="${user.phoneNumber != null && user.phoneNumber.trim() != '' ? user.phoneNumber : '-----'}"></td>
+                <td th:text="${user.country != null && user.country.trim() != '' ? user.country : '-----'}"></td>
                 <td th:switch="${user.active}">
-                    <span th:case="true">ACTIVE</span>
-                    <span th:case="false">INACTIVE</span>
+                    <span th:case="true" style="color: #13c013;">ACTIVE</span>
+                    <span th:case="false" style="color: #ce1414;">INACTIVE</span>
                 </td>
                 <td th:text="${user.role}"></td>
                 <td>
-                    <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
+                    <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT" style="display:inline;">
                         <input type="hidden" name="_method" value="put"/>
                         <button type="submit" class="button"
                                 th:text="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR ? 'Disable Admin' : 'Enable Admin'}">
@@ -71,10 +71,11 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{'/users/' + ${user.id} + '/status'}" th:method="PUT">
+                    <form th:action="@{'/users/' + ${user.id} + '/status'}" th:method="PUT" style="display:inline;">
                         <input type="hidden" name="_method" value="put"/>
-                        <button type="submit" class="button" th:text="${user.active ? 'Disable User' : 'Enable User'}">
-                            Enable - Disable
+                        <button type="submit" class="button"
+                                th:text="${user.active ? 'Disable User' : 'Enable User'}">
+                            Enable / Disable
                         </button>
                     </form>
                 </td>
