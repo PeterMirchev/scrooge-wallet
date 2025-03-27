@@ -44,7 +44,7 @@
       <p><strong>First Name:</strong> <span th:text="${#strings.isEmpty(user.firstName) ? 'Set first name' : user.firstName}"></span></p>
       <p><strong>Last Name:</strong> <span th:text="${#strings.isEmpty(user.lastName) ? 'set last name' : user.lastName}"></span></p>
       <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-      <p><strong>Phone Number:</strong> <span th:text="${#strings.isEmpty(user.phoneNumber) ? 'set phon number' : user.phoneNumber}"></span></p>
+      <p><strong>Phone Number:</strong> <span th:text="${#strings.isEmpty(user.phoneNumber) ? 'set phone number' : user.phoneNumber}"></span></p>
       <p><strong>Country:</strong> <span th:text="${#strings.isEmpty(user.country) ? 'set your country' : user.country}"></span></p>
       <p><strong>Created On:</strong> <span th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy')}"></span></p>
       <p><strong>Updated On:</strong> <span th:text="${#temporals.format(user.updatedOn, 'dd MMM yyyy')}"></span></p>
