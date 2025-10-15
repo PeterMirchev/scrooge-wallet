@@ -17,6 +17,7 @@
         <li><a th:href="@{/transactions}" class="button" style="text-decoration: none !important;">Transactions</a></li>
         <li><a th:href="@{/audit-logs}" class="button" style="text-decoration: none !important;">Audit Logs</a></li>
         <li><a th:href="@{/users/account-settings}" class="button" style="text-decoration: none !important;">Account Settings</a></li>
+        <li><a th:href="@{/support}" class="button" style="text-decoration: none !important;">Contact support</a></li>
 
         <li sec:authorize="hasRole('ADMINISTRATOR')">
             <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
