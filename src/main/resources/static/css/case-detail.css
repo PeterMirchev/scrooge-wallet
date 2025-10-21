@@ -150,3 +150,65 @@ h2 {
         font-size: 14px;
     }
 }
+
+/* Editable inputs and textarea inside case-detail */
+.case-detail input[type="text"],
+.case-detail textarea,
+.case-detail select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fafafa;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.case-detail input[type="text"]:focus,
+.case-detail textarea:focus,
+.case-detail select:focus {
+    border-color: #9559c7;
+    outline: none;
+    box-shadow: 0 0 5px rgba(149, 89, 199, 0.5);
+}
+
+/* Textarea for messages (read-only) */
+.case-detail textarea[readonly] {
+    background-color: #f4f4f9;
+    color: #555;
+    border: 1px solid #ddd;
+    resize: vertical;
+    cursor: default;
+}
+
+/* Adjust select to match style */
+.case-detail select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fafafa;
+}
+
+/* Save button adjustments */
+.case-detail button[type="submit"] {
+    background-color: #9559c7;
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.case-detail button[type="submit"]:hover {
+    background: linear-gradient(135deg, #9559c7, #7a5cc9);
+    opacity: 0.9;
+}
+

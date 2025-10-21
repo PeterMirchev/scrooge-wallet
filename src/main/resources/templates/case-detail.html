@@ -31,18 +31,47 @@
 <main id="case-detail-content" class="cases-content">
     <h2>Case Details</h2>
 
-    <!-- Main Case Info -->
+    <!-- Read-only fields -->
     <div class="case-detail">
         <p><strong>Case ID:</strong> <span th:text="${case.id}"></span></p>
-        <p><strong>Case Owner:</strong> <span th:text="${case.caseOwner}"></span></p>
         <p><strong>Requester Name:</strong> <span th:text="${case.requesterName}"></span></p>
         <p><strong>Requester Email:</strong> <span th:text="${case.requesterEmail}"></span></p>
-        <p><strong>Case Name:</strong> <span th:text="${case.caseName}"></span></p>
-        <p><strong>Case Description:</strong> <span th:text="${case.caseDescription}"></span></p>
-        <p><strong>Status:</strong> <span th:text="${case.status}"></span></p>
+        <p><strong>Case Owner:</strong> <span th:text="${case.caseOwner}"></span></p>
         <p><strong>Created On:</strong> <span th:text="${case.createdOn}"></span></p>
         <p><strong>Updated On:</strong> <span th:text="${case.updatedOn}"></span></p>
     </div>
+
+    <!-- Editable Case Form -->
+    <form th:action="@{/cases/update}" th:object="${case}" method="post" class="case-detail" style="margin-top: 20px;">
+        <h3>Edit Case</h3>
+
+        <label for="caseName"><strong>Case Name:</strong></label>
+        <input type="text" id="caseName" th:field="*{caseName}" />
+
+        <label for="caseDescription"><strong>Case Description:</strong></label>
+        <textarea id="caseDescription" rows="5" th:field="*{caseDescription}"></textarea>
+
+        <label for="status"><strong>Status:</strong></label>
+        <select id="status" th:field="*{status}">
+            <option th:each="s : ${T(com.scrooge.model.enums.CaseStatus).values()}" th:value="${s}" th:text="${s}"
+                    th:selected="${s} == ${case.status}">
+            </option>
+        </select>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <!-- New Message Form -->
+    <form th:action="@{/cases/add-message}" method="post" class="case-detail" style="margin-top: 20px;">
+        <h3>Add New Message</h3>
+
+        <input type="hidden" th:name="caseId" th:value="${case.id}" />
+
+        <label for="newMessage"><strong>Message:</strong></label>
+        <textarea id="newMessage" name="messageText" rows="4" placeholder="Type your message here..."></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
 
     <!-- Messages Section -->
     <div class="case-detail" style="margin-top: 30px;">
@@ -61,6 +90,7 @@
             </li>
         </ul>
     </div>
+
 </main>
 </body>
 </html>
