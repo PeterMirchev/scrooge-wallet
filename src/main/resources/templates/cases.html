@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audit Logs</title>
-    <link rel="stylesheet" href="/css/audit-logs.css">
+    <title>Wallets</title>
+    <link rel="stylesheet" href="/css/cases.css">
 </head>
 <body>
 
-
 <aside class="navigation-panel">
     <ul>
-        <li><a th:href="@{/home}" class="button" style="text-decoration: none !important;">Dashboard</a></li>
+        <li><a th:href="@{/home}" class="button" style="text-decoration: none !important;" >Dashboard</a></li>
         <li><a th:href="@{/wallets}" class="button" style="text-decoration: none !important;">Wallets</a></li>
         <li><a th:href="@{/pockets}" class="button" style="text-decoration: none !important;">Pockets</a></li>
         <li><a th:href="@{/wallets/transfer}" class="button" style="text-decoration: none !important;">Transfer</a></li>
@@ -23,6 +22,7 @@
         <li sec:authorize="hasRole('ADMINISTRATOR')">
             <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
         </li>
+
         <li sec:authorize="hasRole('ADMINISTRATOR')">
             <a th:href="@{/cases}" class="button" style="text-decoration: none !important;">Cases</a>
         </li>
@@ -32,34 +32,46 @@
                 <button type="submit" class="button logout">Logout</button>
             </form>
         </li>
-
     </ul>
 </aside>
 
-<main id="audit-logs-content" class="user-info">
-    <h2>Your Audit Logs</h2>
+<main id="cases-content" class="cases-content">
 
-    <div class="audit-logs">
-        <table class="audit-log-table">
+    <h2>All Cases</h2>
+
+    <div class="cases">
+        <table class="cases-table">
             <thead>
             <tr>
-                <th>Message</th>
-                <th>Action</th>
-                <th>User</th>
+                <th>Case ID</th>
+                <th>Case Owner</th>
+                <th>Requester Name</th>
+                <th>Requester Email</th>
+                <th>Case Name</th>
+                <th>Case Description</th>
+                <th>Status</th>
                 <th>Created On</th>
+                <th>Updated On</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="log : ${auditLogs}">
-                <td th:text="${log.message}"></td>
-                <td th:text="${log.action}"></td>
-                <td th:text="${log.user.getEmail()}"></td>
-                <td th:text="${#temporals.format(log.createdOn, 'yyyy-MMM-dd HH:mm')}"></td>
+            <tr th:each="c : ${cases}" th:attr="onclick=|window.location.href='/cases/${c.id}'|" style="cursor:pointer;">
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.caseOwner}"></td>
+                <td th:text="${c.requesterName}"></td>
+                <td th:text="${c.requesterEmail}"></td>
+                <td th:text="${c.caseName}"></td>
+                <td th:text="${c.caseDescription}"></td>
+                <td th:text="${c.status}"> </td>
+                <td th:text="${c.createdOn}"></td>
+                <td th:text="${c.updatedOn}"></td>
             </tr>
+
             </tbody>
         </table>
     </div>
 </main>
+
 
 </body>
 </html>

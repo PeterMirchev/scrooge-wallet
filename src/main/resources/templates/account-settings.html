@@ -22,6 +22,9 @@
         <li th:if="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
             <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
         </li>
+        <li th:if="${user.role == T(com.scrooge.model.enums.Role).ADMINISTRATOR}">
+            <a th:href="@{/cases}" class="button" style="text-decoration: none !important;">Cases</a>
+        </li>
 
         <li class="logout-button">
             <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
