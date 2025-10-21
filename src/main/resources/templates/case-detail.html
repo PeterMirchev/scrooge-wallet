@@ -3,40 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallets</title>
+    <title>Case Details</title>
     <link rel="stylesheet" href="/css/case-detail.css">
 </head>
 
 <aside class="navigation-panel">
     <ul>
-        <li><a th:href="@{/home}" class="button" style="text-decoration: none !important;" >Dashboard</a></li>
-        <li><a th:href="@{/wallets}" class="button" style="text-decoration: none !important;">Wallets</a></li>
-        <li><a th:href="@{/pockets}" class="button" style="text-decoration: none !important;">Pockets</a></li>
-        <li><a th:href="@{/wallets/transfer}" class="button" style="text-decoration: none !important;">Transfer</a></li>
-        <li><a th:href="@{/transactions}" class="button" style="text-decoration: none !important;">Transactions</a></li>
-        <li><a th:href="@{/audit-logs}" class="button" style="text-decoration: none !important;">Audit Logs</a></li>
-        <li><a th:href="@{/users/account-settings}" class="button" style="text-decoration: none !important;">Account Settings</a></li>
-        <li><a th:href="@{/support}" class="button" style="text-decoration: none !important;">Contact support</a></li>
-
-        <li sec:authorize="hasRole('ADMINISTRATOR')">
-            <a th:href="@{/users}" class="button" style="text-decoration: none !important;">All Users</a>
-        </li>
-
-        <li sec:authorize="hasRole('ADMINISTRATOR')">
-            <a th:href="@{/cases}" class="button" style="text-decoration: none !important;">Cases</a>
-        </li>
-
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+        <li><a th:href="@{/support}" class="button">Contact support</a></li>
+        <li sec:authorize="hasRole('ADMINISTRATOR')"><a th:href="@{/users}" class="button">All Users</a></li>
+        <li sec:authorize="hasRole('ADMINISTRATOR')"><a th:href="@{/cases}" class="button">Cases</a></li>
         <li class="logout-button">
-            <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">
+            <form id="logout-form" th:action="@{/logout}" th:method="post">
                 <button type="submit" class="button logout">Logout</button>
             </form>
         </li>
     </ul>
 </aside>
-<body>
 
+<body>
 <main id="case-detail-content" class="cases-content">
     <h2>Case Details</h2>
+
+    <!-- Main Case Info -->
     <div class="case-detail">
         <p><strong>Case ID:</strong> <span th:text="${case.id}"></span></p>
         <p><strong>Case Owner:</strong> <span th:text="${case.caseOwner}"></span></p>
@@ -48,7 +43,24 @@
         <p><strong>Created On:</strong> <span th:text="${case.createdOn}"></span></p>
         <p><strong>Updated On:</strong> <span th:text="${case.updatedOn}"></span></p>
     </div>
-</main>
 
+    <!-- Messages Section -->
+    <div class="case-detail" style="margin-top: 30px;">
+        <h3>Messages / Comments</h3>
+
+        <div th:if="${#lists.isEmpty(case.messages)}">
+            <p>No messages yet.</p>
+        </div>
+
+        <ul th:if="${!#lists.isEmpty(case.messages)}">
+            <li th:each="msg : ${case.messages}" style="margin-bottom: 15px;">
+                <p><strong>Author:</strong> <span th:text="${msg.author}"></span></p>
+                <p><strong>Text:</strong> <span th:text="${msg.text}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${msg.dateTime}"></span></p>
+                <hr/>
+            </li>
+        </ul>
+    </div>
+</main>
 </body>
 </html>

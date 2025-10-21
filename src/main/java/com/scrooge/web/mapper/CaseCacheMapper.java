@@ -1,14 +1,18 @@
 package com.scrooge.web.mapper;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scrooge.model.enums.CaseStatus;
 import com.scrooge.web.dto.CaseCache;
+import com.scrooge.web.dto.Message;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CaseCacheMapper {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static CaseCache fromRedisToCaseCache(Map<Object, Object> map) {
         if (map == null || map.isEmpty()) return null;
@@ -24,7 +28,7 @@ public class CaseCacheMapper {
                 .createdOn(parseDate(map.get("createdOn")))
                 .updatedOn(parseDate(map.get("updatedOn")))
                 .status(parseStatus(map.get("status")))
-                .messages(Collections.emptyList()) // Replace with real messages if needed
+                .messages(parseMessages(map.get("messages")))
                 .build();
     }
 
@@ -38,5 +42,39 @@ public class CaseCacheMapper {
 
     private static CaseStatus parseStatus(Object value) {
         return value != null ? CaseStatus.valueOf(value.toString()) : null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Message> parseMessages(Object messagesObj) {
+
+        if (messagesObj == null) return Collections.emptyList();
+
+        try {
+            if (messagesObj instanceof List<?> list) {
+
+                return list.stream()
+                        .filter(Objects::nonNull)
+                        .map(CaseCacheMapper::convertMessage)
+                        .collect(Collectors.toList());
+            } else if (messagesObj instanceof String json) {
+                return objectMapper.readValue(json, new TypeReference<>() {});
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to parse messages: " + e.getMessage());
+        }
+
+        return Collections.emptyList();
+    }
+
+    private static Message convertMessage(Object obj) {
+        if (obj instanceof Map<?, ?> map) {
+            return Message.builder()
+                    .id(parseUUID(map.get("id")))
+                    .text((String) map.get("text"))
+                    .author((String) map.get("author"))
+                    .dateTime(parseDate(map.get("dateTime")))
+                    .build();
+        }
+        return null;
     }
 }
