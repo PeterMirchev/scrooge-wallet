@@ -5,7 +5,7 @@ import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
 import com.scrooge.web.dto.RequestLogin;
-import com.scrooge.web.dto.UserCreateRequest;
+import com.scrooge.web.dto.user.UserCreateRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

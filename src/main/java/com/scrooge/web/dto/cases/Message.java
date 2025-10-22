@@ -1,4 +1,4 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.cases;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

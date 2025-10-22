@@ -6,7 +6,7 @@ import com.scrooge.exception.EmailAlreadyExistException;
 import com.scrooge.model.enums.Role;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
-import com.scrooge.web.dto.UserCreateRequest;
+import com.scrooge.web.dto.user.UserCreateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

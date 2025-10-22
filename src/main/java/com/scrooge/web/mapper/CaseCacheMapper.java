@@ -3,8 +3,8 @@ package com.scrooge.web.mapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scrooge.model.enums.CaseStatus;
-import com.scrooge.web.dto.CaseCache;
-import com.scrooge.web.dto.Message;
+import com.scrooge.web.dto.cases.CaseCache;
+import com.scrooge.web.dto.cases.Message;
 
 import java.time.LocalDateTime;
 import java.util.*;

@@ -6,7 +6,7 @@ import com.scrooge.model.Pocket;
 import com.scrooge.model.User;
 import com.scrooge.web.mapper.PocketMapper;
 import com.scrooge.repository.PocketRepository;
-import com.scrooge.web.dto.PocketCreateRequest;
+import com.scrooge.web.dto.pocket.PocketCreateRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

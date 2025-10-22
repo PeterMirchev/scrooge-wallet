@@ -1,14 +1,10 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.wallet;
 
-import com.scrooge.model.enums.Country;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Currency;
 
 @Data
 @Builder

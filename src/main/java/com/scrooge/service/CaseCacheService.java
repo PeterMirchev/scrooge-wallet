@@ -2,7 +2,7 @@ package com.scrooge.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scrooge.event.SupportCaseEventProducer;
-import com.scrooge.web.dto.CaseCache;
+import com.scrooge.web.dto.cases.CaseCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;

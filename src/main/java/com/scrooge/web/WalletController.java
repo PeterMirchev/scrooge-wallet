@@ -5,7 +5,7 @@ import com.scrooge.model.Wallet;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
 import com.scrooge.service.WalletService;
-import com.scrooge.web.dto.WalletCreateRequest;
+import com.scrooge.web.dto.wallet.WalletCreateRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

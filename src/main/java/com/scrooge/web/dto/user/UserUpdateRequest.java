@@ -1,7 +1,5 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.user;
 
-import com.scrooge.model.enums.Country;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

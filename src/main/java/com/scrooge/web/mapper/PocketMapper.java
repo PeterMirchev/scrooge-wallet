@@ -1,7 +1,7 @@
 package com.scrooge.web.mapper;
 
 import com.scrooge.model.Pocket;
-import com.scrooge.web.dto.PocketCreateRequest;
+import com.scrooge.web.dto.pocket.PocketCreateRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

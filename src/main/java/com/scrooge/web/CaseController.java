@@ -4,7 +4,8 @@ import com.scrooge.model.User;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.CaseCacheService;
 import com.scrooge.service.UserService;
-import com.scrooge.web.dto.CaseCache;
+import com.scrooge.web.dto.cases.CaseCache;
+import com.scrooge.web.dto.cases.CaseUpdateRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,12 +44,17 @@ public class CaseController {
     public String caseDetail(@AuthenticationPrincipal CurrentPrinciple currentPrinciple,
                              @PathVariable UUID id, Model model) {
 
+        User user = userService.getUserById(currentPrinciple.getId());
+
         var selectedCase = caseCacheService.getCase(id);
         if (selectedCase == null) {
             return "redirect:/cases";
         }
 
         model.addAttribute("case", selectedCase);
+        model.addAttribute("user", user);
+        model.addAttribute("caseUpdateRequest", new CaseUpdateRequest());
+
         return "case-detail";
     }
 }

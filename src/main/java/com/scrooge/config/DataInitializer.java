@@ -5,7 +5,7 @@ import com.scrooge.model.User;
 import com.scrooge.model.enums.Role;
 import com.scrooge.service.AuditLogService;
 import com.scrooge.service.UserService;
-import com.scrooge.web.dto.NotificationPreferenceCreateRequest;
+import com.scrooge.web.dto.notification.NotificationPreferenceCreateRequest;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.crypto.password.PasswordEncoder;

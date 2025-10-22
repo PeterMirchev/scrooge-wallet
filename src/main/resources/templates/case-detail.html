@@ -41,8 +41,7 @@
         <p><strong>Updated On:</strong> <span th:text="${case.updatedOn}"></span></p>
     </div>
 
-    <!-- Editable Case Form -->
-    <form th:action="@{/cases/update}" th:object="${case}" method="post" class="case-detail" style="margin-top: 20px;">
+    <form th:action="@{'/cases' + ${case.id} + '/case-details'}" th:object="${case}" method="PUT" class="case-detail" style="margin-top: 20px;">
         <h3>Edit Case</h3>
 
         <label for="caseName"><strong>Case Name:</strong></label>
