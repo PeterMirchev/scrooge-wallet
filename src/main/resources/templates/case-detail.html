@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Details</title>
+    <link rel="stylesheet" href="/css/case-detail.css">
+</head>
+
+<aside class="navigation-panel">
+    <ul>
+        <li><a th:href="@{/home}" class="button">Dashboard</a></li>
+        <li><a th:href="@{/wallets}" class="button">Wallets</a></li>
+        <li><a th:href="@{/pockets}" class="button">Pockets</a></li>
+        <li><a th:href="@{/wallets/transfer}" class="button">Transfer</a></li>
+        <li><a th:href="@{/transactions}" class="button">Transactions</a></li>
+        <li><a th:href="@{/audit-logs}" class="button">Audit Logs</a></li>
+        <li><a th:href="@{/users/account-settings}" class="button">Account Settings</a></li>
+        <li><a th:href="@{/support}" class="button">Contact support</a></li>
+        <li sec:authorize="hasRole('ADMINISTRATOR')"><a th:href="@{/users}" class="button">All Users</a></li>
+        <li sec:authorize="hasRole('ADMINISTRATOR')"><a th:href="@{/cases}" class="button">Cases</a></li>
+        <li class="logout-button">
+            <form id="logout-form" th:action="@{/logout}" th:method="post">
+                <button type="submit" class="button logout">Logout</button>
+            </form>
+        </li>
+    </ul>
+</aside>
+
+<body>
+<main id="case-detail-content" class="cases-content">
+    <h2>Case Details</h2>
+
+    <!-- Read-only fields -->
+    <div class="case-detail">
+        <p><strong>Case ID:</strong> <span th:text="${case.id}"></span></p>
+        <p><strong>Requester Name:</strong> <span th:text="${case.requesterName}"></span></p>
+        <p><strong>Requester Email:</strong> <span th:text="${case.requesterEmail}"></span></p>
+        <p><strong>Case Owner:</strong> <span th:text="${case.caseOwner}"></span></p>
+        <p><strong>Created On:</strong> <span th:text="${case.createdOn}"></span></p>
+        <p><strong>Updated On:</strong> <span th:text="${case.updatedOn}"></span></p>
+    </div>
+
+    <form th:action="@{'/cases' + ${case.id} + '/case-details'}" th:object="${case}" method="PUT" class="case-detail" style="margin-top: 20px;">
+        <h3>Edit Case</h3>
+
+        <label for="caseName"><strong>Case Name:</strong></label>
+        <input type="text" id="caseName" th:field="*{caseName}" />
+
+        <label for="caseDescription"><strong>Case Description:</strong></label>
+        <textarea id="caseDescription" rows="5" th:field="*{caseDescription}"></textarea>
+
+        <label for="status"><strong>Status:</strong></label>
+        <select id="status" th:field="*{status}">
+            <option th:each="s : ${T(com.scrooge.model.enums.CaseStatus).values()}" th:value="${s}" th:text="${s}"
+                    th:selected="${s} == ${case.status}">
+            </option>
+        </select>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <!-- New Message Form -->
+    <form th:action="@{/cases/add-message}" method="post" class="case-detail" style="margin-top: 20px;">
+        <h3>Add New Message</h3>
+
+        <input type="hidden" th:name="caseId" th:value="${case.id}" />
+
+        <label for="newMessage"><strong>Message:</strong></label>
+        <textarea id="newMessage" name="messageText" rows="4" placeholder="Type your message here..."></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+
+    <!-- Messages Section -->
+    <div class="case-detail" style="margin-top: 30px;">
+        <h3>Messages / Comments</h3>
+
+        <div th:if="${#lists.isEmpty(case.messages)}">
+            <p>No messages yet.</p>
+        </div>
+
+        <ul th:if="${!#lists.isEmpty(case.messages)}">
+            <li th:each="msg : ${case.messages}" style="margin-bottom: 15px;">
+                <p><strong>Author:</strong> <span th:text="${msg.author}"></span></p>
+                <p><strong>Text:</strong> <span th:text="${msg.text}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${msg.dateTime}"></span></p>
+                <hr/>
+            </li>
+        </ul>
+    </div>
+
+</main>
+</body>
+</html>

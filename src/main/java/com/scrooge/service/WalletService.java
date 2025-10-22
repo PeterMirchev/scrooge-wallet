@@ -7,7 +7,7 @@ import com.scrooge.model.User;
 import com.scrooge.model.Wallet;
 import com.scrooge.model.enums.TransactionType;
 import com.scrooge.repository.WalletRepository;
-import com.scrooge.web.dto.WalletCreateRequest;
+import com.scrooge.web.dto.wallet.WalletCreateRequest;
 import com.scrooge.web.mapper.WalletMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

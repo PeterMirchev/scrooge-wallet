@@ -22,6 +22,9 @@
     <li sec:authorize="hasRole('ADMINISTRATOR')">
       <a th:href="@{/users}" class="button">All Users</a>
     </li>
+    <li sec:authorize="hasRole('ADMINISTRATOR')">
+      <a th:href="@{/cases}" class="button" style="text-decoration: none !important;">Cases</a>
+    </li>
 
     <li class="logout-button">
       <form id="logout-form" th:action="@{/logout}" th:method="post" style="display: inline;">

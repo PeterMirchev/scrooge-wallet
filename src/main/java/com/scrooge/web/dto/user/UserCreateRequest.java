@@ -1,4 +1,4 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.user;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.pocket;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

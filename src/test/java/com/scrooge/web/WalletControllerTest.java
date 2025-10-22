@@ -8,7 +8,7 @@ import com.scrooge.model.Wallet;
 import com.scrooge.security.CurrentPrinciple;
 import com.scrooge.service.UserService;
 import com.scrooge.service.WalletService;
-import com.scrooge.web.dto.WalletCreateRequest;
+import com.scrooge.web.dto.wallet.WalletCreateRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

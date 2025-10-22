@@ -3,7 +3,7 @@ package com.scrooge.service;
 import com.scrooge.config.client.emailnotificaion.EmailNotification;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.NotificationType;
-import com.scrooge.web.dto.NotificationRequest;
+import com.scrooge.web.dto.notification.NotificationRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

@@ -3,8 +3,8 @@ package com.scrooge.web.mapper;
 import com.scrooge.model.User;
 import com.scrooge.model.enums.Country;
 import com.scrooge.model.enums.Role;
-import com.scrooge.web.dto.UserCreateRequest;
-import com.scrooge.web.dto.UserUpdateRequest;
+import com.scrooge.web.dto.user.UserCreateRequest;
+import com.scrooge.web.dto.user.UserUpdateRequest;
 
 import java.time.LocalDateTime;
 

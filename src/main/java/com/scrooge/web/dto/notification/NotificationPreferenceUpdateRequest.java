@@ -1,4 +1,4 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.notification;
 
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class NotificationPreferenceCreateRequest {
+public class NotificationPreferenceUpdateRequest {
 
     @NonNull
     private UUID userId;

@@ -1,4 +1,4 @@
-package com.scrooge.web.dto;
+package com.scrooge.web.dto.notification;
 
 import com.scrooge.model.enums.NotificationType;
 import lombok.Builder;

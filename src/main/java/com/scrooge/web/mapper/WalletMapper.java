@@ -1,7 +1,7 @@
 package com.scrooge.web.mapper;
 
 import com.scrooge.model.Wallet;
-import com.scrooge.web.dto.WalletCreateRequest;
+import com.scrooge.web.dto.wallet.WalletCreateRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

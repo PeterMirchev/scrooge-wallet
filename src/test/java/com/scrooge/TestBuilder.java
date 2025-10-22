@@ -4,7 +4,7 @@ import com.scrooge.model.*;
 import com.scrooge.model.enums.Country;
 import com.scrooge.model.enums.Role;
 import com.scrooge.model.enums.TransactionType;
-import com.scrooge.web.dto.UserCreateRequest;
+import com.scrooge.web.dto.user.UserCreateRequest;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;

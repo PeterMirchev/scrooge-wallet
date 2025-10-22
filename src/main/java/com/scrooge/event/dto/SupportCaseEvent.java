@@ -1,4 +1,4 @@
-package com.scrooge.event;
+package com.scrooge.event.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
