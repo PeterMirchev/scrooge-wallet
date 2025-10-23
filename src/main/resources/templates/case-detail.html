@@ -41,38 +41,32 @@
         <p><strong>Updated On:</strong> <span th:text="${case.updatedOn}"></span></p>
     </div>
 
-    <form th:action="@{'/cases' + ${case.id} + '/case-details'}" th:object="${case}" method="PUT" class="case-detail" style="margin-top: 20px;">
-        <h3>Edit Case</h3>
+    <form th:action="@{'/cases/' + ${case.id} + '/case-details'}" th:object="${caseUpdateRequest}" th:method="put"
+    class="case-detail"
+    style="margin-top: 20px;">
 
-        <label for="caseName"><strong>Case Name:</strong></label>
-        <input type="text" id="caseName" th:field="*{caseName}" />
+    <input type="hidden" name="_method" value="put" />
 
-        <label for="caseDescription"><strong>Case Description:</strong></label>
-        <textarea id="caseDescription" rows="5" th:field="*{caseDescription}"></textarea>
+    <h3>Edit Case</h3>
 
-        <label for="status"><strong>Status:</strong></label>
-        <select id="status" th:field="*{status}">
-            <option th:each="s : ${T(com.scrooge.model.enums.CaseStatus).values()}" th:value="${s}" th:text="${s}"
-                    th:selected="${s} == ${case.status}">
-            </option>
-        </select>
+    <label for="caseName"><strong>Case Name:</strong></label>
+    <input type="text" id="caseName" th:field="*{caseName}" />
 
-        <button type="submit">Save Changes</button>
+    <label for="caseDescription"><strong>Case Description:</strong></label>
+    <textarea id="caseDescription" rows="5" th:field="*{description}"></textarea>
+
+    <label for="status"><strong>Status:</strong></label>
+    <select id="status" th:field="*{status}">
+        <option th:each="s : ${T(com.scrooge.model.enums.CaseStatus).values()}"
+                th:value="${s}"
+                th:text="${s}"
+                th:selected="${s} == ${case.status}">
+        </option>
+    </select>
+
+    <button type="submit">Save Changes</button>
     </form>
 
-    <!-- New Message Form -->
-    <form th:action="@{/cases/add-message}" method="post" class="case-detail" style="margin-top: 20px;">
-        <h3>Add New Message</h3>
-
-        <input type="hidden" th:name="caseId" th:value="${case.id}" />
-
-        <label for="newMessage"><strong>Message:</strong></label>
-        <textarea id="newMessage" name="messageText" rows="4" placeholder="Type your message here..."></textarea>
-
-        <button type="submit">Send Message</button>
-    </form>
-
-    <!-- Messages Section -->
     <div class="case-detail" style="margin-top: 30px;">
         <h3>Messages / Comments</h3>
 

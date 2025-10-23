@@ -9,9 +9,7 @@ import com.scrooge.web.dto.cases.CaseUpdateRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -56,5 +54,16 @@ public class CaseController {
         model.addAttribute("caseUpdateRequest", new CaseUpdateRequest());
 
         return "case-detail";
+    }
+
+    @PutMapping("/{caseId}/case-details")
+    public String updateCase(@PathVariable UUID caseId, @ModelAttribute CaseUpdateRequest caseUpdateRequest,
+                             @AuthenticationPrincipal CurrentPrinciple currentPrinciple) {
+
+        User user = userService.getUserById(currentPrinciple.getId());
+
+        caseCacheService.updateCase(caseId, user, caseUpdateRequest);
+
+        return "redirect:/cases";
     }
 }
