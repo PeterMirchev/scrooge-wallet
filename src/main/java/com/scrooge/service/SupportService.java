@@ -3,7 +3,7 @@ package com.scrooge.service;
 import com.scrooge.event.dto.SupportCaseEvent;
 import com.scrooge.event.SupportCaseEventProducer;
 import com.scrooge.model.User;
-import com.scrooge.web.dto.cases.SupportRequest;
+import com.scrooge.event.dto.SupportRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

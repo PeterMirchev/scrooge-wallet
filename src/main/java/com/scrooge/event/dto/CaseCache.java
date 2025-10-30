@@ -1,4 +1,4 @@
-package com.scrooge.web.dto.cases;
+package com.scrooge.event.dto;
 
 import com.scrooge.model.enums.CaseStatus;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class CaseCache {
 
     private UUID id;
-    private UUID caseOwner;
+    private String caseOwner;
     private UUID requesterId;
     private String requesterName;
     private String requesterEmail;
@@ -28,5 +28,5 @@ public class CaseCache {
     private LocalDateTime updatedOn;
     private CaseStatus status;
 
-    private List<Message> messages;
+    private List<CaseMessageRequest> messages;
 }

@@ -1,4 +1,4 @@
-package com.scrooge.web.dto.cases;
+package com.scrooge.event.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +12,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class MessageCache {
 
     private UUID id;
     private String text;
     private String author;
     private LocalDateTime dateTime;
+    private UUID caseId;
 }

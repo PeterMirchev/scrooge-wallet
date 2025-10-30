@@ -1,4 +1,4 @@
-package com.scrooge.web.dto.cases;
+package com.scrooge.event.dto;
 
 import com.scrooge.model.enums.CaseStatus;
 import lombok.AllArgsConstructor;

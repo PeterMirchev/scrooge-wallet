@@ -1,4 +1,4 @@
-package com.scrooge.web.dto.cases;
+package com.scrooge.event.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.Builder;

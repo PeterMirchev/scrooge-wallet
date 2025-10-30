@@ -31,7 +31,6 @@
 <main id="case-detail-content" class="cases-content">
     <h2>Case Details</h2>
 
-    <!-- Read-only fields -->
     <div class="case-detail">
         <p><strong>Case ID:</strong> <span th:text="${case.id}"></span></p>
         <p><strong>Requester Name:</strong> <span th:text="${case.requesterName}"></span></p>
@@ -49,7 +48,7 @@
 
     <h3>Edit Case</h3>
 
-    <label for="caseName"><strong>Case Name:</strong></label>
+    <label for="caseName"><strong>Case Title:</strong></label>
     <input type="text" id="caseName" th:field="*{caseName}" />
 
     <label for="caseDescription"><strong>Case Description:</strong></label>
@@ -59,8 +58,7 @@
     <select id="status" th:field="*{status}">
         <option th:each="s : ${T(com.scrooge.model.enums.CaseStatus).values()}"
                 th:value="${s}"
-                th:text="${s}"
-                th:selected="${s} == ${case.status}">
+                th:text="${s}">
         </option>
     </select>
 
@@ -70,12 +68,12 @@
     <div class="case-detail" style="margin-top: 30px;">
         <h3>Messages / Comments</h3>
 
-        <div th:if="${#lists.isEmpty(case.messages)}">
+        <div th:if="${#lists.isEmpty(messages)}">
             <p>No messages yet.</p>
         </div>
 
-        <ul th:if="${!#lists.isEmpty(case.messages)}">
-            <li th:each="msg : ${case.messages}" style="margin-bottom: 15px;">
+        <ul th:if="${!#lists.isEmpty(messages)}">
+            <li th:each="msg : ${messages}" style="margin-bottom: 15px;">
                 <p><strong>Author:</strong> <span th:text="${msg.author}"></span></p>
                 <p><strong>Text:</strong> <span th:text="${msg.text}"></span></p>
                 <p><strong>Date:</strong> <span th:text="${msg.dateTime}"></span></p>
@@ -84,6 +82,13 @@
         </ul>
     </div>
 
+    <form th:action="@{'/cases/' + ${case.id} + '/message'}" th:object="${caseMessageRequest}" th:method="POST"
+          class="case-detail"
+          style="margin-top: 20px;">
+        <label for="text"><strong>Send Message:</strong></label>
+        <textarea id="text" rows="5" th:field="*{text}"></textarea>
+        <button type="submit">Send Message</button>
+    </form>
 </main>
 </body>
 </html>
