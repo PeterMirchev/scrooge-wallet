@@ -36,6 +36,9 @@ public class Wallet {
 
     private LocalDateTime updatedOn;
 
+    @Version
+    private Long version;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

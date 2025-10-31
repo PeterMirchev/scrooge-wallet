@@ -94,6 +94,7 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
+    @Transactional
     public Wallet deposit(UUID walletId, UUID userId, BigDecimal amount) {
 
         User user = userService.getUserById(userId);
