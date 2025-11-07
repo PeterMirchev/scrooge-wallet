@@ -22,6 +22,7 @@
   <li>Spring Security</li>
   <li>MySQL Database</li>
   <li>Mail Sender Microservice: <a href="https://github.com/PeterMirchev/notification-svc">Notification Service</a></li>
+  <li>Support Microservice: <a href="https://github.com/PeterMirchev/support-svc">Support Service</a></li>
   <li>Third-party REST API for currency validation</li>
 </ul>
 
@@ -29,5 +30,6 @@
 <ul>
   <li>Java 17 must be installed</li>
   <li>MySQL Database is required</li>
+  <li>Redis required</li>
   <li>Configure the application properties for database connection and email settings found in the <code>application.properties</code> file.</li>
 </ul>
