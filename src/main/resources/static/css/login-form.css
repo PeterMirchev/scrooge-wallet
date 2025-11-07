@@ -83,3 +83,52 @@ input:focus, button:focus {
 .login-container h2 {
     margin-bottom: 20px;
 }
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.divider span {
+    background-color: #9559c7;
+    padding: 0 10px;
+    z-index: 1;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #dcdcdc;
+    opacity: 0.6;
+    margin: 0 10px;
+}
+
+/* GitHub button */
+.github-btn {
+    display: inline-block;
+    background-color: #24292e;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.github-btn:hover {
+    background-color: #000000;
+    opacity: 0.9;
+}
+
+.github-btn i {
+    margin-right: 8px;
+    font-size: 18px;
+    vertical-align: middle;
+}
