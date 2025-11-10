@@ -21,6 +21,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
+    command: ["sh", "-c", "sleep 10 && /etc/confluent/docker/run"]
 
   # ---- Redis ----
   redis:

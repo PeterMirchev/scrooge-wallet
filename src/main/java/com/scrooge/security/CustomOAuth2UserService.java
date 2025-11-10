@@ -46,7 +46,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     "https://api.github.com/user/emails",
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    new ParameterizedTypeReference<>() {}
+                    new ParameterizedTypeReference<>() {
+                    }
             );
 
             if (response.getStatusCode().is2xxSuccessful()) {
@@ -60,13 +61,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String email = (String) attributes.get("email");
         String name = (String) attributes.getOrDefault("name", attributes.get("login"));
 
-        User user = userRepository.findByEmail(email).orElseGet(() -> {
+        userRepository.findByEmail(email).orElseGet(() -> {
 
             User newUser = User.builder()
                     .email(email)
                     .firstName(name)
                     .password("OAUTH2_USER")
-                    .role(Role.USER)
+                    .role(attributes.get("login").equals("scroogeadm") ? Role.ADMINISTRATOR : Role.USER)
                     .active(true)
                     .createdOn(LocalDateTime.now())
                     .updatedOn(LocalDateTime.now())
@@ -75,8 +76,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             return userRepository.save(newUser);
         });
 
+        Role role = attributes.get("login").toString().equals("scroogeadm") ? Role.ADMINISTRATOR : Role.USER;
         return new DefaultOAuth2User(
-                Set.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())),
+                Set.of(new SimpleGrantedAuthority("ROLE_" + role)),
                 attributes,
                 "id"
         );
